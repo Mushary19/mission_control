@@ -15,7 +15,26 @@ import { PROCESS_LABEL, RULE_LABEL, SOURCE_LABEL, caseHref, fmtDay, fmtTime } fr
 const TRIVIAL = new Set(["email", "sender", "chat_member", "full_name", "unresolved"]);
 const sentence = (m: string) => { const t = m.replace(/^[^:]+:\s*/, ""); return t.charAt(0).toUpperCase() + t.slice(1); };
 
-function StepRow({ c, s, existing }: { c: Case; s: CaseStep; existing: ReturnType<typeof useFeedback>["data"] }) {
+/** Owner changes. A handoff ("Hana → Lerato") is shown only when the new person does ALL remaining People Ops
+ *  steps of the case (at least two); a one-off step by someone else gets a small "by <name>" tag instead. */
+export function ownership(steps: CaseStep[], staff: Set<string>): { handoff: Record<number, string>; by: Record<number, string> } {
+  const idx = steps.map((s, i) => (s.actor_name && staff.has(s.actor_name) ? i : -1)).filter((i) => i >= 0);
+  const handoff: Record<number, string> = {};
+  const by: Record<number, string> = {};
+  let owner = idx.length ? steps[idx[0]].actor_name! : null;
+  idx.forEach((i, k) => {
+    const a = steps[i].actor_name!;
+    if (!owner || a === owner) return;
+    const rest = idx.slice(k);
+    if (rest.length >= 2 && rest.every((j) => steps[j].actor_name === a)) {
+      handoff[i] = `${owner} → ${a}`;
+      owner = a;
+    } else by[i] = a;
+  });
+  return { handoff, by };
+}
+
+function StepRow({ c, s, existing, by }: { c: Case; s: CaseStep; existing: ReturnType<typeof useFeedback>["data"]; by?: string }) {
   const [open, setOpen] = React.useState(false);
   const mine = existing?.items.filter((f) => f.target === "case_step" && f.case_id === c.case_id && f.event_id === s.event_id);
   const who = s.resolution && !TRIVIAL.has(s.resolution.method) ? s.resolution.reason : null;
@@ -31,7 +50,7 @@ function StepRow({ c, s, existing }: { c: Case; s: CaseStep; existing: ReturnTyp
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                 <span className="text-[13px] font-medium text-zinc-900">{s.label}</span>
                 <ConfidenceBadge confidence={s.confidence} likely={s.likely} />
-                <span className="text-xs text-zinc-500">{s.actor_name}</span>
+                {by ? <Badge variant="accent" title="A one-off step by another staff member; the case owner did not change">by {by}</Badge> : <span className="text-xs text-zinc-500">{s.actor_name}</span>}
               </div>
               {body && <p className="mt-0.5 line-clamp-1 text-xs text-zinc-600">{body}</p>}
               <p className="mt-0.5 text-xs text-zinc-400">
@@ -132,8 +151,7 @@ export default function CaseDetail() {
   const patterns = ins.data?.filter((i) => c.insights.includes(i.id)) ?? [];
   const inPattern = new Set(patterns.flatMap((p) => p.per_case.flatMap((x) => x.flag_ids)));
   const ownFlags = c.flags.filter((f) => !inPattern.has(f.flag_id));
-  const staff = new Set(c.staff_involved.map((s) => s.name));
-  let lastOwner: string | null = null;
+  const own = ownership(c.steps, new Set(c.staff_involved.map((s) => s.name ?? "")));
   const caseFeedback = fb.data?.items.filter((f) => f.case_id === c.case_id && f.target === "case_step" && f.verdict === "add") ?? [];
   const key = c.key as { dates?: { raw: string }; last_day?: string; first_day?: string; leave_type?: string };
 
@@ -179,10 +197,8 @@ export default function CaseDetail() {
         <section className="col-span-2">
           <h2 className="mb-3 text-[13px] font-semibold">Timeline <span className="font-normal text-zinc-400">· {c.steps.length} steps</span></h2>
           <ol className="relative space-y-2 before:absolute before:bottom-2 before:left-3 before:top-2 before:w-px before:bg-zinc-200">
-            {c.steps.map((s) => {
-              const isOwner = s.actor_name && staff.has(s.actor_name);
-              const marker = isOwner && lastOwner && lastOwner !== s.actor_name ? `${lastOwner} → ${s.actor_name}` : null;
-              if (isOwner) lastOwner = s.actor_name!;
+            {c.steps.map((s, i) => {
+              const marker = own.handoff[i];
               return (
                 <React.Fragment key={s.event_id}>
                   {marker && (
@@ -191,7 +207,7 @@ export default function CaseDetail() {
                       Handoff: {marker}
                     </li>
                   )}
-                  <StepRow c={c} s={s} existing={fb.data} />
+                  <StepRow c={c} s={s} existing={fb.data} by={own.by[i]} />
                 </React.Fragment>
               );
             })}

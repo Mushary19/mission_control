@@ -11,8 +11,9 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-import pipeline as pl  # noqa: E402
-import rules as R  # noqa: E402
+import rules as R
+
+import pipeline as pl
 
 pytestmark = pytest.mark.skipif(not (pl.DATA / "_shared/directory.json").exists(), reason="data/ export not present")
 

@@ -272,7 +272,7 @@ import unicodedata
 from datetime import date, timedelta
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import rules as R  # noqa: E402
+import rules as R
 
 YEAR = 2026
 MONTHS = {m: i for i, m in enumerate(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1)}
@@ -289,7 +289,7 @@ IDLE_LIMIT = 300
 
 
 def strip_html(s: str) -> str:
-    s = re.sub(r"<br\s*/?>|</p>", "\n", s or "", flags=re.I)
+    s = re.sub(r"<br\s*/?>|</p>", "\n", s or "", flags=re.IGNORECASE)
     s = re.sub(r"<[^>]+>", "", s)
     return _html.unescape(s).replace("\r\n", "\n").strip()
 
@@ -406,7 +406,7 @@ class Registry:
             names_for[email][d["displayName"]] += 1000
         idents = []  # (display, email|None, teams_ids)
         for email in sorted(names_for):
-            display = sorted(names_for[email].items(), key=lambda kv: (-kv[1], kv[0]))[0][0] or email
+            display = min(names_for[email].items(), key=lambda kv: (-kv[1], kv[0]))[0] or email
             idents.append({"display": display, "email": email, "teams_ids": set()})
         work_by_name = defaultdict(list)
         any_by_name = defaultdict(list)
@@ -715,13 +715,11 @@ def rule_matches(rule: R.Rule, ev: dict, reg: Registry) -> dict | None:
     if ev["source"] not in rule.sources:
         return None
     meta = ev["meta"]
-    if rule.reply is not None and ev["source"] == "teams_channel":
-        if bool(meta.get("reply_to")) != rule.reply:
-            return None
-    if rule.direction:
-        if (rule.direction == "out") != reg.is_exported_staff(ev["actor_id"]):
-            return None
-    if rule.sender_domain and not re.search(rule.sender_domain, meta.get("from_address") or "", re.I):
+    if rule.reply is not None and ev["source"] == "teams_channel" and bool(meta.get("reply_to")) != rule.reply:
+        return None
+    if rule.direction and (rule.direction == "out") != reg.is_exported_staff(ev["actor_id"]):
+        return None
+    if rule.sender_domain and not re.search(rule.sender_domain, meta.get("from_address") or "", re.IGNORECASE):
         return None
     groups: dict = {}
     for key, value in (("subject", ev["title"]), ("text", ev["text"]), ("title", ev["title"]), ("url", meta.get("url"))):
@@ -858,7 +856,7 @@ def merge_identities(events: list[dict], reg: Registry) -> dict:
                 for a, b in ((w, p), (p, w)):
                     reg.people[a].setdefault("possible_same_person", []).append({"person_id": b, "reason": "; ".join(why)})
             else:
-                client = reg.orgs[sorted(p_clients & w_clients)[0]]["name"]
+                client = reg.orgs[min(p_clients & w_clients)]["name"]
                 reason = f"personal address used first in onboarding ({p_first[:10]}), work address from {w_first[:10]}; same client {client}"
                 if w_before:
                     reason += f"; NOTE work address already sent {len(w_before)} non-onboarding mail(s) before onboarding (first: {w_before[0]['time_local'][:10]} {w_before[0]['title']!r})"
@@ -1082,7 +1080,7 @@ def step2_clean(ingest: dict) -> dict:
                         best = (r, raw)
                 if best:
                     if len(raws) == 2 and raws[0] != raws[1]:
-                        best[0]["alt_name"] = [x for x in raws if x != best[1]][0]
+                        best[0]["alt_name"] = next(x for x in raws if x != best[1])
                     return best
         return None, None
 
@@ -1269,7 +1267,6 @@ class CaseBook:
 
 
 def build_leave(book: CaseBook, evs: list[dict]) -> None:
-    reg = book.reg
     thread_case: dict[str, str] = {}
     by_person: dict[str, list[dict]] = defaultdict(list)
     later = []
@@ -1303,7 +1300,7 @@ def build_leave(book: CaseBook, evs: list[dict]) -> None:
         open_before = [x for x in cands if x[1] <= t]
         pick = sorted(open_before or cands, key=lambda x: (x[0], x[2]["case_id"]))
         if pick:
-            c = sorted(open_before, key=lambda x: x[1])[-1][2] if open_before else pick[0][2]
+            c = max(open_before, key=lambda x: x[1])[2] if open_before else pick[0][2]
             book.add(c, ev, "time", "No dates in the record; nearest open leave case of the same person")
         else:
             book.unlinked.append({"event_id": ev["event_id"], "activity": ev["activity"], "reason": "no leave case of this person near this time"})
@@ -1319,7 +1316,6 @@ def build_by_person(book: CaseBook, evs: list[dict], process: str) -> None:
 
 def link_screens(book: CaseBook, events: list[dict]) -> dict:
     """Nameless screen sessions + courier mails -> cases, by time only (confidence low)."""
-    reg = book.reg
     stats = Counter()
     sessions = [e for e in events if e["source"] == "screen" and e["activity"] and not e["subject_person_id"]]
 
@@ -1337,26 +1333,23 @@ def link_screens(book: CaseBook, events: list[dict]) -> dict:
         if ev["activity"] == "tracker_updated":  # within 30 min AFTER a PeopleHub or approval step by the same staff member
             for c, s in steps_of("leave", {"peoplehub_opened", "worker_approved"}):
                 st = ts(s["session"]["end_utc"]) if s.get("session") else ts(s["time_utc"])
-                if s["actor_id"] == owner and timedelta(0) <= t - st <= timedelta(minutes=30):
-                    if best is None or st > best[2]:
+                if s["actor_id"] == owner and timedelta(0) <= t - st <= timedelta(minutes=30) and (best is None or st > best[2]):
                         best = (c, s, st)
-            reason = lambda c, s, st: f"Leave tracker opened {round((t - st).total_seconds() / 60)} min after {s['label'].lower()} for {c['subject_name']} by the same staff member"  # noqa: E731
+            reason = lambda c, s, st, t=t: f"Leave tracker opened {round((t - st).total_seconds() / 60)} min after {s['label'].lower()} for {c['subject_name']} by the same staff member"
         elif ev["activity"] == "courier_booked":  # within 60 min of 'laptop return arranged' by the same staff member
             for c, s in steps_of("offboarding", {"laptop_return_arranged"}):
                 st = ts(s["time_utc"])
-                if s["actor_id"] == owner and abs(t - st) <= timedelta(minutes=60):
-                    if best is None or abs(t - st) < abs(t - best[2]):
+                if s["actor_id"] == owner and abs(t - st) <= timedelta(minutes=60) and (best is None or abs(t - st) < abs(t - best[2])):
                         best = (c, s, st)
-            reason = lambda c, s, st: f"SwiftParcel booking page open {round(abs((t - st).total_seconds()) / 60)} min {'after' if t >= st else 'before'} the laptop return mail to {c['subject_name']}"  # noqa: E731
+            reason = lambda c, s, st, t=t: f"SwiftParcel booking page open {round(abs((t - st).total_seconds()) / 60)} min {'after' if t >= st else 'before'} the laptop return mail to {c['subject_name']}"
         elif ev["activity"] == "training_enrolled":  # within 30 min of the training mail by the same staff member
             for c, s in steps_of("onboarding", {"training_enrolled"}):
                 if s["source"] != "mail":
                     continue
                 st = ts(s["time_utc"])
-                if s["actor_id"] == owner and abs(t - st) <= timedelta(minutes=30):
-                    if best is None or abs(t - st) < abs(t - best[2]):
+                if s["actor_id"] == owner and abs(t - st) <= timedelta(minutes=30) and (best is None or abs(t - st) < abs(t - best[2])):
                         best = (c, s, st)
-            reason = lambda c, s, st: f"Academy learners page open {round(abs((t - st).total_seconds()) / 60)} min {'after' if t >= st else 'before'} the training mail to {c['subject_name']}"  # noqa: E731
+            reason = lambda c, s, st, t=t: f"Academy learners page open {round(abs((t - st).total_seconds()) / 60)} min {'after' if t >= st else 'before'} the training mail to {c['subject_name']}"
         else:
             continue
         if best:
@@ -1385,7 +1378,7 @@ def link_screens(book: CaseBook, events: list[dict]) -> dict:
             elif not rec:
                 loose.append((min(arr), c))
         if strict:
-            rec_t, c = sorted(strict, key=lambda x: x[0])[0]
+            rec_t, c = min(strict, key=lambda x: x[0])
             why = f"No name; {c['subject_name']}'s return was arranged before this delivery and the laptop came back {round((rec_t - t).total_seconds() / 60)} min later"
         elif len(loose) == 1:
             c = loose[0][1]
@@ -1556,6 +1549,7 @@ def step3_cases(clean: dict) -> dict:
 
 # --------------------------------------------------------------------------- step 4: process discovery
 
+import itertools
 from statistics import median as _median
 
 SUPPORT_CORE = 50.0  # % of cases; below this an activity is "optional"
@@ -1627,11 +1621,11 @@ def discover(process: str, cases: list[dict]) -> dict:
     dfg = Counter()
     for c in cases:
         t = trace(c)
-        dfg.update(zip(t, t[1:]))
+        dfg.update(itertools.pairwise(t))
 
     # median time between consecutive main-path steps
     to_next = {}
-    for a, b in zip(path, path[1:]):
+    for a, b in itertools.pairwise(path):
         gaps = [hours(first_time(c, a), first_time(c, b)) for c in cases if first_time(c, a) and first_time(c, b) and first_time(c, b) >= first_time(c, a)]
         to_next[a] = {"to": b, "median_h": round(_median(gaps), 1) if gaps else None, "n": len(gaps)}
 
@@ -1772,7 +1766,7 @@ def open_questions(models: dict, cases: list[dict], flags: list[dict], events: l
     by = defaultdict(list)
     for c in cases:
         by[c["process"]].append(c)
-    has = lambda c, a: any(s["activity"] == a for s in c["steps"])  # noqa: E731
+    has = lambda c, a: any(s["activity"] == a for s in c["steps"])
     fr = Counter(f["rule"] for f in flags)
 
     L = by["leave"]
@@ -1843,8 +1837,7 @@ def path_confidence(m: dict) -> dict:
 
 def step6_insights(models: dict, cases: list[dict], flags: list[dict], events: list[dict]) -> dict:
     by_case = {c["case_id"]: c for c in cases}
-    ev_by_id = {e["event_id"]: e for e in events}
-    has = lambda c, a: any(s["activity"] == a for s in c["steps"])  # noqa: E731
+    has = lambda c, a: any(s["activity"] == a for s in c["steps"])
     onb = [c for c in cases if c["process"] == "onboarding"]
     by_rule = defaultdict(list)
     for f in flags:

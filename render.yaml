@@ -1,0 +1,16 @@
+# One web service built from the Dockerfile. Deploy from a PRIVATE copy of the repo that includes data/
+# (the raw export is not committed); without data/ the app works but "Proof" shows no raw records.
+services:
+  - type: web
+    name: mission-control
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /api/health
+    autoDeploy: false
+    envVars:
+      - key: MC_CORS
+        value: ""
+    # Feedback is stored in SQLite inside the container and is lost on redeploy on the free plan.
+    # For a longer demo add a disk (paid plan) and point MC_DB / MC_FEEDBACK_JSONL at it:
+    # disk: { name: feedback, mountPath: /var/lib/mission-control, sizeGB: 1 }

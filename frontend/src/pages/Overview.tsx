@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { AlertTriangle, ArrowRight, Info } from "lucide-react";
+import { AlertTriangle, ArrowRight, ChevronRight, Info } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ErrorNote, PageHeader, PathConfidenceBadge } from "@/components/common";
@@ -38,11 +38,19 @@ export default function Overview() {
     <>
       <PageHeader title="Overview" subtitle="Leave, offboarding and onboarding, rebuilt from mail, calendar, Teams and screen activity, 2–29 March 2026." />
 
-      <div className="grid grid-cols-4 gap-3">
-        <Tile label="Raw records" value={sc?.raw} sub="mail, calendar, Teams, screen frames" />
-        <Tile label="After cleaning" value={sc ? sc.process : undefined} sub={sc ? `process events, from ${sc.after_dedup_and_sessions.toLocaleString("en-GB")} after dedup + sessions` : undefined} />
-        <Tile label="Cases" value={cases.data?.length} sub={sc ? `${sc.case_steps} steps` : undefined} />
-        <Tile label="Steps waiting for review" value={cases.data ? all.waiting : undefined} sub={cases.data ? `${all.done} reviewed so far` : undefined} accent />
+      <div className="grid grid-cols-5 gap-2">
+        {[
+          { label: "Raw records", value: sc?.raw, sub: "mail, calendar, Teams, screen frames" },
+          { label: "After dedup + sessions", value: sc?.after_dedup_and_sessions, sub: sc ? `${sc.noise.toLocaleString("en-GB")} of these are noise` : undefined },
+          { label: "Process events", value: sc?.process, sub: "leave, offboarding, onboarding" },
+          { label: "Cases", value: cases.data?.length, sub: sc ? `${sc.case_steps} steps` : undefined },
+          { label: "Steps waiting for review", value: cases.data ? all.waiting : undefined, sub: cases.data ? `${all.done} reviewed so far` : undefined, accent: true },
+        ].map((t, i, arr) => (
+          <div key={t.label} className="relative">
+            <Tile {...t} />
+            {i < arr.length - 1 && <ChevronRight className="absolute -right-2 top-1/2 z-10 size-3.5 -translate-y-1/2 bg-white text-zinc-300" />}
+          </div>
+        ))}
       </div>
 
       <div className="mt-6 grid grid-cols-3 gap-3">

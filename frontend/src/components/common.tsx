@@ -124,7 +124,12 @@ export function Proof({ eventId }: { eventId: string }) {
   const q = useRaw(eventId, true);
   const [all, setAll] = React.useState(false);
   if (q.isLoading) return <Skeleton className="h-24 w-full" />;
-  if (q.error) return <ErrorNote error={q.error} />;
+  if (q.error) {
+    const msg = String((q.error as Error).message ?? q.error);
+    if (msg.startsWith("503"))
+      return <div className="rounded-lg border border-dashed border-zinc-300 px-3 py-3 text-[13px] text-zinc-600">Raw data not available on this server. The export is only deployed with private copies; the step and its file + line reference are still shown above.</div>;
+    return <ErrorNote error={q.error} />;
+  }
   const lines = q.data!.lines;
   const shown = all ? lines : lines.slice(0, 3);
   return (

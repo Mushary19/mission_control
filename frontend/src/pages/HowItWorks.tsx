@@ -30,13 +30,18 @@ export default function HowItWorks() {
               <div className="mt-2 text-[20px] font-semibold tabular-nums">{st.count === undefined ? "—" : n(st.count)}</div>
               <div className="text-[11px] text-zinc-500">{st.unit}</div>
               <p className="mt-2 text-[11px] leading-snug text-zinc-500">{st.note}</p>
-              <div className="mt-2 flex items-center gap-1 font-mono text-[11px] text-zinc-600"><FileJson className="size-3" />out/{st.file}</div>
+              <a href={`/api/files/${st.file}`} target="_blank" rel="noreferrer" className="mt-2 flex items-center gap-1 font-mono text-[11px] text-indigo-600 hover:underline"><FileJson className="size-3" />out/{st.file}</a>
             </Card>
             {i < steps.length - 1 && <ArrowRight className="absolute -right-2 top-1/2 z-10 size-3.5 -translate-y-1/2 bg-white text-zinc-300" />}
           </div>
         ))}
       </div>
-      <p className="mt-2 text-xs text-zinc-500">Output files are committed in the repo under <span className="font-mono">out/</span>: {meta.data.out_files.join(", ")}.</p>
+      <p className="mt-2 text-xs text-zinc-500">
+        All output files (committed under <span className="font-mono">out/</span>, opened read-only):{" "}
+        {meta.data.out_files.map((f, i) => (
+          <span key={f}>{i > 0 && ", "}<a href={`/api/files/${f}`} target="_blank" rel="noreferrer" className="font-mono text-indigo-600 hover:underline">{f}</a></span>
+        ))}
+      </p>
 
       <div className="mt-6 grid grid-cols-2 gap-4">
         <Card>

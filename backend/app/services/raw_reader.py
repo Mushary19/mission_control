@@ -23,7 +23,7 @@ def resolve_raw_path(data_dir: Path, rel_file: str) -> Path:
     if data_dir.resolve() not in path.parents:
         raise HTTPException(400, "raw_ref outside data/")
     if not path.exists():
-        raise HTTPException(503, f"raw export not available on this server ({rel_file}); put the export in data/")
+        raise HTTPException(503, f"Raw data not available on this server ({rel_file} is missing). The export is not deployed with public copies.")
     return path
 
 

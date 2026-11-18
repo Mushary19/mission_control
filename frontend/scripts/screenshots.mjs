@@ -59,6 +59,10 @@ await check("Click Chiara -> case page", async () => {
   await page.getByRole("heading", { name: "Chiara Ekwueme" }).waitFor();
 });
 const laptopStep = page.locator("li", { has: page.getByText("Laptop delivered", { exact: true }) }).last();
+await check("One-off step shows a 'by' tag, not a handoff", async () => {
+  await page.getByText("by Lerato Faraday").first().waitFor({ timeout: 5000 });
+  if (await page.getByText(/^Handoff:/).count()) throw new Error("unexpected handoff marker on Chiara's case");
+});
 await check("Open the laptop step proof", async () => {
   await laptopStep.getByRole("button", { name: "Proof" }).click();
   await laptopStep.getByText("read from the export, unchanged").waitFor({ timeout: 5000 });
@@ -79,6 +83,17 @@ await shot("15-feedback");
 await check("Waiting-for-review count went down", async () => {
   await page.getByRole("link", { name: "Overview" }).click();
   await page.getByText("1 reviewed so far").waitFor({ timeout: 5000 });
+});
+
+await check("Vida's case shows the real handoff", async () => {
+  await page.goto(BASE + "/cases/" + encodeURIComponent("onboarding:vida-faraday"));
+  await page.getByText("Handoff: Hana Pemberton → Lerato Faraday").waitFor({ timeout: 5000 });
+});
+await check("How it works links open out/ files", async () => {
+  await page.goto(BASE + "/how-it-works");
+  const href = await page.getByRole("link", { name: "out/3_cases.json" }).getAttribute("href");
+  const r = await page.request.get(BASE + href);
+  if (r.status() !== 200 || !(await r.json()).cases) throw new Error(`files endpoint ${r.status()}`);
 });
 
 // narrower desktop

@@ -83,5 +83,47 @@ def test_person(client: TestClient) -> None:
 
 def test_openapi_docs(client: TestClient) -> None:
     spec = ok(client, "/openapi.json")
-    assert len([p for p in spec["paths"] if p.startswith("/api/")]) == 11
+    assert len([p for p in spec["paths"] if p.startswith("/api/")]) == 12
     assert client.get("/docs").status_code == 200
+
+
+def test_out_files(client: TestClient) -> None:
+    r = client.get("/api/files/3_cases.json")
+    assert r.status_code == 200 and r.headers["content-type"].startswith("application/json")
+    assert r.json()["cases"]
+    assert client.get("/api/files/1_events.jsonl").headers["content-type"].startswith("application/x-ndjson")
+    for bad in ("feedback.jsonl", "..%2Fdata%2F_shared%2Fdirectory.json", "../README.md", "nope.json"):
+        assert client.get(f"/api/files/{bad}").status_code == 404, bad
+
+
+def test_raw_without_data_says_so(tmp_path) -> None:
+    from app.main import create_app
+
+    app = create_app(data_dir=tmp_path / "no-data", db_path=tmp_path / "fb.db", feedback_jsonl=tmp_path / "fb.jsonl")
+    with TestClient(app) as c:
+        eid = ok(c, f"/api/cases/{BRAM}")["steps"][-1]["event_id"]
+        r = c.get(f"/api/events/{eid}/raw")
+        assert r.status_code == 503 and "Raw data not available on this server" in r.json()["detail"]
+
+
+def test_spa_fallback(tmp_path) -> None:
+    from app.main import create_app
+
+    dist = tmp_path / "dist"
+    (dist / "assets").mkdir(parents=True)
+    (dist / "index.html").write_text("<!doctype html><title>Mission Control</title>")
+    (dist / "assets" / "app.js").write_text("console.log(1)")
+    import os
+
+    os.environ["MC_FRONTEND_DIST"] = str(dist)
+    try:
+        app = create_app(db_path=tmp_path / "fb.db", feedback_jsonl=tmp_path / "fb.jsonl")
+    finally:
+        del os.environ["MC_FRONTEND_DIST"]
+    with TestClient(app) as c:
+        assert "Mission Control" in c.get("/").text
+        assert "Mission Control" in c.get("/cases/offboarding:bram-montague").text  # client-side route
+        assert c.get("/assets/app.js").text == "console.log(1)"
+        assert c.get("/api/meta").status_code == 200
+        assert c.get("/api/nope").status_code == 404
+        assert c.get("/docs").status_code == 200
