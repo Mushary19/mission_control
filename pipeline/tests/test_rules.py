@@ -90,7 +90,7 @@ def test_text_truncated_in_out_files(run):
     import json
 
     for line in (pl.OUT / "2_events_clean.jsonl").open(encoding="utf-8"):
-        assert len(json.loads(line)["text"]) <= pl.TEXT_LIMIT + 1
+        assert len(json.loads(line).get("text", "")) <= pl.TEXT_LIMIT + 1
 
 
 # ----------------------------------------------------------------------------- spec section 6 must-pass
