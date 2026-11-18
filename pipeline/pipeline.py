@@ -59,9 +59,21 @@ def read_jsonl(path: Path):
                 yield n, json.loads(line)
 
 
-def write_json(path: Path, obj) -> None:
+def write_json(path: Path, obj, compact: bool = False) -> None:
+    """Pretty JSON for small files; compact=True writes one line per top-level list item (big files)."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+    if not compact:
+        path.write_text(json.dumps(obj, indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
+        return
+    parts = []
+    for k in sorted(obj):
+        v = obj[k]
+        if isinstance(v, list):
+            inner = ",\n".join("  " + json.dumps(x, sort_keys=True, ensure_ascii=False, separators=(",", ":")) for x in v)
+            parts.append(f'"{k}": [\n{inner}\n]' if v else f'"{k}": []')
+        else:
+            parts.append(f'"{k}": ' + json.dumps(v, sort_keys=True, ensure_ascii=False, separators=(",", ":")))
+    path.write_text("{\n" + ",\n".join(parts) + "\n}\n", encoding="utf-8")
 
 
 def shape(ts: str) -> str:
@@ -564,18 +576,20 @@ def new_event(eid, source, folder, t, actor, recipients, title, text, thread_key
 
 
 def sessionize(frames: list[tuple], folder: str, owner: str) -> list[dict]:
-    """Merge consecutive frames (same mailbox, same window title, gap <= 10 min) into session events.
-    Idle frames (> 300 s) never merge with active ones."""
+    """Merge frames with the same mailbox + window title when the gap to the previous frame of that title is
+    <= 10 min, even if other windows' frames are in between. Idle frames (> 300 s) never merge with active ones."""
     out = []
-    cur = None
+    open_by_key: dict = {}
     for path, line, r, t in frames:
         idle = (r.get("idle_seconds") or 0) > IDLE_LIMIT
         key = (r.get("window_title"), idle)
-        if cur and cur["key"] == key and t - cur["last"] <= SESSION_GAP:
+        cur = open_by_key.get(key)
+        if cur and t - cur["last"] <= SESSION_GAP:  # other windows' frames may sit in between
             cur["frames"].append((path, line, r, t))
             cur["last"] = t
             continue
         cur = {"key": key, "frames": [(path, line, r, t)], "last": t}
+        open_by_key[key] = cur
         out.append(cur)
     events = []
     for s in out:
@@ -629,7 +643,7 @@ def step1_ingest() -> dict:
             text = body.get("content", "") if body.get("contentType") == "text" else strip_html(body.get("content", ""))
             text = text.replace("\r\n", "\n").strip()
             thread_key = f'mail:{r["conversationId"]}'
-            meta = {"from_address": faddr, "to": [addr(x)[1] for x in r.get("toRecipients", [])], "cc": [addr(x)[1] for x in r.get("ccRecipients", [])], "to_ids": to}
+            meta = {"from_address": faddr, "to_ids": to}
         elif source == "calendar":
             native = r["iCalUId"]
             oaddr = addr(r["organizer"])[1]
@@ -638,7 +652,7 @@ def step1_ingest() -> dict:
             title = r.get("subject")
             text = strip_html((r.get("body") or {}).get("content", ""))
             end = parse_calendar(r["end"])
-            meta = {"from_address": oaddr, "is_all_day": r.get("isAllDay", False), "end_utc": to_iso_z(end), "end_local": to_local(end), "to": [addr(a)[1] for a in r.get("attendees", [])], "to_ids": recipients}
+            meta = {"from_address": oaddr, "is_all_day": r.get("isAllDay", False), "end_local": to_local(end), "to_ids": recipients}
         elif source == "teams_chat":
             native = f'{r["chatId"]}:{r["id"]}'
             u = r["from"]["user"]
@@ -669,17 +683,18 @@ def step1_ingest() -> dict:
             events[ev["event_id"]] = ev
 
     ordered = sorted(events.values(), key=lambda e: (e["time_utc"], e["event_id"]))
-    write_events(OUT / "1_events.jsonl", ordered)
+    write_events(OUT / "1_events.jsonl", [e for e in ordered if e["source"] != "screen"])
     return {"events": ordered, "registry": reg, "raw_counts": dict(raw_counts), "dedup_counts": dict(Counter(e["source"] for e in ordered)), "screen_frames": screen_frames}
 
 
 def write_events(path: Path, events: list[dict]) -> None:
-    """Write events with text truncated to TEXT_LIMIT chars (full record lives in data/, see raw_ref)."""
+    """Write events with text truncated to TEXT_LIMIT chars (full record lives in data/, see raw_ref).
+    Keys whose value is null / empty are omitted (absent = null)."""
     OUT.mkdir(exist_ok=True)
     with path.open("w", encoding="utf-8") as fh:
         for ev in events:
-            out = dict(ev)
-            if len(ev["text"]) > TEXT_LIMIT:
+            out = {k: v for k, v in ev.items() if v not in (None, "", [], {})}
+            if len(ev["text"] or "") > TEXT_LIMIT:
                 out["text"] = ev["text"][:TEXT_LIMIT] + "…"
                 out["text_truncated"] = True
             fh.write(json.dumps(out, sort_keys=True, ensure_ascii=False, separators=(",", ":")) + "\n")
@@ -692,6 +707,7 @@ METHOD_RANK = {"email": 0, "sender": 0, "chat_member": 0, "thread": 0, "full_nam
 CONFIDENCE = {"email": "high", "sender": "high", "chat_member": "high", "thread": "high", "full_name": "high", "chat_pair": "medium", "initial": "medium", "first_name_unique": "medium", "fuzzy": "medium", "context": "medium"}
 CONTEXT_WINDOW = timedelta(days=30)
 LAPTOP_TRACK = {"laptop_ordered", "laptop_shipped", "laptop_confirmed_by_starter"}
+OOS_WITH_SUBJECT = {"oos_channel_replacement"}
 
 
 def rule_matches(rule: R.Rule, ev: dict, reg: Registry) -> dict | None:
@@ -1008,6 +1024,8 @@ def step2_clean(ingest: dict) -> dict:
         ev["fields"]["rule_id"] = rule.id
         if rule.category in ("noise", "out_of_scope", "context"):
             ev["noise_reason"] = rule.reason
+        if rule.id in OOS_WITH_SUBJECT:  # out of scope, but who it is about matters for cross-process checks
+            ev["fields"].update(build_fields(groups, ev, reg))
         if rule.category == "process":
             ev["activity"], ev["process"] = rule.activity, rule.process
             ev["fields"].update(build_fields(groups, ev, reg))
@@ -1033,6 +1051,11 @@ def step2_clean(ingest: dict) -> dict:
     merges = merge_identities(events, reg)
     res = Resolver(reg)
     proc = [ev for ev in events if ev["category"] == "process"]
+    for ev in events:
+        if ev["fields"].get("rule_id") in OOS_WITH_SUBJECT and ev["fields"].get("name_raw"):
+            r = res.by_name(ev["fields"]["name_raw"])
+            ev["resolution"] = finish_resolution(r if r["method"] != "needs_context" else {**r, "method": "ambiguous", "reason": f"{len(r['candidates'])} candidates; out of scope, so no case context used"}, ev["fields"]["name_raw"])
+            ev["subject_person_id"] = r.get("person")
 
     def direct(ev, rule):
         meta = ev["meta"]
@@ -1154,7 +1177,7 @@ def step2_clean(ingest: dict) -> dict:
         elif pid in recruit_people:
             p["kind"] = "candidate"
 
-    write_events(OUT / "2_events_clean.jsonl", events)
+    write_clean_outputs(events)
     write_json(OUT / "2_people.json", {
         "step": "2_people",
         "coverage": "Data from 6 of 12 staff.",
@@ -1163,6 +1186,31 @@ def step2_clean(ingest: dict) -> dict:
         "orgs": [reg.orgs[k] for k in sorted(reg.orgs)],
     })
     return {"events": events, "registry": reg, "merges": merges, "rules": rule_by_event}
+
+
+def write_clean_outputs(events: list[dict]) -> None:
+    """2_events_clean.jsonl: every non-screen event + process-related screen sessions (those with an activity).
+    Context / noise / out-of-scope screen sessions -> compact summary in 2_screen_summary.json."""
+    keep, summary = [], {}
+    for ev in events:
+        if ev["source"] != "screen" or ev["activity"]:
+            keep.append(ev)
+            continue
+        k = (ev["mailbox"], ev["title"] or "", ev["time_local"][:10], ev["category"], ev["noise_reason"] or "")
+        row = summary.setdefault(k, {"mailbox": k[0], "title": k[1], "day": k[2], "category": k[3], "reason": k[4], "sessions": 0, "frames": 0, "minutes": 0.0})
+        row["sessions"] += 1
+        row["frames"] += ev["session"]["frame_count"]
+        row["minutes"] = round(row["minutes"] + ev["session"]["minutes"], 1)
+    write_events(OUT / "2_events_clean.jsonl", keep)
+    rows = [summary[k] for k in sorted(summary)]
+    write_json(OUT / "2_screen_summary.json", compact=True, obj={
+        "step": "2_screen_summary",
+        "note": "Screen sessions that are context, noise or out of scope, summarised per mailbox, title and day. Full frames: data/<mailbox>/screens/screen_log.jsonl",
+        "totals": {c: {"sessions": sum(r["sessions"] for r in rows if r["category"] == c), "frames": sum(r["frames"] for r in rows if r["category"] == c)} for c in sorted({r["category"] for r in rows})},
+        "reason_by_title": {r["title"]: r["reason"] for r in rows},
+        "rows": [[r["mailbox"], r["day"], r["category"], r["title"], r["sessions"], r["frames"], r["minutes"]] for r in rows],
+        "columns": ["mailbox", "day", "category", "title", "sessions", "frames", "minutes"],
+    })
 
 
 # --------------------------------------------------------------------------- step 3: cases
@@ -1367,9 +1415,9 @@ def finish_case(c: dict, reg: Registry, last_days: dict) -> None:
         if cl:
             clients[cl] += 1
     trig = TRIGGERS[c["process"]] & set(acts)
-    reasons = []
+    before, after = [], []
     if not trig:
-        reasons.append("trigger not in the data (likely before 2 Mar, or sent to a mailbox that was not exported)")
+        before.append("trigger not in the data (likely before 2 Mar, or sent to a mailbox that was not exported)")
     p = c["process"]
     completed = False
     if p == "leave":
@@ -1388,19 +1436,18 @@ def finish_case(c: dict, reg: Registry, last_days: dict) -> None:
         ld = last_days.get(c["subject_person_id"], {}).get("last_day")
         c["key"]["last_day"] = ld
         if not completed and ld and date.fromisoformat(ld) > WINDOW_END.date():
-            reasons.append(f"last day {nice_day(ld)} is after 29 Mar")
+            after.append(f"last day {nice_day(ld)} is after 29 Mar")
     else:
         completed = "onboarded_confirmed" in acts
         status = "complete" if completed else "in_progress"
         fd = sorted({s.get("_first_day") for s in c["steps"] if s.get("_first_day")})
         c["key"]["first_day"] = fd[0] if fd else None
         if not completed and fd and date.fromisoformat(fd[0]) > WINDOW_END.date():
-            reasons.append(f"first day {nice_day(fd[0])} is after 29 Mar")
-    if reasons and status not in ("cancelled", "declined"):
-        status = "cut_off"
-    c["status"] = status
-    c["completed_in_data"] = completed
-    c["cut_off_reason"] = "; ".join(reasons) or None
+            after.append(f"first day {nice_day(fd[0])} is after 29 Mar")
+    c["status"] = status  # outcome only: complete | in_progress | declined | cancelled
+    c["started_before_window"] = bool(before)
+    c["ends_after_window"] = bool(after)
+    c["window_notes"] = before + after
     for s in c["steps"]:
         s.pop("_first_day", None)
     c["last_activity"] = c["end"]
@@ -1493,13 +1540,13 @@ def step3_cases(clean: dict) -> dict:
     cases = sorted(book.cases.values(), key=lambda c: (c["process"], c["subject_name"], c["start"]))
     doc = {
         "step": "3_cases",
-        "statuses": "complete | in_progress | cut_off | declined | cancelled",
+        "statuses": "complete | in_progress | declined | cancelled (window badges: started_before_window, ends_after_window)",
         "cases": cases,
         "person_last_days": [last_days[k] for k in sorted(last_days)],
         "screen_link_stats": link_stats,
         "unlinked_process_events": sorted(unlinked, key=lambda x: x["event_id"]),
     }
-    write_json(OUT / "3_cases.json", doc)
+    write_json(OUT / "3_cases.json", doc, compact=True)
     for e in events:
         e.pop("_cases", None)
         e.pop("_linked_case", None)

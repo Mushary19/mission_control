@@ -108,7 +108,7 @@ RULES: list[Rule] = [
     R("oos_chat_recruit", "out_of_scope", TEAMS, text=r"(^Spoke to .+ for the .+ role|is filled – .+ accepted|^New one from )", reason="recruitment (seen, not modelled)"),
     R("oos_chat_gift", "out_of_scope", TEAMS, text=r"^Gift on its way for", reason="birthday gifts (seen, not modelled)"),
     # Channel: laptop replacement (root; replies inherit in the pipeline)
-    R("oos_channel_replacement", "out_of_scope", CHANNEL, reply=False, text=r"^Laptop needed for .+ \(replacement\)", reason="laptop replacement (seen, not modelled)"),
+    R("oos_channel_replacement", "out_of_scope", CHANNEL, reply=False, text=rf"^Laptop needed for (?P<name>{NAME}) \(replacement\), (?P<client>[^,]+), needed by (?P<needed_by>{DATE})", reason="laptop replacement (seen, not modelled)"),
     # Calendar
     R("oos_cal_sync", "out_of_scope", CAL, subject=r"^Weekly People team sync$", reason="team meeting"),
     R("oos_cal_1on1", "out_of_scope", CAL, subject=r"^1:1 ", reason="1:1 meeting"),

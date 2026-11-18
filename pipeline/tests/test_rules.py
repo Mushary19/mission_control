@@ -237,12 +237,14 @@ def test_every_case_step_has_raw_ref(run):
     assert all(s["raw_ref"]["file"].startswith("data/") and s["raw_ref"]["line"] > 0 for c in run["cases"] for s in c["steps"])
 
 
-def test_cut_off_cases(run):
-    for name, process in [("Bram Danforth", "onboarding"), ("Mateus Zielinski", "onboarding"), ("Aarav Thorne", "offboarding"), ("Yara Hargreaves", "leave")]:
+def test_status_is_outcome_and_window_badges(run):
+    assert {c["status"] for c in run["cases"]} <= {"complete", "in_progress", "declined", "cancelled"}
+    for name, process in [("Bram Danforth", "onboarding"), ("Mateus Zielinski", "onboarding"), ("Luca Bellweather", "onboarding")]:
         cs = cases_of(run, name, process)
-        assert cs and all(c["status"] == "cut_off" for c in cs), name
-    luca = [c for c in run["cases"] if c["subject_name"] == "Luca Bellweather" and c["process"] == "onboarding"]
-    assert luca and luca[0]["status"] == "cut_off"
+        assert cs and all(c["ends_after_window"] and c["status"] == "in_progress" for c in cs), name
+    for name, process in [("Aarav Thorne", "offboarding"), ("Yara Hargreaves", "leave")]:
+        cs = cases_of(run, name, process)
+        assert cs and all(c["started_before_window"] and c["status"] == "complete" for c in cs), name
 
 
 def test_last_days_for_cross_process_checks(run):
