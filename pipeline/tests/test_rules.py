@@ -252,3 +252,40 @@ def test_last_days_for_cross_process_checks(run):
     assert ld["Callum Montague"]["last_day"] == "2026-04-13"
     assert ld["Paloma Larkspur"]["last_day"] == "2026-03-24"
     assert ld["Bram Montague"]["last_day"] is None and ld["Bram Montague"]["effective_end"] == "2026-03-24"
+
+
+# ----------------------------------------------------------------------------- phase 3: flags + discovery
+
+
+@pytest.fixture(scope="session")
+def p3(run):
+    cases_out = {"cases": run["cases"], "events": run["events"], "registry": run["reg"], "doc": run["doc"]}
+    return pl.run_phase3(cases_out)
+
+
+def flagged(p3, rule):
+    return {f["person_name"] for f in p3["flags"] if f["rule"] == rule}
+
+
+def test_flag_leave_after_last_day(p3):
+    assert {"Bram Montague", "Ines Marchetti"} <= flagged(p3, "activity_after_last_day")
+
+
+def test_flag_onboarded_before_laptop(p3):
+    assert {"Chiara Ekwueme", "Gulnara Brannigan"} <= flagged(p3, "onboarded_before_laptop")
+
+
+def test_flag_open_issue_and_cancel(p3):
+    assert "Otto Vasquez-Lowe" in flagged(p3, "onboarded_with_open_issue")
+    assert "Hamza Vasquez-Lowe" in flagged(p3, "cancel_no_followup")
+    assert any(f["rule"] == "sick_leave_two_ways" and f["scope"] == "process" for f in p3["flags"])
+
+
+def test_every_flag_has_evidence(p3):
+    assert all(f["evidence_event_ids"] and f["message"] for f in p3["flags"])
+
+
+def test_discovery_not_hardcoded(p3):
+    leave = p3["models"]["leave"]
+    assert leave["main_path"]["activities"][0] == "leave_requested"
+    assert all(3 <= len(m["open_questions"]) <= 5 for m in p3["models"].values())

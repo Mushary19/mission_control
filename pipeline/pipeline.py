@@ -9,7 +9,7 @@ Steps (each writes to out/):
   2 clean     -> out/2_events_clean.jsonl, 2_people.json  (Phase 1)
   3 cases     -> out/3_cases.json                         (Phase 2)
   4 discover  -> out/4_processes.json                     (Phase 3)
-  5 flags     -> out/5_flags.json, pipeline_report.json   (Phase 3)
+  5 flags     -> out/5_flags.json, pipeline_report.json   (Phase 3; also fills case flags in 3_cases.json)
 
 Requires Python 3.10+ (stdlib zoneinfo; no 3.11-only features).
 Deterministic: same input -> same output (sorted keys, stable ordering, no wall-clock values).
@@ -1553,6 +1553,295 @@ def step3_cases(clean: dict) -> dict:
     return {"cases": cases, "doc": doc, "events": events, "registry": reg}
 
 
+# --------------------------------------------------------------------------- step 4: process discovery
+
+from statistics import median as _median
+
+SUPPORT_CORE = 50.0  # % of cases; below this an activity is "optional"
+
+
+def hours(a: str, b: str) -> float:
+    return round((ts(b) - ts(a)).total_seconds() / 3600, 1)
+
+
+def trace(c: dict, explicit_only: bool = False) -> list[str]:
+    """Activities in time order, consecutive repeats collapsed. explicit_only drops screen-based steps."""
+    out = []
+    for s in c["steps"]:
+        if explicit_only and s["source"] == "screen":
+            continue
+        if not out or out[-1] != s["activity"]:
+            out.append(s["activity"])
+    return out
+
+
+def first_order(c: dict, explicit_only: bool = True) -> tuple[str, ...]:
+    seen = []
+    for a in trace(c, explicit_only):
+        if a not in seen:
+            seen.append(a)
+    return tuple(seen)
+
+
+def first_time(c: dict, act: str) -> str | None:
+    return next((s["time_utc"] for s in c["steps"] if s["activity"] == act), None)
+
+
+def discover(process: str, cases: list[dict]) -> dict:
+    n = len(cases)
+    full = [c for c in cases if c["status"] == "complete" and not c["started_before_window"]]
+    acts = sorted({s["activity"] for c in cases for s in c["steps"]})
+    support = {a: round(100 * sum(1 for c in cases if any(s["activity"] == a for s in c["steps"])) / n, 1) for a in acts}
+
+    # variants over explicit (non-screen) steps, first-occurrence order
+    var = defaultdict(list)
+    for c in cases:
+        var[first_order(c)].append(c)
+    variants = [{"path": list(p), "count": len(cs), "case_ids": sorted(x["case_id"] for x in cs), "statuses": dict(Counter(x["status"] for x in cs))} for p, cs in sorted(var.items(), key=lambda kv: (-len(kv[1]), kv[0]))]
+
+    # main path: most common variant among full traces; if every full trace is unique, a consensus order
+    full_var = Counter(first_order(c) for c in full)
+    ranked = sorted(full_var.items(), key=lambda kv: (-kv[1], kv[0]))
+    alternatives = []
+    if ranked and ranked[0][1] >= 2:
+        path, cnt = list(ranked[0][0]), ranked[0][1]
+        alternatives = [{"path": list(p), "count": k} for p, k in ranked[1:] if k == cnt]
+        method = f"most common variant among the {len(full)} complete cases that start inside the window ({cnt} of {len(full)})" + (f"; tied with {len(alternatives)} other variant(s)" if alternatives else "")
+    else:
+        # no variant repeats: consensus order of the common activities (support >= 50% over all cases),
+        # ordered by pairwise precedence (how often A comes before B), robust to cases cut by the window
+        core = [a for a in acts if support[a] >= SUPPORT_CORE and not all(s["source"] == "screen" for c in cases for s in c["steps"] if s["activity"] == a)]
+        wins = Counter()
+        for a in core:
+            for b in core:
+                if a != b:
+                    before = sum(1 for c in cases if first_time(c, a) and first_time(c, b) and first_time(c, a) < first_time(c, b))
+                    after = sum(1 for c in cases if first_time(c, a) and first_time(c, b) and first_time(c, a) > first_time(c, b))
+                    wins[a] += before > after
+        path = sorted(core, key=lambda a: (-wins[a], a))
+        method = f"no variant repeats among the {len(full)} complete in-window cases; consensus path: activities in >= {SUPPORT_CORE:.0f}% of all {n} cases, ordered by how often each comes before the others"
+        cnt = sum(1 for c in cases if tuple(a for a in first_order(c) if a in path) == tuple(path))
+
+    # directly-follows graph (all steps, repeats collapsed)
+    dfg = Counter()
+    for c in cases:
+        t = trace(c)
+        dfg.update(zip(t, t[1:]))
+
+    # median time between consecutive main-path steps
+    to_next = {}
+    for a, b in zip(path, path[1:]):
+        gaps = [hours(first_time(c, a), first_time(c, b)) for c in cases if first_time(c, a) and first_time(c, b) and first_time(c, b) >= first_time(c, a)]
+        to_next[a] = {"to": b, "median_h": round(_median(gaps), 1) if gaps else None, "n": len(gaps)}
+
+    steps = []
+    for a in sorted(acts, key=lambda a: (path.index(a) if a in path else 99, -support[a], a)):
+        conf = Counter(s["confidence"] for c in cases for s in c["steps"] if s["activity"] == a)
+        offs = [hours(c["steps"][0]["time_utc"], first_time(c, a)) for c in cases if first_time(c, a)]
+        steps.append({
+            "activity": a, "label": R.ACTIVITY_LABELS.get(a, a), "support_pct": support[a],
+            "case_count": sum(1 for c in cases if first_time(c, a)), "confidence_mix": dict(sorted(conf.items())),
+            "on_main_path": a in path, "optional": support[a] < SUPPORT_CORE,
+            "median_from_case_start_h": round(_median(offs), 1) if offs else None,
+            "median_to_next_h": to_next.get(a, {}).get("median_h"), "next_on_main_path": to_next.get(a, {}).get("to"),
+            "screen_only": all(s["source"] == "screen" for c in cases for s in c["steps"] if s["activity"] == a),
+        })
+    return {
+        "process": process, "case_count": n, "full_trace_cases": len(full),
+        "status_counts": dict(sorted(Counter(c["status"] for c in cases).items())),
+        "window_badges": {"started_before_window": sum(c["started_before_window"] for c in cases), "ends_after_window": sum(c["ends_after_window"] for c in cases)},
+        "main_path": {"activities": path, "labels": [R.ACTIVITY_LABELS.get(a, a) for a in path], "method": method, "cases_following_exactly": cnt, "tied_alternatives": alternatives},
+        "steps": steps,
+        "dfg": [{"from": a, "to": b, "count": k} for (a, b), k in sorted(dfg.items(), key=lambda kv: (-kv[1], kv[0]))],
+        "variants": variants,
+    }
+
+
+# --------------------------------------------------------------------------- step 5: flags
+
+
+def step5_flags(cases: list[dict], events: list[dict], reg: Registry, last_days: list[dict]) -> list[dict]:
+    flags = []
+    by_case = {c["case_id"]: c for c in cases}
+    nm = reg.name
+
+    def add(rule, case_id, message, evidence, severity="warning", scope="case", process=None):
+        c = by_case.get(case_id)
+        flags.append({"flag_id": f"{rule}:{case_id or process}", "rule": rule, "scope": scope, "severity": severity,
+                      "case_id": case_id, "process": process or (c["process"] if c else None),
+                      "person_id": c["subject_person_id"] if c else None, "person_name": c["subject_name"] if c else None,
+                      "message": message, "evidence_event_ids": sorted(set(evidence))})
+
+    # a. any activity for a person after their last day
+    for rec in last_days:
+        end = rec["last_day"] or rec["effective_end"]
+        if not end:
+            continue
+        what_end = f"last day {nice_day(rec['last_day'])}" if rec["last_day"] else f"offboarding completed {nice_day(end)}"
+        off_case = next((c["case_id"] for c in cases if c["process"] == "offboarding" and c["subject_person_id"] == rec["person_id"]), None)
+        end_ev = [s["event_id"] for s in by_case[off_case]["steps"] if s["activity"] in ("resignation_received", "client_ended_engagement", "offboarding_completed", "access_disable_requested")] if off_case else []
+        for c in cases:
+            if c["subject_person_id"] != rec["person_id"] or c["process"] == "offboarding":
+                continue
+            msgs, ev = [], []
+            d = (c["key"].get("dates") or {})
+            if c["process"] == "leave" and d.get("start") and d["start"] >= end:
+                approved = any(s["activity"] in ("worker_approved", "client_approved") for s in c["steps"])
+                msgs.append(f"leave for {d['raw']} was {'approved' if approved else 'requested'}, but that is on or after the {what_end}")
+                ev += [s["event_id"] for s in c["steps"] if s["activity"] in ("leave_requested", "worker_approved", "client_approved")]
+            late = [s for s in c["steps"] if s["time_local"][:10] > end]
+            if late:
+                msgs.append(f"{len(late)} step(s) happened after the {what_end} (first: {late[0]['label'].lower()} on {nice_day(late[0]['time_local'][:10])})")
+                ev += [s["event_id"] for s in late]
+            if msgs:
+                add("activity_after_last_day", c["case_id"], f"{c['subject_name']}: " + "; ".join(msgs) + ".", ev + end_ev)
+        # out-of-scope laptop activity (replacement requests / orders) about the same person
+        oos = [e for e in events if e["subject_person_id"] == rec["person_id"] and e["category"] == "out_of_scope" and ("laptop" in (e["noise_reason"] or ""))]
+        hits = [e for e in oos if e["time_local"][:10] >= end or (e["fields"].get("needed_by") or "") > end]
+        if hits and off_case:
+            parts = []
+            for e in hits:
+                if e["fields"].get("needed_by"):
+                    parts.append(f"replacement laptop requested on {nice_day(e['time_local'][:10])}, needed by {nice_day(e['fields']['needed_by'])}")
+                else:
+                    parts.append(f"{(e['fields'].get('was_activity') or 'laptop activity').replace('_', ' ')} on {nice_day(e['time_local'][:10])}")
+            add("activity_after_last_day", off_case, f"{rec['name']}: " + "; ".join(parts) + f" — on or after the {what_end}.", [e["event_id"] for e in hits] + end_ev)
+
+    # b-d. onboarding checks
+    for c in cases:
+        if c["process"] != "onboarding":
+            continue
+        st = {a: [s for s in c["steps"] if s["activity"] == a] for a in {s["activity"] for s in c["steps"]}}
+        onb = (st.get("onboarded_confirmed") or [None])[0]
+        delivered = sorted(st.get("laptop_delivered", []) + st.get("laptop_confirmed_by_starter", []), key=lambda s: s["time_utc"])
+        if onb:
+            if delivered and delivered[0]["time_utc"] > onb["time_utc"]:
+                add("onboarded_before_laptop", c["case_id"], f"{c['subject_name']} was confirmed onboarded on {nice_day(onb['time_local'][:10])}; the laptop arrived {round(hours(onb['time_utc'], delivered[0]['time_utc']) / 24, 1)} days later ({nice_day(delivered[0]['time_local'][:10])}).", [onb["event_id"], delivered[0]["event_id"]])
+            elif not delivered:
+                req = st.get("laptop_requested", [])
+                tail = f"the laptop was only requested on {nice_day(req[0]['time_local'][:10])}" if req and req[0]["time_utc"] > onb["time_utc"] else ("a laptop was requested but no delivery is in the data" if req else "no laptop request or delivery is in the data")
+                add("onboarded_before_laptop", c["case_id"], f"{c['subject_name']} was confirmed onboarded on {nice_day(onb['time_local'][:10])}; {tail}.", [onb["event_id"]] + [s["event_id"] for s in req[:1]], severity="check")
+        for req in st.get("laptop_requested", []):
+            ev = next(e for e in events if e["event_id"] == req["event_id"])
+            nb, fd, day = ev["fields"].get("needed_by"), c["key"].get("first_day"), req["time_local"][:10]
+            msgs = []
+            if nb and day > nb:
+                msgs.append(f"needed by {nice_day(nb)}{' (the start date)' if nb == fd else ''}, so {(date.fromisoformat(day) - date.fromisoformat(nb)).days} day(s) late")
+            if fd and day > fd and fd != nb:
+                msgs.append(f"also after the start date {nice_day(fd)}")
+            if msgs:
+                add("laptop_requested_late", c["case_id"], f"Laptop for {c['subject_name']} requested on {nice_day(day)}: " + ", ".join(msgs) + ".", [req["event_id"]] + [s["event_id"] for s in st.get("welcome_sent", [])[:1]])
+        issues = [s for s in st.get("day_one_reply", []) if next(e for e in events if e["event_id"] == s["event_id"])["fields"].get("reports_issue")]
+        if issues and onb:
+            iss_ev = next(e for e in events if e["event_id"] == issues[0]["event_id"])
+            quote = iss_ev["text"].split("\n")
+            quote = next((q.strip() for q in quote if R.DAY_ONE_ISSUE.search(q)), iss_ev["text"][:80])
+            add("onboarded_with_open_issue", c["case_id"], f"{c['subject_name']} replied on {nice_day(issues[0]['time_local'][:10])}: \"{quote}\". Confirmed onboarded on {nice_day(onb['time_local'][:10])} with no fix in the data.", [issues[0]["event_id"], onb["event_id"]])
+
+    # e. cancel requested with no later action
+    for c in cases:
+        cancels = [s for s in c["steps"] if s["activity"] == "cancel_requested"]
+        if cancels:
+            later = [s for s in c["steps"] if s["time_utc"] > cancels[-1]["time_utc"]]
+            if not later:
+                add("cancel_no_followup", c["case_id"], f"{c['subject_name']} asked on {nice_day(cancels[-1]['time_local'][:10])} to cancel leave for {(c['key'].get('dates') or {}).get('raw')}; no reply, client update or tracker change follows in the data.", [s["event_id"] for s in c["steps"] if s["activity"] in ("cancel_requested", "client_approved", "worker_approved")])
+
+    # f. sick leave handled two ways (process level)
+    sick = [c for c in cases if c["process"] == "leave" and c["key"].get("leave_type") == "sick"]
+    ask = [c for c in sick if any(s["activity"] == "client_check_sent" for s in c["steps"])]
+    notify = [c for c in sick if any(s["activity"] == "client_notified_sick" for s in c["steps"])]
+    if ask and notify:
+        def who(cs):
+            return ", ".join(f"{nm(k)} {v}" for k, v in sorted(Counter(c["owner_staff_id"] for c in cs).items(), key=lambda kv: nm(kv[0])))
+        ev = [next(s["event_id"] for s in c["steps"] if s["activity"] in ("client_check_sent", "client_notified_sick")) for c in ask + notify]
+        add("sick_leave_two_ways", None, f"Sick leave is handled two ways: in {len(ask)} of {len(sick)} sick-leave cases the client was asked for approval ({who(ask)}); in {len(notify)} the client was only told ({who(notify)}). Please confirm which rule applies.", ev, severity="question", scope="process", process="leave")
+
+    flags.sort(key=lambda f: (f["rule"], f["case_id"] or "", f["flag_id"]))
+    for f in flags:
+        if f["case_id"]:
+            by_case[f["case_id"]]["flags"].append(f["flag_id"])
+    return flags
+
+
+# --------------------------------------------------------------------------- open questions (validation)
+
+
+def open_questions(models: dict, cases: list[dict], flags: list[dict], events: list[dict]) -> dict:
+    q = defaultdict(list)
+    by = defaultdict(list)
+    for c in cases:
+        by[c["process"]].append(c)
+    has = lambda c, a: any(s["activity"] == a for s in c["steps"])  # noqa: E731
+    fr = Counter(f["rule"] for f in flags)
+
+    L = by["leave"]
+    tr = sum(has(c, "tracker_updated") for c in L)
+    q["leave"].append({"question": "Do you update the Leave tracker after each request, or in batches?", "why": f"The tracker was open within 30 min of a PeopleHub or approval step in only {tr} of {len(L)} leave cases; it is open for long stretches at other times.", "evidence": {"cases_with_tracker_step": tr, "leave_cases": len(L)}})
+    sick = [c for c in L if c["key"].get("leave_type") == "sick"]
+    asked = sum(has(c, "client_check_sent") for c in sick)
+    q["leave"].append({"question": "Is sick leave a notice to the client, or a request the client must approve?", "why": f"Of {len(sick)} sick-leave cases, {asked} asked the client and {len(sick) - asked} only told the client.", "evidence": {"asked": asked, "notified": len(sick) - asked}})
+    ph = [c for c in L if has(c, "peoplehub_opened") and has(c, "client_check_sent")]
+    ph_before = sum(first_time(c, "peoplehub_opened") <= first_time(c, "client_check_sent") for c in ph)
+    q["leave"].append({"question": "Do you check the person in PeopleHub before you ask the client, every time?", "why": f"PeopleHub was seen open before the client check in {ph_before} of {len(ph)} cases where both appear, but PeopleHub shows up in only {sum(has(c, 'peoplehub_opened') for c in L)} of {len(L)} leave cases.", "evidence": {"before": ph_before, "both": len(ph)}})
+    dec = [c for c in L if c["status"] == "declined"]
+    q["leave"].append({"question": "When a client declines, who follows up: do you wait for the worker to send new dates?", "why": f"{len(dec)} cases were declined and the worker asked for other dates; a new request for the same person appears afterwards in {sum(any(o['subject_person_id'] == c['subject_person_id'] and o['start'] > c['end'] for o in L) for c in dec)} of them.", "evidence": {"declined": len(dec)}})
+    q["leave"].append({"question": "When a worker cancels leave, do you tell the client and update PeopleHub and the tracker?", "why": f"{fr['cancel_no_followup']} cancel request(s) have no later action in the data.", "evidence": {"cancel_no_followup": fr["cancel_no_followup"]}})
+
+    O = by["offboarding"]
+    no_trig = sum(c["started_before_window"] for c in O)
+    q["offboarding"].append({"question": "Where does a resignation or end-of-engagement notice arrive first: with you, or with the Account Manager?", "why": f"{no_trig} of {len(O)} offboarding cases have no trigger in the data; Account Manager mailboxes were not exported.", "evidence": {"no_trigger": no_trig}})
+    gaps = []
+    for c in O:
+        ld = c["key"].get("last_day")
+        acc = first_time(c, "access_disable_requested")
+        if ld and acc:
+            gaps.append((date.fromisoformat(ld) - date.fromisoformat(to_local(ts(acc))[:10])).days)
+    if gaps:
+        q["offboarding"].append({"question": "How far ahead of the last day do you ask IT to disable access?", "why": f"Requests went out between {min(gaps)} and {max(gaps)} days before the last day (median {_median(gaps)}).", "evidence": {"days_before_last_day": sorted(gaps)}})
+    comp = [c for c in O if has(c, "offboarding_completed")]
+    after_wipe = sum(has(c, "laptop_received") and first_time(c, "laptop_received") <= first_time(c, "offboarding_completed") for c in comp)
+    q["offboarding"].append({"question": "Do you send 'Offboarding complete' only after IT confirms the laptop is back and wiped?", "why": f"In {after_wipe} of {len(comp)} completed cases IT's 'laptop back' message came first; the others have no such message in the data.", "evidence": {"after_laptop_back": after_wipe, "completed": len(comp)}})
+    q["offboarding"].append({"question": "Should anything else stop once someone leaves (leave approvals, replacement laptops)?", "why": f"{fr['activity_after_last_day']} flag(s) show leave or laptop activity on or after a person's last day.", "evidence": {"activity_after_last_day": fr["activity_after_last_day"]}})
+
+    N = by["onboarding"]
+    ko = [c for c in N if has(c, "kickoff_meeting") and (has(c, "day_one_checkin") or c["key"].get("first_day"))]
+    ko_after = sum(1 for c in ko if c["key"].get("first_day") and to_local(ts(first_time(c, "kickoff_meeting")))[:10] > c["key"]["first_day"])
+    ko_known = sum(1 for c in ko if c["key"].get("first_day"))
+    q["onboarding"].append({"question": "Is the client kick-off before or after the starter's first day?", "why": f"The kick-off was after the first day in {ko_after} of {ko_known} cases with both dates.", "evidence": {"after_first_day": ko_after, "cases": ko_known}})
+    q["onboarding"].append({"question": "Should a starter be confirmed 'onboarded' before the laptop has arrived?", "why": f"{fr['onboarded_before_laptop']} onboarded starter(s) had no laptop yet, or got it later.", "evidence": {"onboarded_before_laptop": fr["onboarded_before_laptop"]}})
+    q["onboarding"].append({"question": "When should the laptop request go to Procurement?", "why": f"{fr['laptop_requested_late']} request(s) were posted after their own needed-by date.", "evidence": {"laptop_requested_late": fr["laptop_requested_late"]}})
+    replies = [e for e in events if e["activity"] == "day_one_reply"]
+    dms = [e for e in replies if e["fields"].get("reports_issue")]
+    q["onboarding"].append({"question": "Who owns client system access (for example the client DMS), and who chases it after day one?", "why": f"{len(dms)} of {len(replies)} starters who answered the day-one check-in were still waiting on DMS access.", "evidence": {"dms_issue": len(dms), "replies": len(replies)}})
+    hand = sum(c["handoff"] for c in N)
+    q["onboarding"].append({"question": "How is an onboarding handed over between Hana and Lerato?", "why": f"{hand} of {len(N)} onboarding cases moved between the two of you mid-way.", "evidence": {"handoffs": hand}})
+    for p in q:
+        q[p] = q[p][:5]
+    return dict(q)
+
+
+def insights(cases: list[dict], events: list[dict]) -> dict:
+    replies = [e for e in events if e["activity"] == "day_one_reply"]
+    dms = [e for e in replies if e["fields"].get("reports_issue")]
+    return {"onboarding": [{"insight": "day_one_dms_issue", "message": f"{len(dms)} of {len(replies)} starters who replied to the day-one check-in reported they were still waiting on DMS access.", "evidence_event_ids": sorted(e["event_id"] for e in dms)}]}
+
+
+def run_phase3(cases_out: dict) -> dict:
+    cases, events, reg = cases_out["cases"], cases_out["events"], cases_out["registry"]
+    flags = step5_flags(cases, events, reg, cases_out["doc"]["person_last_days"])
+    write_json(OUT / "3_cases.json", cases_out["doc"], compact=True)  # cases now carry their flag ids
+    models = {p: discover(p, [c for c in cases if c["process"] == p]) for p in ("leave", "offboarding", "onboarding")}
+    qs = open_questions(models, cases, flags, events)
+    ins = insights(cases, events)
+    for p, m in models.items():
+        m["open_questions"] = qs.get(p, [])
+        m["insights"] = ins.get(p, [])
+        m["process_flags"] = [f["flag_id"] for f in flags if f["scope"] == "process" and f["process"] == p]
+    write_json(OUT / "4_processes.json", {"step": "4_processes", "processes": [models[p] for p in ("leave", "offboarding", "onboarding")], "seen_not_modelled": ["recruitment (HireTrack, Recruitment tracker)", "laptop replacements", "birthday gifts", "payslip / timesheet / invoice queries"]})
+    write_json(OUT / "5_flags.json", {"step": "5_flags", "counts": dict(sorted(Counter(f["rule"] for f in flags).items())), "flags": flags})
+    return {"models": models, "flags": flags}
+
+
 # --------------------------------------------------------------------------- reports
 
 
@@ -1631,8 +1920,15 @@ def run_all() -> dict:
     p1 = phase1_report(ingest, clean)
     cases = step3_cases(clean)
     p2 = phase2_report(cases)
-    write_json(OUT / "pipeline_report.json", {"phase1": p1, "phase2": p2})
-    return {"phase1": p1, "phase2": p2, "clean": clean, "cases": cases}
+    p3 = run_phase3(cases)
+    stage_counts = {"1_events (non-screen)": sum(1 for e in clean["events"] if e["source"] != "screen"), "screen_frames": ingest["screen_frames"], "screen_sessions": sum(1 for e in clean["events"] if e["source"] == "screen"), **p1["stages"], "cases": len(cases["cases"]), "case_steps": p2["step_count"], "flags": len(p3["flags"])}
+    report = {"stage_counts": stage_counts, "phase1": p1, "phase2": p2, "phase3": {
+        "main_paths": {p: m["main_path"] for p, m in p3["models"].items()},
+        "top_variants": {p: m["variants"][:3] for p, m in p3["models"].items()},
+        "flag_counts": dict(sorted(Counter(f["rule"] for f in p3["flags"]).items())),
+    }}
+    write_json(OUT / "pipeline_report.json", report)
+    return {"phase1": p1, "phase2": p2, "phase3": p3, "clean": clean, "cases": cases}
 
 
 # --------------------------------------------------------------------------- CLI
