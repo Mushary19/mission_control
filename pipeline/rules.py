@@ -160,7 +160,11 @@ RULES: list[Rule] = [
     R("on_it_ready_named", "process", TEAMS, "it_ready", "onboarding", direction="in", text=rf"^\s*all set for (?P<name>{NAME})\s*$", who=("chat_pair", "text"), label="IT ready"),
     R("on_it_ready_anon", "process", TEAMS, "it_ready", "onboarding", direction="in", text=r"^\s*(Accounts created|Done, temp password sent to their personal email)", who=("chat_pair",), label="IT ready"),
     R("on_kickoff", "process", CAL, "kickoff_meeting", "onboarding", subject=rf"^Kick-off: (?P<name>{NAME}) x (?P<client>.+)$", who=("text", "recipient"), label="Client kick-off"),
-    R("on_day_one_reply", "process", MAIL, "day_one_reply", "onboarding", direction="in", subject=r"^RE: How was day one\?", who=("sender",), label="Day-one reply"),
+    # vendor mails + starter confirmation. New starters only: the pipeline moves replacements to out_of_scope
+    R("on_laptop_ordered", "process", MAIL, "laptop_ordered", "onboarding", sender_domain=r"(lapworks|techdirect)\.example", subject=r"^Order confirmation (?P<order_no>[A-Z]{2}-\d+)$", text=rf"\d+ x (?P<model>[^\n]+)\nDeliver to: (?P<name>{NAME})\s*$", who=("text",), label="Laptop ordered"),
+    R("on_laptop_shipped", "process", MAIL, "laptop_shipped", "onboarding", sender_domain=r"(lapworks|techdirect)\.example", subject=r"^Your order (?P<order_no>[A-Z]{2}-\d+) has shipped$", text=r"Tracking: (?P<tracking>SP\d+)", who=("thread",), label="Laptop shipped"),
+    R("on_laptop_confirmed", "process", TEAMS, "laptop_confirmed_by_starter", "onboarding", direction="in", text=r"(the new laptop is here|^\s*Laptop arrived, thank you)", who=("sender",), label="Starter confirmed laptop"),
+    R("on_day_one_reply","process", MAIL, "day_one_reply", "onboarding", direction="in", subject=r"^RE: How was day one\?", who=("sender",), label="Day-one reply"),
     R("on_day_one_checkin", "process", MAIL, "day_one_checkin", "onboarding", direction="out", subject=r"^How was day one\?", who=("recipient",), label="Day-one check-in"),
     R("on_onboarded", "process", TEAMS, "onboarded_confirmed", "onboarding", direction="out", text=rf"^\s*(?P<name>{NAME}) onboarded at (?P<client>.+?) ✅", who=("text",), label="Onboarded confirmed"),
     # ======================================================================= CONTEXT (kept, never a case step)

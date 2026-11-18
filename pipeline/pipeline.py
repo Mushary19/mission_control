@@ -1,7 +1,7 @@
 """Mission Control pipeline.
 
 Run:  python pipeline/pipeline.py            (all implemented steps)
-      python pipeline/pipeline.py profile    (one step: profile | clean)
+      python pipeline/pipeline.py run        (steps 1-3 + report)
 
 Steps (each writes to out/):
   0 profile   -> out/0_profile.json
@@ -250,6 +250,8 @@ def step0_profile() -> dict:
     return profile
 
 
+
+
 # --------------------------------------------------------------------------- shared: text + names
 
 import html as _html
@@ -267,8 +269,10 @@ VENDOR_DOMAINS = {"hrbrew.example", "hiretrack.example", "linkedin.example", "ha
 PERSONAL_DOMAINS = {"postbox.example", "mailbox.example", "inbox.example"}
 WORK_DOMAIN = "harbourline.example"
 STAFF_TITLES_IT = {"IT Support"}
-# kinds that can never be the subject of a worker case (spec 6.5: staff are never case subjects)
-NOT_SUBJECT = {"staff", "it", "client", "vendor"}
+NOT_SUBJECT = {"staff", "it", "client", "vendor"}  # spec 6.5: staff are never case subjects
+TEXT_LIMIT = 200  # chars of text kept in out/ files; the full record is read from data/ by raw_ref
+SESSION_GAP = timedelta(minutes=10)
+IDLE_LIMIT = 300
 
 
 def strip_html(s: str) -> str:
@@ -306,6 +310,14 @@ def osa_distance(a: str, b: str) -> int:
     return d[len(a)][len(b)]
 
 
+def closest(dist: dict[str, int], limit: int = 2) -> list[str]:
+    """Candidates at the minimum edit distance, if that distance is <= limit."""
+    if not dist:
+        return []
+    best = min(dist.values())
+    return sorted(pid for pid, d in dist.items() if d == best) if best <= limit else []
+
+
 def parse_day(s: str) -> tuple[str | None, str | None]:
     """'Mon 30 Mar' -> ('2026-03-30', warning|None)."""
     m = re.match(r"(\w{3}) (\d{1,2}) (\w{3})", s.strip())
@@ -336,25 +348,113 @@ def to_local(dt: datetime) -> str:
     return dt.astimezone(TZ_LOCAL).isoformat()
 
 
+def ts(s: str) -> datetime:
+    return datetime.fromisoformat(s.replace("Z", "+00:00"))
+
+
+def nice_day(iso: str | None) -> str:
+    if not iso:
+        return "?"
+    d = date.fromisoformat(iso)
+    return f"{WEEKDAYS[d.weekday()]} {d.day} {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.month-1]}"
+
+
+def addr(x: dict) -> tuple[str, str]:
+    e = x.get("emailAddress", x)
+    return e.get("name") or "", (e.get("address") or "").lower()
+
+
+def domain_of(email: str) -> str:
+    return email.split("@")[-1].lower() if email else ""
+
+
 # --------------------------------------------------------------------------- person registry
 
 
 class Registry:
-    """People seen in headers (mail from/to/cc, calendar organizer/attendees, Teams senders/members)."""
+    """Identities from headers. One identity per email address; Teams names attach to the work address
+    with the same name (a Teams account is an M365 work account). Personal and work addresses with the
+    same full name stay SEPARATE here; step 2 merges them only with onboarding evidence."""
 
-    def __init__(self, directory: list[dict]):
+    def __init__(self, directory: list[dict], header_pairs: Counter, teams_names: dict[str, set]):
         self.people: dict[str, dict] = {}
         self.by_email: dict[str, str] = {}
-        self.by_name: dict[str, str] = {}
         self.by_teams_id: dict[str, str] = {}
+        self.by_teams_name: dict[str, str] = {}
         self.orgs: dict[str, dict] = {"o_harbourline": {"org_id": "o_harbourline", "name": "Harbourline Talent", "kind": "employer", "domains": [WORK_DOMAIN]}}
-        for d in directory:
-            kind = "it" if d["jobTitle"] in STAFF_TITLES_IT else "staff"
-            pid = self.add(d["displayName"], d["mail"], kind=kind)
-            p = self.people[pid]
-            p.update(exported=bool(d.get("exported")), job_title=d["jobTitle"], export_folder=d.get("export_folder"))
-            self.by_teams_id[d["id"]] = pid
-            p["teams_ids"].append(d["id"])
+        staff = {d["mail"].lower(): d for d in directory}
+
+        # 1) collect identities: email -> most common display name
+        names_for: dict[str, Counter] = defaultdict(Counter)
+        for (name, email), n in header_pairs.items():
+            if email:
+                names_for[email][name] += n
+        for email, d in staff.items():
+            names_for[email][d["displayName"]] += 1000
+        idents = []  # (display, email|None, teams_ids)
+        for email in sorted(names_for):
+            display = sorted(names_for[email].items(), key=lambda kv: (-kv[1], kv[0]))[0][0] or email
+            idents.append({"display": display, "email": email, "teams_ids": set()})
+        work_by_name = defaultdict(list)
+        any_by_name = defaultdict(list)
+        for i in idents:
+            any_by_name[norm(i["display"])].append(i)
+            if domain_of(i["email"]) == WORK_DOMAIN:
+                work_by_name[norm(i["display"])].append(i)
+        teams_attach = {}
+        for tname in sorted(teams_names):
+            n = norm(tname)
+            if len(work_by_name[n]) == 1:
+                target = work_by_name[n][0]
+            elif not work_by_name[n] and len(any_by_name[n]) == 1:
+                target = any_by_name[n][0]
+            else:
+                target = {"display": tname, "email": None, "teams_ids": set()}
+                idents.append(target)
+                any_by_name[n].append(target)
+            target["teams_ids"] |= teams_names[tname]
+            teams_attach[n] = target
+
+        # 2) stable ids: per name, work address first, then Teams-only, personal, other
+        def rank(i):
+            dom = domain_of(i["email"] or "")
+            return (0 if dom == WORK_DOMAIN else 1 if i["email"] is None else 2 if dom in PERSONAL_DOMAINS else 3, i["email"] or "")
+
+        groups = defaultdict(list)
+        for i in idents:
+            groups[slug(i["display"])].append(i)
+        for s in sorted(groups):
+            used = Counter()
+            for k, i in enumerate(sorted(groups[s], key=rank)):
+                if k == 0:
+                    pid = f"p_{s}"
+                else:
+                    dom = domain_of(i["email"] or "")
+                    label = "personal" if dom in PERSONAL_DOMAINS else "teams" if i["email"] is None else dom.split(".")[0]
+                    used[label] += 1
+                    pid = f"p_{s}-{label}" + (f"-{used[label]}" if used[label] > 1 else "")
+                i["pid"] = pid
+        for i in idents:
+            email = i["email"]
+            d = staff.get(email or "")
+            kind = ("it" if d["jobTitle"] in STAFF_TITLES_IT else "staff") if d else self.kind_for_email(email) if email else "unknown"
+            p = {"person_id": i["pid"], "display_name": i["display"], "emails": [email] if email else [], "teams_ids": sorted(i["teams_ids"]), "kind": kind, "org": self.org_for_domain(domain_of(email)) if email else None, "exported": bool(d and d.get("exported"))}
+            if d:
+                p.update(job_title=d["jobTitle"], export_folder=d.get("export_folder"))
+                p["teams_ids"] = sorted(set(p["teams_ids"]) | {d["id"]})
+            self.people[i["pid"]] = p
+            if email:
+                self.by_email[email] = i["pid"]
+            for t in p["teams_ids"]:
+                self.by_teams_id[t] = i["pid"]
+        for n, target in teams_attach.items():
+            self.by_teams_name[n] = target["pid"]
+        self.reindex()
+
+    def reindex(self):
+        self.by_name = defaultdict(list)
+        for pid, p in self.people.items():
+            self.by_name[norm(p["display_name"])].append(pid)
 
     def org_for_domain(self, domain: str) -> str | None:
         if domain in VENDOR_DOMAINS:
@@ -370,67 +470,61 @@ class Registry:
             return "o_harbourline"
         return None
 
-    def kind_for_email(self, email: str) -> str:
-        dom = email.split("@")[-1].lower()
+    @staticmethod
+    def kind_for_email(email: str) -> str:
+        dom = domain_of(email)
         if dom in VENDOR_DOMAINS:
             return "vendor"
         if re.match(r"[a-z]+law\.example$", dom):
             return "client"
         return "unknown"
 
-    def add(self, name: str, email: str | None = None, kind: str | None = None, teams_id: str | None = None) -> str:
-        email = (email or "").lower() or None
-        if email and email in self.by_email:
-            pid = self.by_email[email]
-        elif name and norm(name) in self.by_name:
-            pid = self.by_name[norm(name)]  # merge personal + work address with the same full name
-        else:
-            pid = "p_" + slug(name or email)
-            self.people[pid] = {
-                "person_id": pid,
-                "display_name": name or email,
-                "emails": [],
-                "teams_ids": [],
-                "kind": kind or (self.kind_for_email(email) if email else "unknown"),
-                "org": None,
-                "exported": False,
-            }
-            if name:
-                self.by_name[norm(name)] = pid
-        p = self.people[pid]
-        if email and email not in p["emails"]:
-            p["emails"].append(email)
-            self.by_email[email] = pid
-            org = self.org_for_domain(email.split("@")[1])
-            if org and not p["org"]:
-                p["org"] = org
-        if teams_id and teams_id not in p["teams_ids"]:
-            p["teams_ids"].append(teams_id)
-            self.by_teams_id[teams_id] = pid
-        return pid
+    def email(self, email: str) -> str:
+        return self.by_email[email.lower()]
+
+    def teams(self, name: str, teams_id: str | None = None) -> str:
+        if teams_id and teams_id in self.by_teams_id:
+            return self.by_teams_id[teams_id]
+        return self.by_teams_name[norm(name)]
+
+    def merge(self, src: str, dst: str, reason: str) -> None:
+        s, d = self.people.pop(src), self.people[dst]
+        d["emails"] = sorted(set(d["emails"]) | set(s["emails"]))
+        d["teams_ids"] = sorted(set(d["teams_ids"]) | set(s["teams_ids"]))
+        d.setdefault("merged_ids", []).append(src)
+        d["merge_reason"] = reason
+        for e in s["emails"]:
+            self.by_email[e] = dst
+        for t in s["teams_ids"]:
+            self.by_teams_id[t] = dst
+        for n, pid in list(self.by_teams_name.items()):
+            if pid == src:
+                self.by_teams_name[n] = dst
+        self.reindex()
 
     def first_name(self, pid: str) -> str:
         return norm(self.people[pid]["display_name"]).split(" ")[0]
+
+    def name(self, pid: str | None) -> str | None:
+        return self.people[pid]["display_name"] if pid in self.people else None
 
     def eligible(self) -> list[str]:
         return sorted(pid for pid, p in self.people.items() if p["kind"] not in NOT_SUBJECT)
 
     def is_exported_staff(self, pid: str | None) -> bool:
-        return bool(pid) and self.people[pid]["kind"] in ("staff",) and self.people[pid].get("exported", False)
-
-
-def addr(x: dict) -> tuple[str, str]:
-    e = x.get("emailAddress", x)
-    return e.get("name") or "", (e.get("address") or "").lower()
+        return bool(pid) and pid in self.people and self.people[pid]["kind"] == "staff" and self.people[pid].get("exported", False)
 
 
 # --------------------------------------------------------------------------- step 1: ingest
 
 
+def load_directory() -> list[dict]:
+    return json.loads((DATA / "_shared/directory.json").read_text(encoding="utf-8"))["value"]
+
+
 def iter_raw():
     """Yield (source, folder, path, line, record) over every raw file, deterministic order."""
-    directory = json.loads((DATA / "_shared/directory.json").read_text(encoding="utf-8"))["value"]
-    folders = sorted(d["export_folder"] for d in directory if d.get("exported"))
+    folders = sorted(d["export_folder"] for d in load_directory() if d.get("exported"))
     for folder in folders:
         for source, (relpath, _) in PERSON_SOURCES.items():
             path = DATA / folder / relpath
@@ -441,26 +535,94 @@ def iter_raw():
         yield "teams_channel", "_shared", DATA / CHANNEL_FILE, line, r
 
 
+def collect_headers() -> tuple[Counter, dict]:
+    pairs: Counter = Counter()
+    teams: dict[str, set] = defaultdict(set)
+    for source, _, _, _, r in iter_raw():
+        if source == "mail":
+            for x in [r["from"], r["sender"], *r.get("toRecipients", []), *r.get("ccRecipients", []), *r.get("bccRecipients", [])]:
+                pairs[addr(x)] += 1
+        elif source == "calendar":
+            for x in [r["organizer"], *r.get("attendees", [])]:
+                pairs[addr(x)] += 1
+        elif source in ("teams_chat", "teams_channel"):
+            u = r["from"]["user"]
+            teams[u["displayName"]].add(u.get("id")) if u.get("id") else teams[u["displayName"]]
+            for m in r.get("_members", []):
+                teams[m]
+    return pairs, {k: {t for t in v if t} for k, v in teams.items()}
+
+
+def new_event(eid, source, folder, t, actor, recipients, title, text, thread_key, raw_ref, meta) -> dict:
+    return {
+        "event_id": eid, "source": source, "mailbox": folder, "seen_in": [folder],
+        "time_utc": to_iso_z(t), "time_local": to_local(t), "actor_id": actor, "recipients": recipients,
+        "title": title, "text": text, "category": None, "noise_reason": None, "activity": None, "process": None,
+        "subject_person_id": None, "resolution": None, "fields": {}, "thread_key": thread_key,
+        "raw_ref": raw_ref, "meta": meta,
+    }
+
+
+def sessionize(frames: list[tuple], folder: str, owner: str) -> list[dict]:
+    """Merge consecutive frames (same mailbox, same window title, gap <= 10 min) into session events.
+    Idle frames (> 300 s) never merge with active ones."""
+    out = []
+    cur = None
+    for path, line, r, t in frames:
+        idle = (r.get("idle_seconds") or 0) > IDLE_LIMIT
+        key = (r.get("window_title"), idle)
+        if cur and cur["key"] == key and t - cur["last"] <= SESSION_GAP:
+            cur["frames"].append((path, line, r, t))
+            cur["last"] = t
+            continue
+        cur = {"key": key, "frames": [(path, line, r, t)], "last": t}
+        out.append(cur)
+    events = []
+    for s in out:
+        path, line, r, t0 = s["frames"][0]
+        t1 = s["frames"][-1][3]
+        urls = sorted({f[2].get("url") for f in s["frames"] if f[2].get("url")})
+        apps = Counter(f[2].get("app") for f in s["frames"])
+        meta = {
+            "url": r.get("url"), "apps": dict(sorted(apps.items())),
+            "idle_seconds": max(f[2].get("idle_seconds") or 0 for f in s["frames"]),
+            "all_idle": s["key"][1],
+        }
+        if len(s["frames"]) > 1:  # all frames are in the same file as raw_ref
+            meta["raw_lines"] = [f[1] for f in s["frames"]]
+        if len(urls) > 1:
+            meta["urls"] = urls
+        ev = new_event(f"screen:{folder}:{line}", "screen", folder, t0, owner, [], r.get("window_title"), "", None, {"file": rel(path), "line": line}, meta)
+        ev["session"] = {"start_local": to_local(t0), "end_local": to_local(t1), "start_utc": to_iso_z(t0), "end_utc": to_iso_z(t1), "frame_count": len(s["frames"]), "minutes": round((t1 - t0).total_seconds() / 60, 1)}
+        events.append(ev)
+    return events
+
+
 def step1_ingest() -> dict:
-    directory = json.loads((DATA / "_shared/directory.json").read_text(encoding="utf-8"))["value"]
-    reg = Registry(directory)
-    folder_owner = {d["export_folder"]: reg.by_email[d["mail"].lower()] for d in directory if d.get("exported")}
+    directory = load_directory()
+    pairs, teams_names = collect_headers()
+    reg = Registry(directory, pairs, teams_names)
+    folder_owner = {d["export_folder"]: reg.email(d["mail"]) for d in directory if d.get("exported")}
 
     events: dict[str, dict] = {}
     raw_counts: Counter = Counter()
+    frames: dict[str, list] = defaultdict(list)
     for source, folder, path, line, r in iter_raw():
         raw_counts[source] += 1
         t, _, _ = record_time(source, r)
+        if source == "screen":
+            frames[folder].append((path, line, r, t))
+            continue
         meta: dict = {}
         recipients: list[str] = []
         thread_key = None
         title = None
         if source == "mail":
             native = r["internetMessageId"].strip("<>")
-            fname, faddr = addr(r["from"])
-            actor = reg.add(fname, faddr)
-            to = [reg.add(*addr(x)) for x in r.get("toRecipients", [])]
-            cc = [reg.add(*addr(x)) for x in r.get("ccRecipients", []) + r.get("bccRecipients", [])]
+            faddr = addr(r["from"])[1]
+            actor = reg.email(faddr)
+            to = [reg.email(addr(x)[1]) for x in r.get("toRecipients", [])]
+            cc = [reg.email(addr(x)[1]) for x in r.get("ccRecipients", []) + r.get("bccRecipients", [])]
             recipients = to + [c for c in cc if c not in to]
             title = r.get("subject")
             body = r.get("body") or {}
@@ -470,9 +632,9 @@ def step1_ingest() -> dict:
             meta = {"from_address": faddr, "to": [addr(x)[1] for x in r.get("toRecipients", [])], "cc": [addr(x)[1] for x in r.get("ccRecipients", [])], "to_ids": to}
         elif source == "calendar":
             native = r["iCalUId"]
-            oname, oaddr = addr(r["organizer"])
-            actor = reg.add(oname, oaddr)
-            recipients = [reg.add(*addr(a)) for a in r.get("attendees", [])]
+            oaddr = addr(r["organizer"])[1]
+            actor = reg.email(oaddr)
+            recipients = [reg.email(addr(a)[1]) for a in r.get("attendees", [])]
             title = r.get("subject")
             text = strip_html((r.get("body") or {}).get("content", ""))
             end = parse_calendar(r["end"])
@@ -480,71 +642,56 @@ def step1_ingest() -> dict:
         elif source == "teams_chat":
             native = f'{r["chatId"]}:{r["id"]}'
             u = r["from"]["user"]
-            actor = reg.add(u["displayName"], teams_id=u.get("id"))
-            members = [reg.add(n) for n in r.get("_members", [])]
+            actor = reg.teams(u["displayName"], u.get("id"))
+            members = [reg.teams(n) for n in r.get("_members", [])]
             recipients = [m for m in members if m != actor]
             text = strip_html(r["body"]["content"])
             thread_key = f'chat:{r["chatId"]}'
             meta = {"chat_members": members}
-        elif source == "teams_channel":
+        else:  # teams_channel
             native = r["id"]
             u = r["from"]["user"]
-            actor = reg.add(u["displayName"], teams_id=u.get("id"))
+            actor = reg.teams(u["displayName"], u.get("id"))
             text = strip_html(r["body"]["content"])
-            root = r.get("replyToId") or r["id"]
-            thread_key = f"channel:{root}"
+            thread_key = f'channel:{r.get("replyToId") or r["id"]}'
             meta = {"channel": r["channelIdentity"].get("_channelName"), "reply_to": r.get("replyToId")}
-        else:  # screen
-            native = f"{folder}:{line}"
-            actor = folder_owner[folder]
-            title = r.get("window_title")
-            text = ""
-            meta = {"url": r.get("url"), "app": r.get("app"), "idle_seconds": r.get("idle_seconds"), "screenshot": r.get("file")}
 
         eid = f"{source}:{native}"
         if eid in events:  # duplicate copy in another mailbox
-            ev = events[eid]
-            if folder not in ev["seen_in"]:
-                ev["seen_in"].append(folder)
+            if folder not in events[eid]["seen_in"]:
+                events[eid]["seen_in"].append(folder)
             continue
-        events[eid] = {
-            "event_id": eid,
-            "source": source,
-            "mailbox": folder,
-            "seen_in": [folder],
-            "time_utc": to_iso_z(t),
-            "time_local": to_local(t),
-            "actor_id": actor,
-            "recipients": recipients,
-            "title": title,
-            "text": text,
-            "category": None,
-            "noise_reason": None,
-            "activity": None,
-            "process": None,
-            "subject_person_id": None,
-            "resolution": None,
-            "fields": {},
-            "thread_key": thread_key,
-            "raw_ref": {"file": rel(path), "line": line},
-            "meta": meta,
-        }
+        events[eid] = new_event(eid, source, folder, t, actor, recipients, title, text, thread_key, {"file": rel(path), "line": line}, meta)
+
+    screen_frames = sum(len(v) for v in frames.values())
+    for folder in sorted(frames):
+        for ev in sessionize(sorted(frames[folder], key=lambda f: (f[3], f[1])), folder, folder_owner[folder]):
+            events[ev["event_id"]] = ev
 
     ordered = sorted(events.values(), key=lambda e: (e["time_utc"], e["event_id"]))
+    write_events(OUT / "1_events.jsonl", ordered)
+    return {"events": ordered, "registry": reg, "raw_counts": dict(raw_counts), "dedup_counts": dict(Counter(e["source"] for e in ordered)), "screen_frames": screen_frames}
+
+
+def write_events(path: Path, events: list[dict]) -> None:
+    """Write events with text truncated to TEXT_LIMIT chars (full record lives in data/, see raw_ref)."""
     OUT.mkdir(exist_ok=True)
-    with (OUT / "1_events.jsonl").open("w", encoding="utf-8") as fh:
-        for ev in ordered:
-            fh.write(json.dumps(ev, sort_keys=True, ensure_ascii=False) + "\n")
-    dedup_counts = Counter(e["source"] for e in ordered)
-    return {"events": ordered, "registry": reg, "raw_counts": dict(raw_counts), "dedup_counts": dict(dedup_counts)}
+    with path.open("w", encoding="utf-8") as fh:
+        for ev in events:
+            out = dict(ev)
+            if len(ev["text"]) > TEXT_LIMIT:
+                out["text"] = ev["text"][:TEXT_LIMIT] + "…"
+                out["text_truncated"] = True
+            fh.write(json.dumps(out, sort_keys=True, ensure_ascii=False, separators=(",", ":")) + "\n")
 
 
 # --------------------------------------------------------------------------- step 2: clean (classify + resolve)
 
-HIGH_METHODS = {"email", "full_name", "thread", "sender", "recipient", "chat_member"}
-METHOD_RANK = {"email": 0, "sender": 0, "recipient": 0, "chat_member": 0, "thread": 0, "full_name": 1, "chat_pair": 2, "initial": 2, "first_name_unique": 3, "fuzzy": 4, "context": 5, "ambiguous": 8, "unresolved": 9, "staff_name": 9}
-CONFIDENCE = {"email": "high", "sender": "high", "recipient": "high", "chat_member": "high", "thread": "high", "full_name": "high", "chat_pair": "medium", "initial": "medium", "first_name_unique": "medium", "fuzzy": "medium", "context": "medium"}
+HIGH_METHODS = {"email", "full_name", "thread", "sender", "chat_member"}
+METHOD_RANK = {"email": 0, "sender": 0, "chat_member": 0, "thread": 0, "full_name": 1, "chat_pair": 2, "initial": 2, "first_name_unique": 3, "fuzzy": 4, "context": 5, "needs_context": 6, "ambiguous": 8, "unresolved": 9, "staff_name": 9}
+CONFIDENCE = {"email": "high", "sender": "high", "chat_member": "high", "thread": "high", "full_name": "high", "chat_pair": "medium", "initial": "medium", "first_name_unique": "medium", "fuzzy": "medium", "context": "medium"}
 CONTEXT_WINDOW = timedelta(days=30)
+LAPTOP_TRACK = {"laptop_ordered", "laptop_shipped", "laptop_confirmed_by_starter"}
 
 
 def rule_matches(rule: R.Rule, ev: dict, reg: Registry) -> dict | None:
@@ -555,8 +702,7 @@ def rule_matches(rule: R.Rule, ev: dict, reg: Registry) -> dict | None:
         if bool(meta.get("reply_to")) != rule.reply:
             return None
     if rule.direction:
-        out = reg.is_exported_staff(ev["actor_id"])
-        if (rule.direction == "out") != out:
+        if (rule.direction == "out") != reg.is_exported_staff(ev["actor_id"]):
             return None
     if rule.sender_domain and not re.search(rule.sender_domain, meta.get("from_address") or "", re.I):
         return None
@@ -574,9 +720,12 @@ def rule_matches(rule: R.Rule, ev: dict, reg: Registry) -> dict | None:
     return groups
 
 
+IDLE_RULE = R.Rule("noise_screen_idle", "noise", ("screen",), reason="idle > 300s")
+
+
 def classify(ev: dict, reg: Registry) -> tuple[R.Rule | None, dict]:
-    if ev["source"] == "screen" and (ev["meta"].get("idle_seconds") or 0) > 300:
-        return R.Rule("noise_screen_idle", "noise", ("screen",), reason="idle > 300s"), {}
+    if ev["source"] == "screen" and ev["meta"].get("all_idle"):
+        return IDLE_RULE, {}
     if ev["source"] == "teams_channel" and ev["meta"].get("channel") == "General":
         return next(r for r in R.RULES if r.id == "noise_channel_general"), {}
     for rule in R.RULES:
@@ -603,7 +752,7 @@ def build_fields(groups: dict, ev: dict, reg: Registry) -> dict:
             f[k], w = parse_day(groups[k])
             if w:
                 warnings.append(w)
-    for k in ("vendor", "model", "consignment"):
+    for k in ("vendor", "model", "consignment", "order_no", "tracking"):
         if k in groups:
             f[k] = groups[k]
     if "amount" in groups:
@@ -614,7 +763,6 @@ def build_fields(groups: dict, ev: dict, reg: Registry) -> dict:
         f["name_raw"] = groups["name"]
     if "sname" in groups:
         f["name_raw_subject"] = groups["sname"]
-    # client org: explicit text > client contact among sender/recipients
     org = None
     if "client" in groups:
         key = norm(groups["client"]).split(" ")[0]
@@ -629,10 +777,9 @@ def build_fields(groups: dict, ev: dict, reg: Registry) -> dict:
                 break
     if org:
         f["client"] = org
-    # owner = the exported staff member handling it
     owner = ev["actor_id"] if reg.is_exported_staff(ev["actor_id"]) else next((r for r in ev["recipients"] if reg.is_exported_staff(r)), None)
-    if not owner and ev["source"] == "screen":
-        owner = ev["actor_id"]
+    if not owner and ev["source"] in ("screen", "mail"):
+        owner = reg.email(next(p["emails"][0] for p in reg.people.values() if p.get("export_folder") == ev["mailbox"])) if ev["mailbox"] != "_shared" else None
     if owner:
         f["owner_staff_id"] = owner
     if ev["activity"] == "day_one_reply":
@@ -642,12 +789,80 @@ def build_fields(groups: dict, ev: dict, reg: Registry) -> dict:
     return f
 
 
-def closest(dist: dict[str, int], limit: int = 2) -> list[str]:
-    """Candidates at the minimum edit distance, if that distance is <= limit."""
-    if not dist:
-        return []
-    best = min(dist.values())
-    return sorted(pid for pid, d in dist.items() if d == best) if best <= limit else []
+# ---- identity merge (personal + work address) ------------------------------------------
+
+
+def merge_identities(events: list[dict], reg: Registry) -> dict:
+    """Merge a personal and a work address with the same full name ONLY when both appear in the same
+    onboarding case: personal address first, same client on both sides. Otherwise keep them apart and
+    mark both possible_same_person."""
+    involved: dict[str, list[dict]] = defaultdict(list)  # pid -> events where pid is actor or direct recipient
+    for ev in events:
+        for pid in {ev["actor_id"], *ev["meta"].get("to_ids", []), *([] if ev["source"] != "teams_chat" else [ev["actor_id"]])}:
+            if pid:
+                involved[pid].append(ev)
+    decisions = []
+    mapping: dict[str, str] = {}
+    for n, pids in sorted(reg.by_name.items()):
+        if len(pids) < 2:
+            continue
+        work = [p for p in pids if any(domain_of(e) == WORK_DOMAIN for e in reg.people[p]["emails"]) and reg.people[p]["kind"] not in NOT_SUBJECT]
+        personal = [p for p in pids if any(domain_of(e) in PERSONAL_DOMAINS for e in reg.people[p]["emails"])]
+        if len(work) != 1 or not personal:
+            if len(pids) > 1:
+                decisions.append({"name": reg.name(pids[0]), "ids": sorted(pids), "merged": False, "reason": "same full name, no work+personal pair to test"})
+            continue
+        w = work[0]
+        for p in sorted(personal):
+            pe = [e for e in involved[p]]
+            we = [e for e in involved[w]]
+            p_on = [e for e in pe if e["process"] == "onboarding"]
+            w_on = [e for e in we if e["process"] == "onboarding"]
+            # "personal address first" is judged inside the onboarding case
+            p_first = min((e["time_utc"] for e in p_on), default=None)
+            w_first = min((e["time_utc"] for e in w_on), default=None)
+            w_before = sorted((e for e in we if e["process"] != "onboarding" and p_first and e["time_utc"] < p_first), key=lambda e: e["time_utc"])
+            p_clients = {e["fields"].get("client") for e in p_on if e["fields"].get("client")}
+            w_clients = {e["fields"].get("client") for e in w_on if e["fields"].get("client")}
+            why = []
+            if not p_on:
+                why.append("personal address has no onboarding events")
+            if not w_on:
+                why.append("work address has no onboarding events")
+            if p_first and w_first and p_first > w_first:
+                first_w = min(w_on, key=lambda e: e["time_utc"])
+                why.append(f"work address used first in onboarding ({first_w['time_local'][:10]}: {first_w['title'] or first_w['text'][:40]!r})")
+            if p_clients and w_clients and not (p_clients & w_clients):
+                why.append(f"different clients ({sorted(p_clients)} vs {sorted(w_clients)})")
+            if not p_clients or not w_clients:
+                why.append("client not known on both sides")
+            if why:
+                decisions.append({"name": reg.name(w), "ids": [w, p], "merged": False, "reason": "; ".join(why)})
+                for a, b in ((w, p), (p, w)):
+                    reg.people[a].setdefault("possible_same_person", []).append({"person_id": b, "reason": "; ".join(why)})
+            else:
+                client = reg.orgs[sorted(p_clients & w_clients)[0]]["name"]
+                reason = f"personal address used first in onboarding ({p_first[:10]}), work address from {w_first[:10]}; same client {client}"
+                if w_before:
+                    reason += f"; NOTE work address already sent {len(w_before)} non-onboarding mail(s) before onboarding (first: {w_before[0]['time_local'][:10]} {w_before[0]['title']!r})"
+                decisions.append({"name": reg.name(w), "ids": [w, p], "merged": True, "reason": reason})
+                reg.merge(p, w, reason)
+                mapping[p] = w
+    if mapping:
+        for ev in events:
+            ev["actor_id"] = mapping.get(ev["actor_id"], ev["actor_id"])
+            ev["recipients"] = list(dict.fromkeys(mapping.get(r, r) for r in ev["recipients"]))
+            for k in ("to_ids", "chat_members"):
+                if k in ev["meta"]:
+                    ev["meta"][k] = list(dict.fromkeys(mapping.get(r, r) for r in ev["meta"][k]))
+            if "owner_staff_id" in ev["fields"]:
+                ev["fields"]["owner_staff_id"] = mapping.get(ev["fields"]["owner_staff_id"], ev["fields"]["owner_staff_id"])
+    return {"decisions": decisions, "mapping": mapping}
+
+
+# ---- name resolution -----------------------------------------------------------------------
+
+PROCESS_NOUN = {"leave": "leave", "offboarding": "offboarding", "onboarding": "onboarding"}
 
 
 class Resolver:
@@ -655,103 +870,124 @@ class Resolver:
         self.reg = reg
         self.pool = reg.eligible()
         self.staff_names = {norm(p["display_name"]) for p in reg.people.values() if p["kind"] in ("staff", "it")}
-        self.anchors: dict[str, list[dict]] = defaultdict(list)  # person -> high-confidence process events
+        self.anchors: dict[str, list[dict]] = defaultdict(list)
 
-    # --- direct (no case context)
     def by_name(self, raw: str) -> dict:
         n = norm(raw).rstrip(".")
         toks = n.split(" ")
         names = {pid: norm(self.reg.people[pid]["display_name"]) for pid in self.pool}
-        exact = [pid for pid, full in names.items() if full == n]
+        nm = self.reg.name
+        exact = sorted(pid for pid, full in names.items() if full == n)
+        if len(exact) == 1:
+            return {"method": "full_name", "person": exact[0], "candidates": exact, "reason": f"Full name {raw!r} written in the text"}
         if exact:
-            return {"method": "full_name", "person": exact[0], "candidates": exact}
+            return {"method": "needs_context", "person": None, "candidates": exact, "reason": f"{len(exact)} identities named {raw!r} (not merged)"}
         if n in self.staff_names:
-            return {"method": "staff_name", "person": None, "candidates": [], "note": "staff are never case subjects"}
+            return {"method": "staff_name", "person": None, "candidates": [], "reason": f"{raw!r} is a staff member; staff are never case subjects"}
         first = toks[0]
         if len(toks) == 2 and len(toks[1].rstrip(".")) == 1:  # "Otto V."
             ini = toks[1][0]
-            c = [pid for pid, full in names.items() if full.split(" ")[0] == first and full.split(" ")[-1].startswith(ini)]
+            c = sorted(pid for pid, full in names.items() if full.split(" ")[0] == first and full.split(" ")[-1].startswith(ini))
             if len(c) == 1:
-                return {"method": "initial", "person": c[0], "candidates": c}
+                return {"method": "initial", "person": c[0], "candidates": c, "reason": f"Only {nm(c[0])} matches {raw!r} (first name + initial)"}
             if c:
-                return {"method": "needs_context", "person": None, "candidates": sorted(c)}
+                return {"method": "needs_context", "person": None, "candidates": c}
             toks = [first]
         if len(toks) == 1:
-            c = [pid for pid, full in names.items() if full.split(" ")[0] == first]
+            c = sorted(pid for pid, full in names.items() if full.split(" ")[0] == first)
             if len(c) == 1:
-                return {"method": "first_name_unique", "person": c[0], "candidates": c}
+                return {"method": "first_name_unique", "person": c[0], "candidates": c, "reason": f"Only non-staff person named {raw.title()!r} is {nm(c[0])}"}
             if c:
-                return {"method": "needs_context", "person": None, "candidates": sorted(c)}
-            c = closest({pid: osa_distance(full.split(" ")[0], first) for pid, full in names.items()}) if len(first) >= 4 else []
+                return {"method": "needs_context", "person": None, "candidates": c}
+            dist = {pid: osa_distance(full.split(" ")[0], first) for pid, full in names.items()}
+            c = closest(dist) if len(first) >= 4 else []
             if len(c) == 1:
-                return {"method": "fuzzy", "person": c[0], "candidates": c, "typo": True}
+                return {"method": "fuzzy", "person": c[0], "candidates": c, "typo": True, "reason": f"{raw!r} is {dist[c[0]]} edit(s) from {nm(c[0]).split(' ')[0]!r}; no closer name"}
             if c:
                 return {"method": "needs_context", "person": None, "candidates": c, "typo": True}
-            return {"method": "unresolved", "person": None, "candidates": []}
-        # full name with a typo ("Chaira Ekwueme", "Qunin Ellingham", "Jvoana Penhaligon")
-        c = closest({pid: osa_distance(full, n) for pid, full in names.items()})
+            return {"method": "unresolved", "person": None, "candidates": [], "reason": f"No person matches {raw!r}"}
+        dist = {pid: osa_distance(full, n) for pid, full in names.items()}
+        c = closest(dist)
         if len(c) == 1:
-            return {"method": "fuzzy", "person": c[0], "candidates": c, "typo": True}
+            return {"method": "fuzzy", "person": c[0], "candidates": c, "typo": True, "reason": f"{raw!r} is {dist[c[0]]} edit(s) from {nm(c[0])!r}; no closer name"}
         if c:
             return {"method": "needs_context", "person": None, "candidates": c, "typo": True}
-        return {"method": "unresolved", "person": None, "candidates": []}
+        return {"method": "unresolved", "person": None, "candidates": [], "reason": f"No person matches {raw!r}"}
 
-    # --- context: pick from candidates with an open case of the same process near that date
-    def by_context(self, cands: list[str], ev: dict) -> dict:
-        t = datetime.fromisoformat(ev["time_utc"].replace("Z", "+00:00"))
+    def by_context(self, cands: list[str], ev: dict, raw: str) -> dict:
+        """Pick from candidates with an open case of the same process near that date."""
+        t = ts(ev["time_utc"])
         f = ev["fields"]
-        key_date = (f.get("dates") or {}).get("start"), (f.get("dates") or {}).get("end"), f.get("last_day"), f.get("first_day")
+        nm = self.reg.name
+        orgs = self.reg.orgs
 
         def anchors_for(pid):
-            out = []
-            for a in self.anchors.get(pid, []):
-                if a["event_id"] == ev["event_id"] or a["process"] != ev["process"]:
-                    continue
-                at = datetime.fromisoformat(a["time_utc"].replace("Z", "+00:00"))
-                if abs(at - t) <= CONTEXT_WINDOW:
-                    out.append((a, at))
-            return out
+            return [(a, ts(a["time_utc"])) for a in self.anchors.get(pid, []) if a["event_id"] != ev["event_id"] and a["process"] == ev["process"] and abs(ts(a["time_utc"]) - t) <= CONTEXT_WINDOW]
 
         def date_match(a):
             af = a["fields"]
             if f.get("dates") and af.get("dates"):
-                return af["dates"]["start"] == key_date[0] and af["dates"]["end"] == key_date[1]
-            if f.get("last_day") and af.get("last_day"):
-                return af["last_day"] == f["last_day"]
-            if f.get("first_day") and af.get("first_day"):
-                return af["first_day"] == f["first_day"]
+                return (af["dates"]["start"], af["dates"]["end"]) == (f["dates"]["start"], f["dates"]["end"])
+            for k in ("last_day", "first_day"):
+                if f.get(k) and af.get(k):
+                    return af[k] == f[k]
             return False
 
+        def date_desc():
+            if f.get("dates"):
+                return f'dates {f["dates"]["raw"]} match'
+            if f.get("last_day"):
+                return f"last day {nice_day(f['last_day'])} matches"
+            if f.get("first_day"):
+                return f"first day {nice_day(f['first_day'])} matches"
+            return "dates match"
+
         filters = [
-            ("open before this event", lambda a, at: at <= t),
-            ("same dates", lambda a, at: date_match(a)),
-            ("same client", lambda a, at: bool(f.get("client")) and a["fields"].get("client") == f.get("client")),
-            ("same staff owner", lambda a, at: bool(f.get("owner_staff_id")) and a["fields"].get("owner_staff_id") == f.get("owner_staff_id")),
+            ("before", lambda a, at: at <= t, lambda pid: "case was already open"),
+            ("dates", lambda a, at: date_match(a), lambda pid: date_desc()),
+            ("client", lambda a, at: bool(f.get("client")) and a["fields"].get("client") == f.get("client"), lambda pid: f"client {orgs[f['client']]['name']} matches"),
+            ("owner", lambda a, at: bool(f.get("owner_staff_id")) and a["fields"].get("owner_staff_id") == f.get("owner_staff_id"), lambda pid: f"case is handled by the same staff member ({nm(f['owner_staff_id'])})"),
         ]
+        proc = PROCESS_NOUN[ev["process"]]
+        art = "an" if proc[0] in "aeiou" else "a"
         pool = {pid: anchors_for(pid) for pid in cands}
         pool = {pid: a for pid, a in pool.items() if a}
-        applied = [f"has a {ev['process']} event within 30 days"]
+        applied = ["process_near"]
         if not pool:
-            return {"method": "ambiguous", "person": None, "candidates": sorted(cands), "filters": applied, "note": "no candidate has a nearby case of this process"}
-        for name, pred in filters:
+            return {"method": "ambiguous", "person": None, "candidates": sorted(cands), "filters": applied, "reason": f"{len(cands)} candidates for {raw!r}; none has a {proc} case within 30 days"}
+        decided_by = "process_near" if len(pool) == 1 else None
+        for key, pred, _ in filters:
             if len(pool) == 1:
                 break
             narrowed = {pid: [x for x in a if pred(*x)] for pid, a in pool.items()}
             narrowed = {pid: a for pid, a in narrowed.items() if a}
             if narrowed:
+                n_before = len(pool)
                 pool = narrowed
-                applied.append(name)
-        if len(pool) == 1:
-            pid = next(iter(pool))
-            return {"method": "context", "person": pid, "candidates": sorted(cands), "filters": applied, "evidence_event_ids": sorted(a["event_id"] for a, _ in pool[pid])[:5]}
-        return {"method": "ambiguous", "person": None, "candidates": sorted(pool), "filters": applied}
+                applied.append(key)
+                if len(pool) == 1:
+                    decided_by = (key, n_before)
+        if len(pool) != 1:
+            return {"method": "ambiguous", "person": None, "candidates": sorted(pool), "filters": applied, "reason": f"{len(pool)} candidates for {raw!r} still fit after: {', '.join(applied)}"}
+        pid = next(iter(pool))
+        label = self.reg.first_name(pid).title()
+        if decided_by == "process_near":
+            reason = f"Only {label} with {art} {proc} case near this date"
+            extra = [desc(pid) for key, pred, desc in filters[1:3] if any(pred(*x) for x in pool[pid])]
+            if extra:
+                reason += "; " + "; ".join(extra)
+        else:
+            key, n_before = decided_by
+            desc = next(d for k, _, d in filters if k == key)
+            reason = f"{n_before} {label}s have {art} {proc} case near this date; only {nm(pid)}'s {desc(pid)}"
+        return {"method": "context", "person": pid, "candidates": sorted(cands), "filters": applied, "decided_by": decided_by if isinstance(decided_by, str) else decided_by[0], "reason": reason, "evidence_event_ids": sorted(a["event_id"] for a, _ in pool[pid])[:5]}
 
 
 def finish_resolution(res: dict, raw: str | None) -> dict:
     out = {"method": res["method"], "confidence": CONFIDENCE.get(res["method"]), "candidates": res.get("candidates", [])}
     if raw is not None:
         out["raw_name"] = raw
-    for k in ("typo", "filters", "note", "evidence_event_ids"):
+    for k in ("typo", "filters", "decided_by", "reason", "evidence_event_ids"):
         if k in res:
             out[k] = res[k]
     return out
@@ -759,15 +995,13 @@ def finish_resolution(res: dict, raw: str | None) -> dict:
 
 def step2_clean(ingest: dict) -> dict:
     events, reg = ingest["events"], ingest["registry"]
-    res = Resolver(reg)
     rule_by_event: dict[str, R.Rule] = {}
 
     # ---- 2a classify
     for ev in events:
         rule, groups = classify(ev, reg)
         if rule is None:
-            ev["category"] = "context"
-            ev["noise_reason"] = "no rule matched"
+            ev["category"], ev["noise_reason"] = "context", "no rule matched"
             continue
         rule_by_event[ev["event_id"]] = rule
         ev["category"] = rule.category
@@ -779,8 +1013,9 @@ def step2_clean(ingest: dict) -> dict:
             ev["fields"].update(build_fields(groups, ev, reg))
             if rule.likely:
                 ev["fields"]["likely"] = True
+            if ev["fields"].get("order_no"):
+                ev["thread_key"] = f'order:{ev["fields"]["order_no"]}'  # confirmation + shipping mails share an order number
 
-    # channel replies follow their root (replacement thread -> out of scope)
     roots = {ev["event_id"].split(":", 1)[1]: ev for ev in events if ev["source"] == "teams_channel" and not ev["meta"].get("reply_to")}
     for ev in events:
         if ev["source"] == "teams_channel" and ev["meta"].get("reply_to"):
@@ -794,23 +1029,27 @@ def step2_clean(ingest: dict) -> dict:
                     if k in root["fields"] and k not in ev["fields"]:
                         ev["fields"][k] = root["fields"][k]
 
+    # ---- 2b identity merge, then resolution
+    merges = merge_identities(events, reg)
+    res = Resolver(reg)
     proc = [ev for ev in events if ev["category"] == "process"]
 
-    # ---- 2b direct resolution (pass A) -> anchors
-    def direct(ev, rule, allow_text=True):
+    def direct(ev, rule):
         meta = ev["meta"]
         for how in rule.who:
             if how == "sender" and ev["actor_id"] in res.pool:
-                return {"method": "sender" if ev["source"] != "mail" else "email", "person": ev["actor_id"], "candidates": [ev["actor_id"]]}, None
-            if how == "recipient" and "to_ids" in meta:  # mail To / calendar attendees only
+                m = "email" if ev["source"] == "mail" else "sender"
+                return {"method": m, "person": ev["actor_id"], "candidates": [ev["actor_id"]], "reason": "Sent by the person" + (" (their address)" if m == "email" else " (Teams account)")}, None
+            if how == "recipient" and "to_ids" in meta:
                 for pid in meta["to_ids"]:
                     if pid in res.pool:
-                        return {"method": "email", "person": pid, "candidates": [pid]}, None
+                        who = "attendee" if ev["source"] == "calendar" else "recipient"
+                        return {"method": "email", "person": pid, "candidates": [pid], "reason": f"{who.title()} address {reg.people[pid]['emails'][0] if reg.people[pid]['emails'] else ''}".strip()}, None
             if how == "chat_other":
                 others = [p for p in ev["recipients"] if p in res.pool]
                 if len(others) == 1:
-                    return {"method": "chat_member", "person": others[0], "candidates": others}, None
-            if how == "text" and allow_text:
+                    return {"method": "chat_member", "person": others[0], "candidates": others, "reason": "Other member of the 1:1 chat"}, None
+            if how == "text":
                 raws = [ev["fields"].get(k) for k in ("name_raw_subject", "name_raw") if ev["fields"].get(k)]
                 best = None
                 for raw in raws:
@@ -818,6 +1057,8 @@ def step2_clean(ingest: dict) -> dict:
                     if best is None or METHOD_RANK.get(r["method"], 7) < METHOD_RANK.get(best[0]["method"], 7):
                         best = (r, raw)
                 if best:
+                    if len(raws) == 2 and raws[0] != raws[1]:
+                        best[0]["alt_name"] = [x for x in raws if x != best[1]][0]
                     return best
         return None, None
 
@@ -828,50 +1069,52 @@ def step2_clean(ingest: dict) -> dict:
         if r and r.get("person") and r["method"] in HIGH_METHODS:
             res.anchors[r["person"]].append(ev)
 
-    # ---- 2c final resolution in time order (thread inheritance, chat pairing, context)
     thread_subject: dict[str, str] = {}
-    open_it: dict[str, list[tuple[str, str]]] = defaultdict(list)  # chatId -> [(person, event_id)]
+    open_it: dict[str, list[tuple[str, str]]] = defaultdict(list)
     for ev in proc:
         rule = rule_by_event[ev["event_id"]]
         final, raw = None, None
         for how in rule.who:
             if how == "none":
-                final = {"method": "unresolved", "person": None, "candidates": [], "note": "no name in record; linked by time/case in Phase 2"}
+                final = {"method": "unresolved", "person": None, "candidates": [], "reason": "No name in the record; linked by time in step 3"}
                 break
             if how == "thread" and ev["thread_key"] in thread_subject and ev["source"] in ("mail", "teams_channel"):
                 pid = thread_subject[ev["thread_key"]]
-                final = {"method": "thread", "person": pid, "candidates": [pid]}
+                kind = "order number" if ev["thread_key"].startswith("order:") else "thread"
+                final = {"method": "thread", "person": pid, "candidates": [pid], "reason": f"Same {kind} as an earlier message about {reg.name(pid)}"}
                 break
             if how == "chat_pair":
                 stack = open_it.get(ev["thread_key"], [])
                 raw_name = ev["fields"].get("name_raw")
                 if raw_name:
-                    hit = [x for x in stack if res.reg.first_name(x[0]) == norm(raw_name).split(" ")[0]]
+                    hit = [x for x in stack if reg.first_name(x[0]) == norm(raw_name).split(" ")[0]]
                     if hit:
-                        final = {"method": "thread", "person": hit[-1][0], "candidates": [hit[-1][0]], "note": "matched the open IT request in the same chat", "linked_event_id": hit[-1][1]}
+                        final = {"method": "thread", "person": hit[-1][0], "candidates": [hit[-1][0]], "reason": f"Matches the open IT request for {reg.name(hit[-1][0])} in the same chat", "linked_event_id": hit[-1][1]}
                         raw = raw_name
                         stack.remove(hit[-1])
                         break
                     continue
                 if stack:
                     pid, linked = stack.pop()
-                    final = {"method": "chat_pair", "person": pid, "candidates": [pid], "note": "no name: linked to the latest open IT request in the same chat", "linked_event_id": linked}
+                    final = {"method": "chat_pair", "person": pid, "candidates": [pid], "reason": f"No name; the latest open IT request in this chat was for {reg.name(pid)}", "linked_event_id": linked}
                     break
-                final = {"method": "unresolved", "person": None, "candidates": [], "note": "no open IT request in this chat"}
+                final = {"method": "unresolved", "person": None, "candidates": [], "reason": "No name and no open IT request in this chat"}
                 break
             if how in ("sender", "recipient", "chat_other", "text"):
                 r, rr = first_pass[ev["event_id"]]
                 if r is None:
                     continue
                 if r["method"] == "needs_context":
-                    r = {**res.by_context(r["candidates"], ev), **({"typo": True} if r.get("typo") else {})}
+                    r = {**res.by_context(r["candidates"], ev, rr), **({"typo": True} if r.get("typo") else {})}
                 final, raw = r, rr
                 if final.get("person"):
                     break
         if final is None:
-            final = {"method": "unresolved", "person": None, "candidates": []}
+            final = {"method": "unresolved", "person": None, "candidates": [], "reason": "No usable name"}
         if "linked_event_id" in final:
             ev["fields"]["linked_event_id"] = final.pop("linked_event_id")
+        if final.get("alt_name"):
+            ev["fields"]["name_variant"] = final["alt_name"]
         ev["resolution"] = finish_resolution(final, raw)
         ev["subject_person_id"] = final.get("person")
         if ev["subject_person_id"] and ev["thread_key"] and ev["thread_key"] not in thread_subject and ev["source"] in ("mail", "teams_channel"):
@@ -879,7 +1122,22 @@ def step2_clean(ingest: dict) -> dict:
         if ev["activity"] == "it_requested" and ev["subject_person_id"]:
             open_it[ev["thread_key"]].append((ev["subject_person_id"], ev["event_id"]))
 
-    # ---- 2d finalise person kinds
+    # ---- 2c laptop track: new starters only, replacements are out of scope
+    starters = {ev["subject_person_id"] for ev in proc if ev["process"] == "onboarding" and ev["activity"] not in LAPTOP_TRACK and ev["subject_person_id"]}
+    for ev in proc:
+        if ev["activity"] in LAPTOP_TRACK and ev["subject_person_id"] not in starters:
+            ev.update(category="out_of_scope", noise_reason="laptop replacement (seen, not modelled)", process=None)
+            ev["fields"]["was_activity"] = ev.pop("activity")
+            ev["activity"] = None
+
+    # ---- 2d screen sessions without a name stay context until step 3 links them by time
+    for ev in events:
+        if ev["source"] == "screen" and ev["category"] == "process" and not ev["subject_person_id"]:
+            ev["category"] = "context"
+            ev["noise_reason"] = "screen session with no name; becomes a case step only if step 3 links it by time"
+
+    # ---- 2e finalise person kinds
+    proc = [ev for ev in events if ev["category"] == "process"]
     onboarding_subjects = {ev["subject_person_id"] for ev in proc if ev["process"] == "onboarding" and ev["subject_person_id"]}
     recruit_people = set()
     for ev in events:
@@ -888,31 +1146,367 @@ def step2_clean(ingest: dict) -> dict:
     for pid, p in reg.people.items():
         if p["kind"] != "unknown":
             continue
-        has_work = any(e.endswith("@" + WORK_DOMAIN) for e in p["emails"]) or bool(p["teams_ids"])
+        has_work = any(domain_of(e) == WORK_DOMAIN for e in p["emails"]) or bool(p["teams_ids"])
         if pid in onboarding_subjects:
             p["kind"] = "new_starter"
         elif has_work:
             p["kind"] = "worker"
         elif pid in recruit_people:
             p["kind"] = "candidate"
-    for p in reg.people.values():
-        p["emails"].sort()
-        p["teams_ids"].sort()
 
-    with (OUT / "2_events_clean.jsonl").open("w", encoding="utf-8") as fh:
-        for ev in events:
-            fh.write(json.dumps(ev, sort_keys=True, ensure_ascii=False) + "\n")
-    people_doc = {
+    write_events(OUT / "2_events_clean.jsonl", events)
+    write_json(OUT / "2_people.json", {
         "step": "2_people",
         "coverage": "Data from 6 of 12 staff.",
+        "identity_merges": merges["decisions"],
         "people": [reg.people[k] for k in sorted(reg.people)],
         "orgs": [reg.orgs[k] for k in sorted(reg.orgs)],
+    })
+    return {"events": events, "registry": reg, "merges": merges, "rules": rule_by_event}
+
+
+# --------------------------------------------------------------------------- step 3: cases
+
+WINDOW_START = datetime(2026, 3, 2, tzinfo=TZ_LOCAL)
+WINDOW_END = datetime(2026, 3, 29, 23, 59, 59, tzinfo=TZ_LOCAL)
+TRIGGERS = {"leave": {"leave_requested"}, "offboarding": {"resignation_received", "client_ended_engagement"}, "onboarding": {"contract_sent"}}
+# Expected order used ONLY to report steps out of order in Phase 2 (Phase 3 discovers the real order).
+EXPECTED_TRACKS = {
+    "leave": [["leave_requested", "peoplehub_opened", "client_check_sent", "client_approved", "worker_approved"],
+              ["leave_requested", "client_check_sent", "client_declined", "worker_asked_other_dates"],
+              ["leave_requested", "client_notified_sick", "worker_approved"]],
+    "offboarding": [["resignation_received", "offboarding_acknowledged", "access_disable_requested", "laptop_return_arranged", "courier_delivered", "laptop_received", "offboarding_completed"],
+                    ["client_ended_engagement", "offboarding_acknowledged", "access_disable_requested", "laptop_return_arranged", "courier_delivered", "laptop_received", "offboarding_completed"]],
+    "onboarding": [["contract_sent", "contract_reminder", "contract_signed", "training_enrolled", "induction_meeting", "induction_completed", "kickoff_meeting", "day_one_checkin", "day_one_reply", "onboarded_confirmed"],
+                   ["laptop_requested", "laptop_quote", "laptop_approved", "laptop_ordered", "laptop_shipped", "laptop_delivered"],
+                   ["it_requested", "it_ready"]],
+}
+
+
+def step_confidence(ev: dict, link: str) -> str:
+    if ev["source"] == "screen" or link == "time":
+        return "low"
+    m = (ev.get("resolution") or {}).get("method")
+    if m in ("fuzzy", "context", "chat_pair", "initial", "first_name_unique") or ev["source"] == "calendar":
+        return "medium"
+    return "high"
+
+
+def make_step(ev: dict, link: str, link_reason: str, reg: Registry) -> dict:
+    return {
+        "activity": ev["activity"], "label": R.ACTIVITY_LABELS.get(ev["activity"], ev["activity"]), "event_id": ev["event_id"],
+        "time_local": ev["time_local"], "time_utc": ev["time_utc"], "actor_id": ev["actor_id"], "actor_name": reg.name(ev["actor_id"]),
+        "source": ev["source"], "confidence": step_confidence(ev, link), "likely": ev["source"] == "screen" or bool(ev["fields"].get("likely")),
+        "link": link, "link_reason": link_reason, "raw_ref": ev["raw_ref"],
+        **({"session": ev["session"]} if ev.get("session") else {}),
     }
-    write_json(OUT / "2_people.json", people_doc)
-    return {"events": events, "registry": reg}
 
 
-# --------------------------------------------------------------------------- phase 1 report
+class CaseBook:
+    def __init__(self, reg: Registry):
+        self.reg = reg
+        self.cases: dict[str, dict] = {}
+        self.unlinked: list[dict] = []
+
+    def new(self, process: str, pid: str, key: str, keyinfo: dict) -> dict:
+        cid = f"{process}:{pid[2:]}" + (f":{key}" if key else "")
+        c = {"case_id": cid, "process": process, "subject_person_id": pid, "subject_name": self.reg.name(pid), "key": keyinfo, "steps": [], "flags": []}
+        self.cases[cid] = c
+        return c
+
+    def add(self, case: dict, ev: dict, link: str, reason: str) -> None:
+        case["steps"].append(make_step(ev, link, reason, self.reg))
+        ev.setdefault("_cases", []).append(case["case_id"])
+
+
+def build_leave(book: CaseBook, evs: list[dict]) -> None:
+    reg = book.reg
+    thread_case: dict[str, str] = {}
+    by_person: dict[str, list[dict]] = defaultdict(list)
+    later = []
+    for ev in evs:
+        pid, d = ev["subject_person_id"], ev["fields"].get("dates")
+        if ev["source"] == "mail" and ev["thread_key"] in thread_case:
+            case = book.cases[thread_case[ev["thread_key"]]]
+            book.add(case, ev, "thread", "Same mail thread")
+        elif d:
+            cid = f"leave:{pid[2:]}:{d['start']}_{d['end']}"
+            case = book.cases.get(cid) or book.new("leave", pid, f"{d['start']}_{d['end']}", {"dates": {"start": d["start"], "end": d["end"], "raw": d["raw"]}, "leave_type": ev["fields"].get("leave_type")})
+            if case not in by_person[pid]:
+                by_person[pid].append(case)
+            book.add(case, ev, "dates", f"Same person and dates ({d['raw']})")
+        else:
+            later.append(ev)
+            continue
+        if ev["source"] == "mail":
+            thread_case.setdefault(ev["thread_key"], case["case_id"])
+        if ev["fields"].get("leave_type") and not case["key"].get("leave_type"):
+            case["key"]["leave_type"] = ev["fields"]["leave_type"]
+    # no dates (PeopleHub session, Teams "choose other dates"): time order within the person's cases
+    for ev in later:
+        t = ts(ev["time_utc"])
+        cands = []
+        for c in by_person.get(ev["subject_person_id"], []):
+            first = min(ts(s["time_utc"]) for s in c["steps"])
+            last = max(ts(s["time_utc"]) for s in c["steps"])
+            if first - timedelta(hours=6) <= t <= last + timedelta(days=3):
+                cands.append((abs((t - first).total_seconds()), first, c))
+        open_before = [x for x in cands if x[1] <= t]
+        pick = sorted(open_before or cands, key=lambda x: (x[0], x[2]["case_id"]))
+        if pick:
+            c = sorted(open_before, key=lambda x: x[1])[-1][2] if open_before else pick[0][2]
+            book.add(c, ev, "time", "No dates in the record; nearest open leave case of the same person")
+        else:
+            book.unlinked.append({"event_id": ev["event_id"], "activity": ev["activity"], "reason": "no leave case of this person near this time"})
+
+
+def build_by_person(book: CaseBook, evs: list[dict], process: str) -> None:
+    for ev in evs:
+        pid = ev["subject_person_id"]
+        cid = f"{process}:{pid[2:]}"
+        case = book.cases.get(cid) or book.new(process, pid, "", {})
+        book.add(case, ev, "person", "Same person (one case per person)")
+
+
+def link_screens(book: CaseBook, events: list[dict]) -> dict:
+    """Nameless screen sessions + courier mails -> cases, by time only (confidence low)."""
+    reg = book.reg
+    stats = Counter()
+    sessions = [e for e in events if e["source"] == "screen" and e["activity"] and not e["subject_person_id"]]
+
+    def steps_of(process, acts):
+        for c in book.cases.values():
+            if c["process"] == process:
+                for s in c["steps"]:
+                    if s["activity"] in acts:
+                        yield c, s
+
+    for ev in sessions:
+        t = ts(ev["time_utc"])
+        owner = ev["actor_id"]
+        best = None
+        if ev["activity"] == "tracker_updated":  # within 30 min AFTER a PeopleHub or approval step by the same staff member
+            for c, s in steps_of("leave", {"peoplehub_opened", "worker_approved"}):
+                st = ts(s["session"]["end_utc"]) if s.get("session") else ts(s["time_utc"])
+                if s["actor_id"] == owner and timedelta(0) <= t - st <= timedelta(minutes=30):
+                    if best is None or st > best[2]:
+                        best = (c, s, st)
+            reason = lambda c, s, st: f"Leave tracker opened {round((t - st).total_seconds() / 60)} min after {s['label'].lower()} for {c['subject_name']} by the same staff member"  # noqa: E731
+        elif ev["activity"] == "courier_booked":  # within 60 min of 'laptop return arranged' by the same staff member
+            for c, s in steps_of("offboarding", {"laptop_return_arranged"}):
+                st = ts(s["time_utc"])
+                if s["actor_id"] == owner and abs(t - st) <= timedelta(minutes=60):
+                    if best is None or abs(t - st) < abs(t - best[2]):
+                        best = (c, s, st)
+            reason = lambda c, s, st: f"SwiftParcel booking page open {round(abs((t - st).total_seconds()) / 60)} min {'after' if t >= st else 'before'} the laptop return mail to {c['subject_name']}"  # noqa: E731
+        elif ev["activity"] == "training_enrolled":  # within 30 min of the training mail by the same staff member
+            for c, s in steps_of("onboarding", {"training_enrolled"}):
+                if s["source"] != "mail":
+                    continue
+                st = ts(s["time_utc"])
+                if s["actor_id"] == owner and abs(t - st) <= timedelta(minutes=30):
+                    if best is None or abs(t - st) < abs(t - best[2]):
+                        best = (c, s, st)
+            reason = lambda c, s, st: f"Academy learners page open {round(abs((t - st).total_seconds()) / 60)} min {'after' if t >= st else 'before'} the training mail to {c['subject_name']}"  # noqa: E731
+        else:
+            continue
+        if best:
+            c, s, st = best
+            book.add(c, ev, "time", reason(c, s, st))
+            ev["_linked_case"] = c["case_id"]
+            stats[f"{ev['activity']}:linked"] += 1
+        else:
+            stats[f"{ev['activity']}:unlinked"] += 1
+
+    # SwiftParcel 'Delivered' mail has no name: the open return case whose return was arranged before it
+    # and whose laptop came back after it (same staff mailbox). Fallback: arranged before, nothing back yet.
+    deliveries = sorted((e for e in events if e["activity"] == "courier_delivered"), key=lambda e: e["time_utc"])
+    for ev in deliveries:
+        t = ts(ev["time_utc"])
+        strict, loose = [], []
+        for c in book.cases.values():
+            if c["process"] != "offboarding" or any(s["activity"] == "courier_delivered" for s in c["steps"]):
+                continue
+            arr = [ts(s["time_utc"]) for s in c["steps"] if s["activity"] == "laptop_return_arranged" and s["actor_id"] == ev["fields"].get("owner_staff_id")]
+            rec = [ts(s["time_utc"]) for s in c["steps"] if s["activity"] == "laptop_received"]
+            if not arr or min(arr) > t:
+                continue
+            if rec and min(rec) >= t:
+                strict.append((min(rec), c))
+            elif not rec:
+                loose.append((min(arr), c))
+        if strict:
+            rec_t, c = sorted(strict, key=lambda x: x[0])[0]
+            why = f"No name; {c['subject_name']}'s return was arranged before this delivery and the laptop came back {round((rec_t - t).total_seconds() / 60)} min later"
+        elif len(loose) == 1:
+            c = loose[0][1]
+            why = f"No name; the only open return case of this staff member ({c['subject_name']}) with no laptop back yet"
+        else:
+            book.unlinked.append({"event_id": ev["event_id"], "activity": ev["activity"], "reason": f"{len(loose)} open return cases fit; not guessing"})
+            stats["courier_delivered:unlinked"] += 1
+            continue
+        book.add(c, ev, "time", why)
+        stats["courier_delivered:linked"] += 1
+    return dict(stats)
+
+
+def finish_case(c: dict, reg: Registry, last_days: dict) -> None:
+    c["steps"].sort(key=lambda s: (s["time_utc"], s["event_id"]))
+    acts = [s["activity"] for s in c["steps"]]
+    c["start"] = c["steps"][0]["time_local"]
+    c["end"] = c["steps"][-1]["time_local"]
+    staff = [s["actor_id"] for s in c["steps"] if reg.is_exported_staff(s["actor_id"])]
+    people_ops = [p for p in staff if reg.people[p].get("job_title") == "People Operations"]
+    c["staff_involved"] = list(dict.fromkeys(people_ops or staff))
+    c["owner_staff_id"] = Counter(people_ops or staff).most_common(1)[0][0] if staff else None
+    c["handoff"] = len(c["staff_involved"]) > 1
+    c["client"] = None
+    clients = Counter()
+    for s in c["steps"]:
+        cl = s.pop("_client", None)
+        if cl:
+            clients[cl] += 1
+    trig = TRIGGERS[c["process"]] & set(acts)
+    reasons = []
+    if not trig:
+        reasons.append("trigger not in the data (likely before 2 Mar, or sent to a mailbox that was not exported)")
+    p = c["process"]
+    completed = False
+    if p == "leave":
+        if "cancel_requested" in acts:
+            status = "cancelled"
+        elif "worker_approved" in acts:
+            status, completed = "complete", True
+        elif {"client_declined", "worker_asked_other_dates"} & set(acts):
+            status = "declined"
+        else:
+            status = "in_progress"
+        c["key"].setdefault("dates", None)
+    elif p == "offboarding":
+        completed = "offboarding_completed" in acts
+        status = "complete" if completed else "in_progress"
+        ld = last_days.get(c["subject_person_id"], {}).get("last_day")
+        c["key"]["last_day"] = ld
+        if not completed and ld and date.fromisoformat(ld) > WINDOW_END.date():
+            reasons.append(f"last day {nice_day(ld)} is after 29 Mar")
+    else:
+        completed = "onboarded_confirmed" in acts
+        status = "complete" if completed else "in_progress"
+        fd = sorted({s.get("_first_day") for s in c["steps"] if s.get("_first_day")})
+        c["key"]["first_day"] = fd[0] if fd else None
+        if not completed and fd and date.fromisoformat(fd[0]) > WINDOW_END.date():
+            reasons.append(f"first day {nice_day(fd[0])} is after 29 Mar")
+    if reasons and status not in ("cancelled", "declined"):
+        status = "cut_off"
+    c["status"] = status
+    c["completed_in_data"] = completed
+    c["cut_off_reason"] = "; ".join(reasons) or None
+    for s in c["steps"]:
+        s.pop("_first_day", None)
+    c["last_activity"] = c["end"]
+
+
+def summarise(c: dict, reg: Registry) -> str:
+    who = c["subject_name"]
+    owner = reg.name(c["owner_staff_id"]) or "unknown owner"
+    client = reg.orgs.get(c["client"], {}).get("name") if c["client"] else None
+    if c["process"] == "leave":
+        d = c["key"].get("dates") or {}
+        lt = c["key"].get("leave_type") or "leave"
+        what = f"{lt} leave {d.get('raw', '')}".replace("personal leave", "personal day")
+    elif c["process"] == "offboarding":
+        what = "offboarding" + (f", last day {nice_day(c['key'].get('last_day'))}" if c["key"].get("last_day") else "")
+    else:
+        what = "onboarding" + (f", first day {nice_day(c['key'].get('first_day'))}" if c["key"].get("first_day") else "")
+    status = c["status"].replace("_", " ")
+    return f"{who}: {what}{' at ' + client if client else ''}. Handled by {owner}{' (hand-off: ' + ' → '.join(reg.name(x) for x in c['staff_involved']) + ')' if c['handoff'] else ''}. {len(c['steps'])} steps, {status}."
+
+
+def out_of_order(c: dict) -> list[dict]:
+    issues = []
+    for track in EXPECTED_TRACKS[c["process"]]:
+        rank = {a: i for i, a in enumerate(track)}
+        firsts = {}
+        for s in c["steps"]:
+            if s["activity"] in rank and s["activity"] not in firsts:
+                firsts[s["activity"]] = s
+        seq = sorted(firsts.values(), key=lambda s: s["time_utc"])
+        for i, a in enumerate(seq):
+            for b in seq[i + 1:]:
+                if rank[b["activity"]] < rank[a["activity"]]:
+                    issues.append({"earlier": a["activity"], "earlier_time": a["time_local"][:16], "later": b["activity"], "later_time": b["time_local"][:16], "expected": f"{b['activity']} before {a['activity']}"})
+    seen = set()
+    uniq = []
+    for x in issues:
+        k = (x["earlier"], x["later"])
+        if k not in seen:
+            seen.add(k)
+            uniq.append(x)
+    return uniq
+
+
+def step3_cases(clean: dict) -> dict:
+    events, reg = clean["events"], clean["registry"]
+    book = CaseBook(reg)
+    proc = sorted((e for e in events if e["category"] == "process" and e["subject_person_id"]), key=lambda e: (e["time_utc"], e["event_id"]))
+    build_leave(book, [e for e in proc if e["process"] == "leave"])
+    build_by_person(book, [e for e in proc if e["process"] == "offboarding"], "offboarding")
+    build_by_person(book, [e for e in proc if e["process"] == "onboarding"], "onboarding")
+
+    # cross-process data: last day per person (Phase 3 flags activity after it)
+    last_days: dict[str, dict] = {}
+    for e in proc:
+        if e["process"] != "offboarding":
+            continue
+        rec = last_days.setdefault(e["subject_person_id"], {"person_id": e["subject_person_id"], "name": reg.name(e["subject_person_id"]), "last_day": None, "last_day_sources": [], "offboarding_completed_local": None})
+        if e["fields"].get("last_day") and e["activity"] in ("resignation_received", "client_ended_engagement", "access_disable_requested"):
+            rec["last_day_sources"].append({"event_id": e["event_id"], "activity": e["activity"], "last_day": e["fields"]["last_day"]})
+        if e["activity"] == "offboarding_completed":
+            rec["offboarding_completed_local"] = e["time_local"]
+    for rec in last_days.values():
+        days = sorted({s["last_day"] for s in rec["last_day_sources"]})
+        rec["last_day"] = days[0] if days else None
+        if len(days) > 1:
+            rec["conflict"] = f"different last days stated: {days}"
+        rec["effective_end"] = rec["last_day"] or (rec["offboarding_completed_local"] or "")[:10] or None
+
+    link_stats = link_screens(book, events)
+
+    by_id = {e["event_id"]: e for e in events}
+    for c in book.cases.values():
+        for s in c["steps"]:
+            ev = by_id[s["event_id"]]
+            if ev["fields"].get("client"):
+                s["_client"] = ev["fields"]["client"]
+            if ev["fields"].get("first_day"):
+                s["_first_day"] = ev["fields"]["first_day"]
+        clients = Counter(by_id[s["event_id"]]["fields"].get("client") for s in c["steps"] if by_id[s["event_id"]]["fields"].get("client"))
+        finish_case(c, reg, last_days)
+        c["client"] = clients.most_common(1)[0][0] if clients else None
+        c["summary"] = summarise(c, reg)
+        c["out_of_order"] = out_of_order(c)
+
+    unlinked = list(book.unlinked)
+    for e in events:
+        if e["category"] == "process" and not e.get("_cases"):
+            unlinked.append({"event_id": e["event_id"], "activity": e["activity"], "reason": (e.get("resolution") or {}).get("reason") or "no subject"})
+    cases = sorted(book.cases.values(), key=lambda c: (c["process"], c["subject_name"], c["start"]))
+    doc = {
+        "step": "3_cases",
+        "statuses": "complete | in_progress | cut_off | declined | cancelled",
+        "cases": cases,
+        "person_last_days": [last_days[k] for k in sorted(last_days)],
+        "screen_link_stats": link_stats,
+        "unlinked_process_events": sorted(unlinked, key=lambda x: x["event_id"]),
+    }
+    write_json(OUT / "3_cases.json", doc)
+    for e in events:
+        e.pop("_cases", None)
+        e.pop("_linked_case", None)
+    return {"cases": cases, "doc": doc, "events": events, "registry": reg}
+
+
+# --------------------------------------------------------------------------- reports
 
 
 def skeleton(s: str) -> str:
@@ -924,7 +1518,7 @@ def skeleton(s: str) -> str:
 
 def phase1_report(ingest: dict, clean: dict) -> dict:
     events, reg = clean["events"], clean["registry"]
-    name = lambda pid: reg.people[pid]["display_name"] if pid else None  # noqa: E731
+    name = reg.name
     by_src_cat: dict = defaultdict(Counter)
     for ev in events:
         by_src_cat[ev["source"]][ev["category"]] += 1
@@ -932,70 +1526,71 @@ def phase1_report(ingest: dict, clean: dict) -> dict:
     for ev in events:
         if ev["category"] == "process":
             act[ev["process"]][ev["activity"]] += 1
-    allday = []
-    for ev in events:
-        if ev["source"] == "calendar" and ev["meta"].get("is_all_day"):
-            allday.append({"subject": ev["title"], "date": ev["time_local"][:10], "mailbox": ev["mailbox"], "seen_in": ev["seen_in"], "category": ev["category"], "reason": ev["noise_reason"] or ev["activity"]})
+    screen_acts = Counter((ev["activity"], ev["category"]) for ev in events if ev["source"] == "screen" and ev["activity"])
+    allday = [{"subject": ev["title"], "date": ev["time_local"][:10], "mailbox": ev["mailbox"], "category": ev["category"], "reason": ev["noise_reason"] or ev["activity"]} for ev in events if ev["source"] == "calendar" and ev["meta"].get("is_all_day")]
     soft = []
     for ev in events:
         r = ev.get("resolution") or {}
         if r.get("method") in ("fuzzy", "context", "ambiguous", "chat_pair", "initial", "first_name_unique") or (r.get("method") == "unresolved" and r.get("raw_name")):
-            soft.append({
-                "event_id": ev["event_id"], "time_local": ev["time_local"][:16], "activity": ev["activity"], "process": ev["process"],
-                "raw_name": r.get("raw_name"), "method": r["method"], "chosen": name(ev["subject_person_id"]),
-                "candidates": [name(c) for c in r.get("candidates", [])], "filters": r.get("filters"), "note": r.get("note"),
-                "text": (ev["title"] if ev["source"] in ("screen", "calendar") else ev["text"]).split("\n")[0][:110] if ev["source"] != "mail" else f'{ev["title"]} | {" ".join(ev["text"].split())[:80]}',
-            })
-    # unmatched mail / Teams / channel
+            soft.append({"event_id": ev["event_id"], "time_local": ev["time_local"][:16], "activity": ev["activity"], "process": ev["process"], "raw_name": r.get("raw_name"), "method": r["method"], "chosen": name(ev["subject_person_id"]), "candidates": [name(c) for c in r.get("candidates", [])], "reason": r.get("reason")})
     groups: dict = defaultdict(list)
     for ev in events:
         if ev["source"] in ("mail", "teams_chat", "teams_channel") and ev["noise_reason"] == "no rule matched":
             txt = " ".join(ev["text"].split())
-            key = (ev["source"], skeleton(f'{ev["title"] or ""} | {txt}' if ev["source"] == "mail" else txt))
-            groups[key].append(ev)
-    unmatched = []
-    for (src, sk), evs in sorted(groups.items(), key=lambda kv: (-len(kv[1]), kv[0])):
-        e = evs[0]
-        unmatched.append({"source": src, "count": len(evs), "process_hint": bool(R.PROCESS_HINT.search(sk)), "example": (f'{e["title"]} | ' if e["title"] else "") + " ".join(e["text"].split())[:140], "event_ids": [x["event_id"] for x in evs][:3]})
-    screen_unmatched = Counter(ev["title"] for ev in events if ev["source"] == "screen" and ev["noise_reason"] == "no rule matched")
-    unresolved_named = [s for s in soft if s["method"] == "unresolved"]
-    kinds = Counter(p["kind"] for p in reg.people.values())
+            groups[(ev["source"], skeleton(f'{ev["title"] or ""} | {txt}' if ev["source"] == "mail" else txt))].append(ev)
+    unmatched = [{"source": s, "count": len(v), "example": (f'{v[0]["title"]} | ' if v[0]["title"] else "") + " ".join(v[0]["text"].split())[:140]} for (s, _), v in sorted(groups.items(), key=lambda kv: (-len(kv[1]), kv[0]))]
     stages = {
         "raw": sum(ingest["raw_counts"].values()),
-        "after_dedup": len(events),
-        "noise": sum(1 for e in events if e["category"] == "noise"),
-        "out_of_scope": sum(1 for e in events if e["category"] == "out_of_scope"),
-        "context": sum(1 for e in events if e["category"] == "context"),
-        "process": sum(1 for e in events if e["category"] == "process"),
+        "screen_frames": ingest["screen_frames"],
+        "after_dedup_and_sessions": len(events),
+        **{c: sum(1 for e in events if e["category"] == c) for c in ("noise", "out_of_scope", "context", "process")},
     }
-    report = {
+    possible_same = [{"name": d["name"], "ids": d["ids"], "reason": d["reason"]} for d in clean["merges"]["decisions"] if not d["merged"]]
+    merged = [{"name": d["name"], "ids": d["ids"], "reason": d["reason"]} for d in clean["merges"]["decisions"] if d["merged"]]
+    return {
         "stages": stages,
         "raw_by_source": ingest["raw_counts"],
-        "dedup_by_source": ingest["dedup_counts"],
+        "events_by_source": ingest["dedup_counts"],
         "category_by_source": {s: dict(sorted(c.items())) for s, c in sorted(by_src_cat.items())},
         "activity_by_process": {p: dict(sorted(c.items(), key=lambda x: -x[1])) for p, c in sorted(act.items())},
+        "screen_session_activities": {f"{a}/{c}": n for (a, c), n in sorted(screen_acts.items())},
         "all_day_calendar": allday,
         "soft_resolutions": soft,
-        "unresolved_with_name": unresolved_named,
-        "unmatched_text_top30": unmatched[:30],
-        "unmatched_text_total": sum(len(v) for v in groups.values()),
-        "screen_unmatched_titles": dict(screen_unmatched.most_common(15)),
-        "people_by_kind": dict(sorted(kinds.items())),
-        "date_warnings": [{"event_id": e["event_id"], "warnings": e["fields"]["warnings"]} for e in events if e["fields"].get("warnings")],
+        "identity_merged": merged,
+        "possible_same_person": possible_same,
+        "unmatched_text": unmatched,
+        "people_by_kind": dict(sorted(Counter(p["kind"] for p in reg.people.values()).items())),
     }
-    write_json(OUT / "pipeline_report.json", {"phase1": report})
-    return report
 
 
-def run_phase1() -> dict:
+def phase2_report(cases_out: dict) -> dict:
+    cases = cases_out["cases"]
+    per = defaultdict(Counter)
+    for c in cases:
+        per[c["process"]][c["status"]] += 1
+    return {
+        "cases_by_process_status": {p: dict(sorted(v.items())) for p, v in sorted(per.items())},
+        "case_count": len(cases),
+        "step_count": sum(len(c["steps"]) for c in cases),
+        "screen_link_stats": cases_out["doc"]["screen_link_stats"],
+        "unlinked_process_events": cases_out["doc"]["unlinked_process_events"],
+        "out_of_order": [{"case_id": c["case_id"], "issues": c["out_of_order"]} for c in cases if c["out_of_order"]],
+    }
+
+
+def run_all() -> dict:
     ingest = step1_ingest()
     clean = step2_clean(ingest)
-    return phase1_report(ingest, clean)
+    p1 = phase1_report(ingest, clean)
+    cases = step3_cases(clean)
+    p2 = phase2_report(cases)
+    write_json(OUT / "pipeline_report.json", {"phase1": p1, "phase2": p2})
+    return {"phase1": p1, "phase2": p2, "clean": clean, "cases": cases}
 
 
 # --------------------------------------------------------------------------- CLI
 
-STEPS = {"profile": step0_profile, "clean": run_phase1}
+STEPS = {"profile": step0_profile, "run": run_all}
 
 
 def print_profile_table(p: dict) -> None:
@@ -1016,8 +1611,9 @@ def main(argv: list[str]) -> int:
         result = STEPS[name]()
         if name == "profile":
             print_profile_table(result)
-        elif name == "clean":
-            print(json.dumps(result["stages"]))
+        else:
+            print(json.dumps(result["phase1"]["stages"]))
+            print(json.dumps(result["phase2"]["cases_by_process_status"]))
     return 0
 
 
