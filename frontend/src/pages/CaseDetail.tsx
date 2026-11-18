@@ -43,34 +43,34 @@ function StepRow({ c, s, existing, by }: { c: Case; s: CaseStep; existing: Retur
     <li className="relative pl-9">
       <span className="absolute left-0 top-0"><SourceIcon source={s.source} /></span>
       <div className="rounded-lg border border-zinc-200">
-        <div className="flex items-start gap-3 px-3 py-2.5">
-          <button onClick={() => setOpen((o) => !o)} className="flex min-w-0 flex-1 items-start gap-2 text-left" aria-expanded={open}>
-            {open ? <ChevronDown className="mt-0.5 size-4 shrink-0 text-zinc-400" /> : <ChevronRight className="mt-0.5 size-4 shrink-0 text-zinc-400" />}
-            <div className="min-w-0">
+        <div className="px-4 py-3">
+          <button onClick={() => setOpen((o) => !o)} className="flex w-full min-w-0 items-start gap-3 text-left" aria-expanded={open}>
+            {open ? <ChevronDown className="mt-1 size-4 shrink-0 text-zinc-400" /> : <ChevronRight className="mt-1 size-4 shrink-0 text-zinc-400" />}
+            <span className="w-[136px] shrink-0 whitespace-nowrap pt-0.5 text-xs tabular-nums text-zinc-500">{fmtTime(s.time_local)}</span>
+            <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                <span className="text-[13px] font-medium text-zinc-900">{s.label}</span>
+                <span className="text-card text-zinc-900">{s.label}</span>
                 <ConfidenceBadge confidence={s.confidence} likely={s.likely} />
                 {by ? <Badge variant="accent" title="A one-off step by another staff member; the case owner did not change">by {by}</Badge> : <span className="text-xs text-zinc-500">{s.actor_name}</span>}
               </div>
-              {body && <p className="mt-0.5 line-clamp-1 text-xs text-zinc-600">{body}</p>}
-              <p className="mt-0.5 text-xs text-zinc-400">
+              {body && <p className="mt-1 line-clamp-1 text-sm text-zinc-600">{body}</p>}
+              <p className="mt-1 text-xs text-zinc-500">
                 {who && <>{who}. </>}{s.link === "thread" || s.link === "dates" || s.link === "person" ? null : s.link_reason}
                 {s.session && <> Screen session: {s.session.frame_count} frame{s.session.frame_count > 1 ? "s" : ""}, {Math.round(s.session.minutes)} min.</>}
               </p>
             </div>
           </button>
-          <span className="shrink-0 whitespace-nowrap pt-0.5 text-xs tabular-nums text-zinc-500">{fmtTime(s.time_local)}</span>
         </div>
-        <div className="flex items-center justify-between gap-3 border-t border-zinc-100 px-3 py-2">
+        <div className="flex items-center justify-between gap-4 border-t border-zinc-100 px-4 py-2">
           <FeedbackButtons base={{ target: "case_step", case_id: c.case_id, event_id: s.event_id, activity: s.activity, process: c.process }} existing={mine} withComment />
           {!open && <Button variant="link" size="xs" onClick={() => setOpen(true)}>Proof</Button>}
         </div>
         {open && (
-          <div className="space-y-2 border-t border-zinc-100 bg-zinc-50/50 px-3 py-3">
+          <div className="space-y-2 border-t border-zinc-100 bg-zinc-50/50 p-4">
             <div className="text-xs text-zinc-500">
               <span className="font-medium text-zinc-700">Proof</span> · {SOURCE_LABEL[s.source]} · joined this case: {s.link_reason}
             </div>
-            {s.text && s.source !== "screen" && <p className="whitespace-pre-line rounded-lg border border-zinc-200 bg-white px-3 py-2 text-[13px] text-zinc-800">{s.text}</p>}
+            {s.text && s.source !== "screen" && <p className="whitespace-pre-line rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-800">{s.text}</p>}
             <Proof eventId={s.event_id} />
           </div>
         )}
@@ -87,18 +87,18 @@ function SamePerson({ personId }: { personId: string }) {
   if (!other) return null;
   const existing = fb.data?.items.filter((f) => f.target === "identity" && f.person_id === personId && f.other_person_id === other.person_id);
   return (
-    <Card className="mb-4 border-amber-200 bg-amber-50/40">
-      <div className="flex items-start gap-3 px-4 py-3">
-        <UserRoundSearch className="mt-0.5 size-4 shrink-0 text-amber-700" />
+    <Card className="mb-6 border-amber-200 bg-amber-50/40">
+      <div className="flex items-start gap-3 p-5">
+        <UserRoundSearch className="mt-1 size-4 shrink-0 text-amber-700" />
         <div className="flex-1">
-          <div className="text-[13px] font-medium">Is this the same person?</div>
-          <p className="mt-0.5 text-xs text-zinc-600">
+          <div className="text-card">Is this the same person?</div>
+          <p className="mt-1 text-sm text-zinc-600">
             Two records are called {p.data?.display_name}: {p.data?.emails.join(", ")} and {o.data?.emails.join(", ") || "another record"}. They were kept apart because the {other.reason}.
           </p>
-          <div className="mt-2">
+          <div className="mt-4">
             <FeedbackButtons base={{ target: "identity", person_id: personId, other_person_id: other.person_id }} existing={existing} />
           </div>
-          <p className="mt-1 text-[11px] text-zinc-400">Confirm = same person · Reject = different people</p>
+          <p className="mt-2 text-xs text-zinc-500">Confirm = same person · Reject = different people</p>
         </div>
       </div>
     </Card>
@@ -119,9 +119,9 @@ function AddCaseStep({ c }: { c: Case }) {
     });
   return (
     <Card>
-      <CardHeader><CardTitle className="flex items-center gap-1.5"><Plus className="size-3.5" />Add a missing step</CardTitle></CardHeader>
+      <CardHeader><CardTitle className="flex items-center gap-2"><Plus className="size-4" />Add a missing step</CardTitle></CardHeader>
       <CardContent className="space-y-3">
-        <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4">
           <div className="space-y-1">
             <Label htmlFor="as-act">Activity</Label>
             <Select id="as-act" value={activity} onChange={(e) => setActivity(e.target.value)} className="w-full">
@@ -157,7 +157,7 @@ export default function CaseDetail() {
 
   return (
     <>
-      <Link to="/cases" className="mb-3 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-900"><ArrowLeft className="size-3" />Cases</Link>
+      <Link to="/cases" className="mb-4 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-900"><ArrowLeft className="size-4" />Cases</Link>
       <PageHeader
         title={c.subject_name}
         subtitle={
@@ -174,28 +174,28 @@ export default function CaseDetail() {
       <SamePerson personId={c.subject_person_id} />
 
       {(ownFlags.length > 0 || c.related_flags.length > 0 || patterns.length > 0) && (
-        <Card className="mb-5">
+        <Card className="mb-6">
           <CardHeader><CardTitle>Flags</CardTitle></CardHeader>
-          <CardContent className="space-y-2 pt-2">
+          <CardContent className="space-y-2">
             {ownFlags.map((f) => (
-              <div key={f.flag_id} className="flex gap-2 text-[13px]"><AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber-600" /><div><span className="font-medium">{RULE_LABEL[f.rule] ?? f.rule}. </span><span className="text-zinc-700">{sentence(f.message)}</span></div></div>
+              <div key={f.flag_id} className="flex gap-2 text-sm"><AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber-600" /><div><span className="font-medium">{RULE_LABEL[f.rule] ?? f.rule}. </span><span className="text-zinc-700">{sentence(f.message)}</span></div></div>
             ))}
             {c.related_flags.map((f) => (
-              <div key={f.flag_id} className="flex gap-2 text-[13px]">
+              <div key={f.flag_id} className="flex gap-2 text-sm">
                 <AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber-600" />
                 <div><span className="font-medium">On another case: {RULE_LABEL[f.rule] ?? f.rule}. </span><span className="text-zinc-700">{sentence(f.message)} </span>{f.case_id && <Link to={caseHref(f.case_id)} className="text-indigo-600 hover:underline">Open {PROCESS_LABEL[f.process ?? ""]?.toLowerCase()} case</Link>}</div>
               </div>
             ))}
             {patterns.map((p) => (
-              <div key={p.id} className="flex gap-2 text-[13px]"><Lightbulb className="mt-0.5 size-4 shrink-0 text-zinc-400" /><div><span className="font-medium">Part of a pattern: </span><Link to={`/insights#${encodeURIComponent(p.id)}`} className="text-indigo-600 hover:underline">{p.title}</Link><span className="text-zinc-600"> — {sentence(p.per_case.find((x) => x.case_id === c.case_id)?.message ?? "")}</span></div></div>
+              <div key={p.id} className="flex gap-2 text-sm"><Lightbulb className="mt-0.5 size-4 shrink-0 text-zinc-400" /><div><span className="font-medium">Part of a pattern: </span><Link to={`/insights#${encodeURIComponent(p.id)}`} className="text-indigo-600 hover:underline">{p.title}</Link><span className="text-zinc-600"> — {sentence(p.per_case.find((x) => x.case_id === c.case_id)?.message ?? "")}</span></div></div>
             ))}
           </CardContent>
         </Card>
       )}
 
-      <div className="grid grid-cols-3 gap-6">
-        <section className="col-span-2">
-          <h2 className="mb-3 text-[13px] font-semibold">Timeline <span className="font-normal text-zinc-400">· {c.steps.length} steps</span></h2>
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <section className="xl:col-span-2">
+          <h2 className="mb-4 text-section">Timeline <span className="text-base font-normal text-zinc-500">· {c.steps.length} steps</span></h2>
           <ol className="relative space-y-2 before:absolute before:bottom-2 before:left-3 before:top-2 before:w-px before:bg-zinc-200">
             {c.steps.map((s, i) => {
               const marker = own.handoff[i];
@@ -217,17 +217,17 @@ export default function CaseDetail() {
             <p className="mt-2 text-xs text-zinc-500">Order note: {c.out_of_order.map((o) => `${lab(o.later)} came after ${lab(o.earlier).toLowerCase()}`).join("; ")}.</p>
           )}
         </section>
-        <aside className="space-y-4">
+        <aside className="order-first grid grid-cols-2 gap-4 xl:order-none xl:block xl:space-y-4">
           <AddCaseStep c={c} />
           {caseFeedback.length > 0 && (
             <Card>
               <CardHeader><CardTitle>Steps added by staff</CardTitle></CardHeader>
-              <CardContent className="space-y-2 pt-2 text-[13px]">
+              <CardContent className="space-y-2 text-sm">
                 {caseFeedback.map((f) => (
-                  <div key={f.id} className="rounded-lg bg-zinc-50 px-3 py-2">
+                  <div key={f.id} className="rounded-lg bg-zinc-50 px-4 py-2">
                     <div className="flex items-center gap-2"><Badge variant="accent">Added</Badge><span className="font-medium">{f.activity ? lab(f.activity) : "Other step"}</span>{(f.proposed_step as { date?: string })?.date && <span className="text-xs text-zinc-500">{fmtDay((f.proposed_step as { date: string }).date)}</span>}</div>
                     {f.note && <p className="mt-1 text-zinc-700">{f.note}</p>}
-                    <div className="mt-1 text-xs text-zinc-400">{f.user}</div>
+                    <div className="mt-1 text-xs text-zinc-500">{f.user}</div>
                   </div>
                 ))}
               </CardContent>
@@ -235,7 +235,7 @@ export default function CaseDetail() {
           )}
           <Card>
             <CardHeader><CardTitle>Summary</CardTitle></CardHeader>
-            <CardContent className="pt-2 text-[13px] text-zinc-600">{c.summary}</CardContent>
+            <CardContent className="text-sm text-zinc-600">{c.summary}</CardContent>
           </Card>
         </aside>
       </div>

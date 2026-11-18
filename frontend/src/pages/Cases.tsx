@@ -34,10 +34,10 @@ export default function Cases() {
   return (
     <>
       <PageHeader title="Cases" subtitle="One row per leave request, offboarding or onboarding. Newest activity first." />
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <div className="relative w-64">
-          <Search className="pointer-events-none absolute left-2.5 top-2 size-4 text-zinc-400" />
-          <Input value={q} onChange={(e) => set("q", e.target.value)} placeholder="Search person, client, owner" className="pl-8" aria-label="Search" />
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        <div className="relative w-72">
+          <Search className="pointer-events-none absolute left-3 top-2 size-4 text-zinc-400" />
+          <Input value={q} onChange={(e) => set("q", e.target.value)} placeholder="Search person, client, owner" className="pl-9" aria-label="Search" />
         </div>
         <Select value={process} onChange={(e) => set("process", e.target.value)} aria-label="Process">
           <option value="">All processes</option>
@@ -67,14 +67,14 @@ export default function Cases() {
                 const flags = c.flag_count + (inPattern.has(c.case_id) ? 1 : 0);
                 return (
                   <TR key={c.case_id} className="cursor-pointer hover:bg-zinc-50" onClick={() => nav(caseHref(c.case_id))}>
-                    <TD><Link to={caseHref(c.case_id)} className="font-medium text-zinc-900 hover:text-indigo-600" onClick={(e) => e.stopPropagation()}>{c.subject_name}</Link></TD>
+                    <TD className="whitespace-nowrap"><Link to={caseHref(c.case_id)} className="font-medium text-zinc-900 hover:text-indigo-600" onClick={(e) => e.stopPropagation()}>{c.subject_name}</Link></TD>
                     <TD className="text-zinc-600">{PROCESS_LABEL[c.process]}</TD>
-                    <TD className="text-zinc-600">{c.client_name ?? "—"}</TD>
+                    <TD className="whitespace-nowrap text-zinc-600">{c.client_name ?? "—"}</TD>
                     <TD className="whitespace-nowrap text-zinc-600">{c.owner_name ?? "—"}</TD>
                     <TD><StatusBadge status={c.status} /></TD>
                     <TD><WindowBadges before={c.started_before_window} after={c.ends_after_window} /></TD>
                     <TD className="text-right tabular-nums">{c.step_count}</TD>
-                    <TD className="text-right tabular-nums">{flags ? <span className="inline-flex items-center gap-1 text-amber-700"><Flag className="size-3" />{flags}</span> : <span className="text-zinc-300">0</span>}</TD>
+                    <TD className="text-right tabular-nums">{flags ? <span className="inline-flex items-center gap-1 text-amber-700"><Flag className="size-4" />{flags}</span> : <span className="text-zinc-400">0</span>}</TD>
                     <TD className="whitespace-nowrap tabular-nums text-zinc-500">{fmtTime(c.last_activity)}</TD>
                   </TR>
                 );

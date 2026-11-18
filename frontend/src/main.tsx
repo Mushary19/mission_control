@@ -40,7 +40,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               </Route>
             </Routes>
           </BrowserRouter>
-          <Toaster position="bottom-right" toastOptions={{ className: "!rounded-lg !border !border-zinc-200 !text-[13px]" }} />
+          <Toaster position="bottom-right" toastOptions={{ className: "!rounded-lg !border !border-zinc-200 !text-sm" }} />
         </TooltipProvider>
       </ReviewerProvider>
     </QueryClientProvider>

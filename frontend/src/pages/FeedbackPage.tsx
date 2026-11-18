@@ -57,9 +57,9 @@ export default function FeedbackPage() {
                   <TD className="whitespace-nowrap tabular-nums text-zinc-500">{fmtTime(toLocal(f.created_at))}</TD>
                   <TD className="whitespace-nowrap">{f.user}</TD>
                   <TD className="whitespace-nowrap text-zinc-600">{TARGET[f.target]}</TD>
-                  <TD>{what(f)}</TD>
+                  <TD className="min-w-[200px]">{what(f)}</TD>
                   <TD><Badge variant={VERDICT[f.verdict].v}>{VERDICT[f.verdict].label}</Badge></TD>
-                  <TD className="max-w-[320px] text-zinc-600">{f.note || <span className="text-zinc-300">—</span>}</TD>
+                  <TD className="min-w-[200px] max-w-[320px] text-zinc-600">{f.note || <span className="text-zinc-300">—</span>}</TD>
                 </TR>
               ))}
             </TBody>

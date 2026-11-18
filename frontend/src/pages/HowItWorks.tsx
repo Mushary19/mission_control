@@ -21,32 +21,32 @@ export default function HowItWorks() {
   return (
     <>
       <PageHeader title="How it works" subtitle="From raw exports to the screens you are reviewing. Everything runs on this machine; no data is sent anywhere." />
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-3 gap-4 xl:grid-cols-6">
         {steps.map((st, i) => (
-          <div key={st.n} className="relative">
-            <Card className="h-full px-3 py-3">
-              <div className="text-[11px] text-zinc-400">Step {st.n}</div>
-              <div className="text-[13px] font-semibold">{st.title}</div>
-              <div className="mt-2 text-[20px] font-semibold tabular-nums">{st.count === undefined ? "—" : n(st.count)}</div>
-              <div className="text-[11px] text-zinc-500">{st.unit}</div>
-              <p className="mt-2 text-[11px] leading-snug text-zinc-500">{st.note}</p>
-              <a href={`/api/files/${st.file}`} target="_blank" rel="noreferrer" className="mt-2 flex items-center gap-1 font-mono text-[11px] text-indigo-600 hover:underline"><FileJson className="size-3" />out/{st.file}</a>
+          <div key={st.n} className="relative h-full">
+            <Card className="flex h-full flex-col p-5">
+              <div className="text-xs text-zinc-500">Step {st.n}</div>
+              <div className="text-card text-zinc-900">{st.title}</div>
+              <div className="mt-2 text-stat tabular-nums">{st.count === undefined ? "—" : n(st.count)}</div>
+              <div className="text-xs text-zinc-500">{st.unit}</div>
+              <p className="mt-2 text-xs text-zinc-600">{st.note}</p>
+              <a href={`/api/files/${st.file}`} target="_blank" rel="noreferrer" className="mt-auto flex items-center gap-1 pt-4 font-mono text-micro text-indigo-600 hover:underline"><FileJson className="size-4 shrink-0" />out/{st.file}</a>
             </Card>
-            {i < steps.length - 1 && <ArrowRight className="absolute -right-2 top-1/2 z-10 size-3.5 -translate-y-1/2 bg-white text-zinc-300" />}
+            {i < steps.length - 1 && <ArrowRight className="absolute -right-4 top-1/2 z-10 hidden size-4 -translate-y-1/2 text-zinc-300 xl:block" />}
           </div>
         ))}
       </div>
-      <p className="mt-2 text-xs text-zinc-500">
+      <p className="mt-4 text-xs text-zinc-500">
         All output files (committed under <span className="font-mono">out/</span>, opened read-only):{" "}
         {meta.data.out_files.map((f, i) => (
           <span key={f}>{i > 0 && ", "}<a href={`/api/files/${f}`} target="_blank" rel="noreferrer" className="font-mono text-indigo-600 hover:underline">{f}</a></span>
         ))}
       </p>
 
-      <div className="mt-6 grid grid-cols-2 gap-4">
+      <div className="mt-8 grid grid-cols-2 gap-4">
         <Card>
           <CardHeader><CardTitle>Rules, in short</CardTitle></CardHeader>
-          <CardContent className="space-y-2 pt-2 text-[13px] text-zinc-700">
+          <CardContent className="space-y-2 text-sm text-zinc-700">
             <p><strong className="font-medium">Activities</strong> come from fixed text rules (the messages are templated), e.g. “Is that ok on your side?” = Client asked; “Got …'s laptop back, wiped” = Laptop received.</p>
             <p><strong className="font-medium">Screen windows</strong> are read by title and address only (the app name is unreliable). Frames of the same window within 10 minutes form one session.</p>
             <p><strong className="font-medium">Names</strong> are matched in this order: email address, full name, first name + initial, first name or typo with case context. When more than one person still fits, the record stays “ambiguous”.</p>
@@ -56,9 +56,9 @@ export default function HowItWorks() {
         </Card>
         <Card>
           <CardHeader><CardTitle>Honesty rules</CardTitle></CardHeader>
-          <CardContent className="space-y-3 pt-2 text-[13px] text-zinc-700">
+          <CardContent className="space-y-3 text-sm text-zinc-700">
             <p><strong className="font-medium">{meta.data.coverage.label}</strong> Not exported: {meta.data.coverage.not_exported.map((x) => `${x.name} (${x.job_title})`).join(", ")}. Steps that happen only in their mailboxes are missing.</p>
-            <p className="flex flex-wrap items-center gap-1.5">Every step shows its evidence strength: <ConfidenceBadge confidence="high" /> explicit message, <ConfidenceBadge confidence="medium" /> calendar or name matched by context, <ConfidenceBadge confidence="low" likely /> seen on screen or linked by time.</p>
+            <p className="flex flex-wrap items-center gap-2">Every step shows its evidence strength: <ConfidenceBadge confidence="high" /> explicit message, <ConfidenceBadge confidence="medium" /> calendar or name matched by context, <ConfidenceBadge confidence="low" likely /> seen on screen or linked by time.</p>
             <p><strong className="font-medium">A screen shows what was open, not what was done.</strong> Screen steps are always “Likely”.</p>
             <p><strong className="font-medium">Window badges.</strong> The export covers 2–29 March. “Started before 2 Mar” and “Continues after 29 Mar” mean steps are outside the data, not missing.</p>
             <p><strong className="font-medium">Every step links to its raw record</strong> (“Proof”), read from the export unchanged.</p>

@@ -16,12 +16,12 @@ export default function Insights() {
   return (
     <>
       <PageHeader title="Insights" subtitle="Patterns repeat across many cases and point at the process. Case flags are one-off and point at a single case." />
-      <h2 className="mb-2 text-[13px] font-semibold">Process patterns <span className="font-normal text-zinc-400">· {patterns.length}</span></h2>
-      <div className="space-y-3">{patterns.map((i) => <InsightCard key={i.id} insight={i} cases={cases.data} feedback={fb.data?.items} highlight={focus === i.id} />)}</div>
-      <h2 className="mb-2 mt-8 text-[13px] font-semibold">Case flags <span className="font-normal text-zinc-400">· {flags.length}</span></h2>
+      <h2 className="mb-4 text-section">Process patterns <span className="text-base font-normal text-zinc-500">· {patterns.length}</span></h2>
+      <div className="space-y-4">{patterns.map((i) => <InsightCard key={i.id} insight={i} cases={cases.data} feedback={fb.data?.items} highlight={focus === i.id} />)}</div>
+      <h2 className="mb-4 mt-8 text-section">Case flags <span className="text-base font-normal text-zinc-500">· {flags.length}</span></h2>
       {flags.length === 0 ? <Empty>No case flags.</Empty> : Object.entries(groups).map(([title, fs]) => (
-        <section key={title} className="mb-5">
-          <h3 className="mb-2 text-xs font-medium uppercase tracking-wide text-zinc-500">{title} · {fs.length}</h3>
+        <section key={title} className="mb-6">
+          <h3 className="mb-2 text-card text-zinc-600">{title} · {fs.length}</h3>
           <div className="space-y-2">{fs.map((i) => <InsightCard key={i.id} insight={i} cases={cases.data} feedback={fb.data?.items} highlight={focus === i.id} />)}</div>
         </section>
       ))}

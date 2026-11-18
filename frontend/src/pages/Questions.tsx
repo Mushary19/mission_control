@@ -16,8 +16,8 @@ export default function Questions() {
       <div className="space-y-8">
         {procs.map((p) => (
           <section key={p.data!.process}>
-            <h2 className="mb-2 text-[13px] font-semibold">{p.data!.label}</h2>
-            <div className="grid grid-cols-2 gap-3">{p.data!.open_questions.map((q) => <QuestionCard key={q.id} q={q} feedback={fb.data?.items} />)}</div>
+            <h2 className="mb-4 text-section">{p.data!.label}</h2>
+            <div className="grid grid-cols-2 gap-4">{p.data!.open_questions.map((q) => <QuestionCard key={q.id} q={q} feedback={fb.data?.items} />)}</div>
           </section>
         ))}
       </div>

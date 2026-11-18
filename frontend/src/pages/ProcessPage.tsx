@@ -33,23 +33,23 @@ function ProcessMap({ model, onPick }: { model: ProcessDetail; onPick: (s: Proce
   return (
     <div>
       <div className="overflow-x-auto pb-2">
-        <ol className="flex min-w-max items-stretch">
+        <ol className="flex w-full items-stretch">
           {path.map((s, i) => (
-            <li key={s.activity} className="flex items-stretch">
+            <li key={s.activity} className="flex min-w-fit flex-1 items-stretch last:flex-none">
               <button
                 onClick={() => onPick(s)}
-                className="flex w-[150px] flex-col rounded-lg border border-zinc-200 bg-white px-3 py-2.5 text-left hover:border-indigo-600"
+                className="flex w-[160px] shrink-0 flex-col items-center justify-center rounded-lg border border-zinc-200 bg-white px-4 py-4 text-center hover:border-indigo-600"
               >
-                <span className="text-[11px] tabular-nums text-zinc-400">{i + 1}</span>
-                <span className="mt-0.5 line-clamp-2 min-h-[36px] text-[13px] font-medium leading-snug text-zinc-900">{s.label}</span>
+                <span className="text-xs tabular-nums text-zinc-500">{i + 1}</span>
+                <span className="mt-1 flex min-h-[48px] items-center"><span className="line-clamp-2 text-card text-zinc-900">{s.label}</span></span>
                 <span className="mt-1 text-xs tabular-nums text-zinc-500">{Math.round(s.support_pct)}% of cases</span>
-                <div className="mt-2"><ConfMix mix={s.confidence_mix} /></div>
+                <div className="mt-2 w-full"><ConfMix mix={s.confidence_mix} /></div>
               </button>
               {i < path.length - 1 && (
-                <div className="flex w-[64px] flex-col items-center justify-center">
-                  <span className="mb-1 text-[11px] tabular-nums text-zinc-500">{fmtHours(s.median_to_next_h)}</span>
-                  <svg width="56" height="10" viewBox="0 0 56 10" aria-hidden><path d="M0 5h50" stroke="#a1a1aa" strokeWidth="1" /><path d="M48 1l6 4-6 4" fill="none" stroke="#a1a1aa" strokeWidth="1" /></svg>
-                  <span className="mt-1 text-[10px] text-zinc-400">median</span>
+                <div className="flex min-w-[64px] flex-1 flex-col items-center justify-center">
+                  <span className="mb-1 h-5 text-xs tabular-nums text-zinc-500">{fmtHours(s.median_to_next_h)}</span>
+                  <div className="flex w-full items-center px-2" aria-hidden><div className="h-px flex-1 bg-zinc-400" /><svg width="6" height="10" viewBox="0 0 6 10" className="-ml-px shrink-0"><path d="M0 1l6 4-6 4" fill="none" stroke="#a1a1aa" strokeWidth="1" /></svg></div>
+                  <span className="mt-1 h-5 text-xs text-zinc-500">median</span>
                 </div>
               )}
             </li>
@@ -57,18 +57,18 @@ function ProcessMap({ model, onPick }: { model: ProcessDetail; onPick: (s: Proce
         </ol>
       </div>
       {optional.length > 0 && (
-        <div className="mt-4">
+        <div className="mt-6">
           <div className="mb-2 text-xs text-zinc-500">Optional or less common steps (under 50% of cases, or off the main path)</div>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-2">
             {optional.map((s) => (
-              <button key={s.activity} onClick={() => onPick(s)} className="rounded-md border border-dashed border-zinc-300 px-2 py-1 text-xs text-zinc-600 hover:border-indigo-600 hover:text-indigo-600">
-                {s.label} <span className="tabular-nums text-zinc-400">{Math.round(s.support_pct)}%</span>{s.screen_only && <span className="ml-1 text-zinc-400">· screen</span>}
+              <button key={s.activity} onClick={() => onPick(s)} className="inline-flex h-8 items-center gap-1 rounded-md border border-dashed border-zinc-300 px-3 text-xs text-zinc-600 hover:border-indigo-600 hover:text-indigo-600">
+                {s.label} <span className="tabular-nums text-zinc-500">{Math.round(s.support_pct)}%</span>{s.screen_only && <span className="text-zinc-500">· screen</span>}
               </button>
             ))}
           </div>
         </div>
       )}
-      <div className="mt-4 flex items-center gap-4 text-[11px] text-zinc-500">
+      <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-zinc-500">
         <span className="flex items-center gap-1.5"><span className="h-1.5 w-4 rounded-full bg-zinc-900" />High</span>
         <span className="flex items-center gap-1.5"><span className="h-1.5 w-4 rounded-full bg-zinc-400" />Medium</span>
         <span className="flex items-center gap-1.5"><span className="h-1.5 w-4 rounded-full bg-[repeating-linear-gradient(90deg,#a1a1aa_0_2px,transparent_2px_4px)]" />Likely</span>
@@ -98,29 +98,29 @@ function StepPanel({ model, step, onClose }: { model: ProcessDetail; step: Proce
   return (
     <Sheet open={!!step} onOpenChange={(o) => !o && onClose()} title={step?.label ?? ""} description={step ? `${Math.round(step.support_pct)}% of ${model.label.toLowerCase()} cases (${step.case_count})` : ""}>
       {step && (
-        <div className="space-y-5">
-          <dl className="grid grid-cols-2 gap-3 text-xs">
-            <div><dt className="text-zinc-500">Median from case start</dt><dd className="mt-0.5 text-[13px] font-medium">{fmtHours(step.median_from_case_start_h)}</dd></div>
-            <div><dt className="text-zinc-500">Median to next step</dt><dd className="mt-0.5 text-[13px] font-medium">{fmtHours(step.median_to_next_h)}</dd></div>
-            <div className="col-span-2"><dt className="mb-1 text-zinc-500">Confidence of the evidence</dt><dd><ConfMix mix={step.confidence_mix} /></dd></div>
+        <div className="space-y-6">
+          <dl className="grid grid-cols-2 gap-4 text-xs">
+            <div><dt className="text-zinc-500">Median from case start</dt><dd className="mt-1 text-base font-medium">{fmtHours(step.median_from_case_start_h)}</dd></div>
+            <div><dt className="text-zinc-500">Median to next step</dt><dd className="mt-1 text-base font-medium">{fmtHours(step.median_to_next_h)}</dd></div>
+            <div className="col-span-2"><dt className="mb-2 text-zinc-500">Confidence of the evidence</dt><dd><ConfMix mix={step.confidence_mix} /></dd></div>
           </dl>
           <section>
-            <h4 className="mb-2 text-xs font-medium text-zinc-600">Is this step right?</h4>
+            <h4 className="mb-2 text-card text-zinc-900">Is this step right?</h4>
             <FeedbackButtons base={{ target: "process_step", process: model.process, activity: step.activity }} existing={existing} withComment size="sm" />
           </section>
           <section>
-            <h4 className="mb-2 text-xs font-medium text-zinc-600">Example evidence</h4>
+            <h4 className="mb-2 text-card text-zinc-900">Example evidence</h4>
             {qs.some((q) => q.isLoading) && examples.length < 3 && <Loading rows={3} />}
             <ul className="space-y-2">
               {examples.map(({ c, s }) => (
-                <li key={s!.event_id} className="rounded-lg border border-zinc-200 p-3">
+                <li key={s!.event_id} className="rounded-lg border border-zinc-200 p-4">
                   <div className="flex items-center gap-2">
                     <SourceIcon source={s!.source} />
-                    <Link to={caseHref(c.case_id)} className="text-[13px] font-medium text-indigo-600 hover:underline">{c.subject_name}</Link>
+                    <Link to={caseHref(c.case_id)} className="text-sm font-medium text-indigo-600 hover:underline">{c.subject_name}</Link>
                     <span className="ml-auto"><ConfidenceBadge confidence={s!.confidence} likely={s!.likely} /></span>
                   </div>
                   <div className="mt-1 text-xs text-zinc-500">{fmtTime(s!.time_local)} · {s!.actor_name}</div>
-                  <p className="mt-1.5 line-clamp-3 text-[13px] text-zinc-700">{s!.title && s!.source !== "teams_chat" ? s!.title : s!.text}</p>
+                  <p className="mt-2 line-clamp-3 text-sm text-zinc-700">{s!.title && s!.source !== "teams_chat" ? s!.title : s!.text}</p>
                   <Button variant="link" size="xs" className="mt-1" onClick={() => setProof(proof === s!.event_id ? null : s!.event_id)}>{proof === s!.event_id ? "Hide proof" : "Show proof"}</Button>
                   {proof === s!.event_id && <div className="mt-2"><Proof eventId={s!.event_id} /></div>}
                 </li>
@@ -189,7 +189,7 @@ export default function ProcessPage() {
         right={<Button variant="outline" onClick={() => setAdding(true)}><Plus />Add a missing step</Button>}
       />
 
-      <div className="mb-4 flex flex-wrap gap-4 text-xs text-zinc-500">
+      <div className="mb-6 flex flex-wrap items-baseline gap-x-6 gap-y-2 text-sm text-zinc-500">
         <span><strong className="font-semibold text-zinc-900 tabular-nums">{m.case_count}</strong> cases</span>
         {Object.entries(m.status_counts).map(([k, v]) => <span key={k}>{STATUS_LABEL[k]} <strong className="font-semibold tabular-nums text-zinc-900">{v}</strong></span>)}
         <span>Started before 2 Mar <strong className="font-semibold tabular-nums text-zinc-900">{m.window_badges.started_before_window}</strong></span>
@@ -198,33 +198,33 @@ export default function ProcessPage() {
       </div>
 
       <Card>
-        <CardHeader><CardTitle>Process map</CardTitle><span className="text-xs text-zinc-400">Click a step for evidence and to confirm or reject it</span></CardHeader>
+        <CardHeader><CardTitle>Process map</CardTitle><span className="text-xs text-zinc-500">Click a step for evidence and to confirm or reject it</span></CardHeader>
         <CardContent>
           <ProcessMap model={m} onPick={setPick} />
-          <p className="mt-3 text-xs text-zinc-400">How the path was found: {m.main_path.method}.</p>
+          <p className="mt-4 text-xs text-zinc-500">How the path was found: {m.main_path.method}.</p>
         </CardContent>
       </Card>
 
-      <div className="mt-6 grid grid-cols-5 gap-6">
-        <section className="col-span-3">
-          <h2 className="mb-2 text-[13px] font-semibold">Variants</h2>
+      <div className="mt-8 grid grid-cols-1 gap-8 xl:grid-cols-5 xl:gap-6">
+        <section className="xl:col-span-3">
+          <h2 className="mb-4 text-section">Variants</h2>
           <Card className="divide-y divide-zinc-100">
             {m.variants.slice(0, allVariants ? undefined : 6).map((v, i) => (
               <div key={i}>
-                <button onClick={() => setOpen(open === i ? null : i)} className="flex w-full items-start gap-3 px-4 py-3 text-left hover:bg-zinc-50" aria-expanded={open === i}>
-                  {open === i ? <ChevronDown className="mt-0.5 size-4 shrink-0 text-zinc-400" /> : <ChevronRight className="mt-0.5 size-4 shrink-0 text-zinc-400" />}
+                <button onClick={() => setOpen(open === i ? null : i)} className="flex w-full items-start gap-3 px-5 py-4 text-left hover:bg-zinc-50" aria-expanded={open === i}>
+                  {open === i ? <ChevronDown className="mt-1 size-4 shrink-0 text-zinc-400" /> : <ChevronRight className="mt-1 size-4 shrink-0 text-zinc-400" />}
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-1 text-xs text-zinc-700">
                       {v.path.map((a, j) => (
-                        <React.Fragment key={j}>{j > 0 && <span className="text-zinc-300">→</span>}<span className="rounded bg-zinc-100 px-1.5 py-0.5">{label[a] ?? a}</span></React.Fragment>
+                        <React.Fragment key={j}>{j > 0 && <span className="text-zinc-300">→</span>}<span className="whitespace-nowrap rounded bg-zinc-100 px-2 py-0.5">{label[a] ?? a}</span></React.Fragment>
                       ))}
                     </div>
-                    <div className="mt-1.5 flex gap-1">{Object.entries(v.statuses).map(([k, n]) => <span key={k} className="text-[11px] text-zinc-500">{STATUS_LABEL[k]} {n}</span>)}</div>
+                    <div className="mt-2 flex gap-3">{Object.entries(v.statuses).map(([k, n]) => <span key={k} className="text-xs text-zinc-500">{STATUS_LABEL[k]} {n}</span>)}</div>
                   </div>
-                  <span className="text-[13px] font-semibold tabular-nums">{v.count}</span>
+                  <span className="w-8 shrink-0 text-right text-base font-semibold tabular-nums">{v.count}</span>
                 </button>
                 {open === i && (
-                  <div className="flex flex-wrap gap-1.5 px-11 pb-3">
+                  <div className="flex flex-wrap gap-2 pb-4 pl-12 pr-5">
                     {v.case_ids.map((id) => <Link key={id} to={caseHref(id)} className="rounded-md border border-zinc-200 px-2 py-0.5 text-xs hover:border-indigo-600 hover:text-indigo-600">{name(id)}</Link>)}
                   </div>
                 )}
@@ -232,18 +232,18 @@ export default function ProcessPage() {
             ))}
           </Card>
           {m.variants.length > 6 && <Button variant="link" size="xs" className="mt-2" onClick={() => setAllVariants((x) => !x)}>{allVariants ? "Show fewer" : `Show all ${m.variants.length} variants`}</Button>}
-          <p className="mt-2 text-xs text-zinc-400">Variants use explicit steps only (screen steps are left out); repeats are collapsed.</p>
+          <p className="mt-2 text-xs text-zinc-500">Variants use explicit steps only (screen steps are left out); repeats are collapsed.</p>
         </section>
-        <section className="col-span-2 space-y-3">
-          <h2 className="text-[13px] font-semibold">Open questions for staff</h2>
-          {m.open_questions.map((oq) => <QuestionCard key={oq.id} q={oq} feedback={fb.data?.items} />)}
+        <section className="xl:col-span-2">
+          <h2 className="mb-4 text-section">Open questions for staff</h2>
+          <div className="grid grid-cols-2 gap-4 xl:grid-cols-1">{m.open_questions.map((oq) => <QuestionCard key={oq.id} q={oq} feedback={fb.data?.items} />)}</div>
         </section>
       </div>
 
-      <section className="mt-6">
-        <h2 className="mb-2 text-[13px] font-semibold">Insights</h2>
+      <section className="mt-8">
+        <h2 className="mb-4 text-section">Insights</h2>
         {m.insights.length === 0 ? <Empty>No insights for this process.</Empty> : (
-          <div className="space-y-3">{m.insights.map((i) => <InsightCard key={i.id} insight={i} cases={cases.data} feedback={fb.data?.items} />)}</div>
+          <div className="space-y-4">{m.insights.map((i) => <InsightCard key={i.id} insight={i} cases={cases.data} feedback={fb.data?.items} />)}</div>
         )}
       </section>
 

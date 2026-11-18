@@ -27,35 +27,35 @@ export function InsightCard({ insight, cases, feedback, highlight }: { insight: 
   const mine = feedback?.filter((f) => f.target === "insight" && f.insight_id === insight.id);
   return (
     <Card ref={ref} id={insight.id} className={highlight ? "border-indigo-600" : undefined}>
-      <div className="flex gap-3 px-4 py-4">
-        <Icon className={`mt-0.5 size-4 shrink-0 ${insight.severity === "warning" ? "text-amber-600" : "text-zinc-400"}`} />
+      <div className="flex gap-3 p-5">
+        <Icon className={`mt-1 size-4 shrink-0 ${insight.severity === "warning" ? "text-amber-600" : "text-zinc-400"}`} />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="text-[14px] font-semibold">{insight.title}</h3>
+            <h3 className="text-card text-zinc-900">{insight.title}</h3>
             <Badge variant="muted">{PROCESS_LABEL[insight.process ?? ""]}</Badge>
             {insight.kind === "process_insight" && <Badge variant="accent">Pattern</Badge>}
           </div>
-          <p className="mt-1 text-[13px] text-zinc-700">{insight.kind === "process_insight" ? insight.message.split(" Systemic because")[0] : insight.message}</p>
+          <p className="mt-1 text-base text-zinc-700">{insight.kind === "process_insight" ? insight.message.split(" Systemic because")[0] : insight.message}</p>
           {insight.kind === "process_insight" && (
             <p className="mt-2 text-xs text-zinc-500"><span className="font-medium text-zinc-600">Why this is a pattern: </span>{patternReason(insight)}</p>
           )}
           {insight.per_case.length > 0 ? (
-            <ul className="mt-3 divide-y divide-zinc-100 rounded-lg border border-zinc-200">
+            <ul className="mt-4 divide-y divide-zinc-100 rounded-lg border border-zinc-200">
               {insight.per_case.map((p) => (
-                <li key={p.case_id} className="flex items-baseline gap-3 px-3 py-2 text-[13px]">
-                  <Link to={caseHref(p.case_id)} className="w-40 shrink-0 font-medium text-indigo-600 hover:underline">{p.person_name ?? name(p.case_id)}</Link>
+                <li key={p.case_id} className="flex items-baseline gap-4 px-4 py-2 text-sm">
+                  <Link to={caseHref(p.case_id)} className="w-48 shrink-0 font-medium text-indigo-600 hover:underline">{p.person_name ?? name(p.case_id)}</Link>
                   <span className="text-zinc-600">{(() => { const t = p.message.replace(/^[^:]+:\s*/, ""); return t.charAt(0).toUpperCase() + t.slice(1); })()}</span>
                 </li>
               ))}
             </ul>
           ) : insight.affected_case_ids.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-1.5">
+            <div className="mt-4 flex flex-wrap gap-2">
               {insight.affected_case_ids.map((id) => (
                 <Link key={id} to={caseHref(id)} className="rounded-md border border-zinc-200 px-2 py-0.5 text-xs text-zinc-700 hover:border-indigo-600 hover:text-indigo-600">{name(id)}</Link>
               ))}
             </div>
           )}
-          <div className="mt-3"><FeedbackButtons base={{ target: "insight", insight_id: insight.id, process: insight.process }} existing={mine} withComment /></div>
+          <div className="mt-4"><FeedbackButtons base={{ target: "insight", insight_id: insight.id, process: insight.process }} existing={mine} withComment /></div>
         </div>
       </div>
     </Card>
@@ -73,20 +73,20 @@ export function QuestionCard({ q, feedback }: { q: OpenQuestion; feedback?: Feed
       onError: (e) => toast.error(e.message),
     });
   return (
-    <Card className="px-4 py-4">
-      <h3 className="text-[14px] font-medium text-zinc-900">{q.question}</h3>
+    <Card className="flex flex-col p-5">
+      <h3 className="text-card text-zinc-900">{q.question}</h3>
       <p className="mt-1 text-xs text-zinc-500">{q.why}</p>
       {answers.length > 0 && (
-        <ul className="mt-3 space-y-2">
+        <ul className="mt-4 space-y-2">
           {answers.map((a) => (
-            <li key={a.id} className="rounded-lg bg-zinc-50 px-3 py-2 text-[13px]">
+            <li key={a.id} className="rounded-lg bg-zinc-50 px-4 py-2 text-sm">
               <div className="text-xs text-zinc-500">{a.user} · {fmtTime(toLocal(a.created_at))}</div>
               <div className="mt-0.5 text-zinc-800">{a.note}</div>
             </li>
           ))}
         </ul>
       )}
-      <div className="mt-3 flex items-end gap-2">
+      <div className="mt-auto flex items-end gap-2 pt-4">
         <Textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="Your answer" className="min-h-[40px]" aria-label={`Answer: ${q.question}`} />
         <Button onClick={save} disabled={!text.trim() || post.isPending}>Save</Button>
       </div>
