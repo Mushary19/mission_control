@@ -12,9 +12,9 @@ export function Sheet({ open, onOpenChange, title, description, children }: { op
           <div className="flex items-start justify-between gap-3 border-b border-zinc-200 px-6 py-4">
             <div>
               <D.Title className="text-section">{title}</D.Title>
-              {description && <D.Description className="mt-1 text-xs text-zinc-500">{description}</D.Description>}
+              {description && <D.Description className="mt-1 text-sm text-zinc-600">{description}</D.Description>}
             </div>
-            <D.Close className="rounded-md p-1 text-zinc-500 hover:bg-zinc-100" aria-label="Close"><X className="size-4" /></D.Close>
+            <D.Close className="rounded-md p-1 text-zinc-600 hover:bg-zinc-100" aria-label="Close"><X className="size-4" /></D.Close>
           </div>
           <div className="flex-1 overflow-y-auto px-6 py-6">{children}</div>
         </D.Content>

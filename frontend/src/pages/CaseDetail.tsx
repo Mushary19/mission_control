@@ -45,16 +45,16 @@ function StepRow({ c, s, existing, by }: { c: Case; s: CaseStep; existing: Retur
       <div className="rounded-lg border border-zinc-200">
         <div className="px-4 py-3">
           <button onClick={() => setOpen((o) => !o)} className="flex w-full min-w-0 items-start gap-3 text-left" aria-expanded={open}>
-            {open ? <ChevronDown className="mt-1 size-4 shrink-0 text-zinc-400" /> : <ChevronRight className="mt-1 size-4 shrink-0 text-zinc-400" />}
-            <span className="w-[136px] shrink-0 whitespace-nowrap pt-0.5 text-xs tabular-nums text-zinc-500">{fmtTime(s.time_local)}</span>
+            {open ? <ChevronDown className="mt-1 size-4 shrink-0 text-zinc-600" /> : <ChevronRight className="mt-1 size-4 shrink-0 text-zinc-600" />}
+            <span className="w-[8.5rem] shrink-0 whitespace-nowrap pt-0.5 text-sm tabular-nums text-zinc-600">{fmtTime(s.time_local)}</span>
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                 <span className="text-card text-zinc-900">{s.label}</span>
                 <ConfidenceBadge confidence={s.confidence} likely={s.likely} />
-                {by ? <Badge variant="accent" title="A one-off step by another staff member; the case owner did not change">by {by}</Badge> : <span className="text-xs text-zinc-500">{s.actor_name}</span>}
+                {by ? <Badge variant="accent" title="A one-off step by another staff member; the case owner did not change">by {by}</Badge> : <span className="text-sm text-zinc-600">{s.actor_name}</span>}
               </div>
-              {body && <p className="mt-1 line-clamp-1 text-sm text-zinc-600">{body}</p>}
-              <p className="mt-1 text-xs text-zinc-500">
+              {body && <p className="mt-1 text-sm text-zinc-600">{body}</p>}
+              <p className="mt-1 text-sm text-zinc-600">
                 {who && <>{who}. </>}{s.link === "thread" || s.link === "dates" || s.link === "person" ? null : s.link_reason}
                 {s.session && <> Screen session: {s.session.frame_count} frame{s.session.frame_count > 1 ? "s" : ""}, {Math.round(s.session.minutes)} min.</>}
               </p>
@@ -67,7 +67,7 @@ function StepRow({ c, s, existing, by }: { c: Case; s: CaseStep; existing: Retur
         </div>
         {open && (
           <div className="space-y-2 border-t border-zinc-100 bg-zinc-50/50 p-4">
-            <div className="text-xs text-zinc-500">
+            <div className="text-sm text-zinc-600">
               <span className="font-medium text-zinc-700">Proof</span> · {SOURCE_LABEL[s.source]} · joined this case: {s.link_reason}
             </div>
             {s.text && s.source !== "screen" && <p className="whitespace-pre-line rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-800">{s.text}</p>}
@@ -98,7 +98,7 @@ function SamePerson({ personId }: { personId: string }) {
           <div className="mt-4">
             <FeedbackButtons base={{ target: "identity", person_id: personId, other_person_id: other.person_id }} existing={existing} />
           </div>
-          <p className="mt-2 text-xs text-zinc-500">Confirm = same person · Reject = different people</p>
+          <p className="mt-2 text-sm text-zinc-600">Confirm = same person · Reject = different people</p>
         </div>
       </div>
     </Card>
@@ -157,7 +157,7 @@ export default function CaseDetail() {
 
   return (
     <>
-      <Link to="/cases" className="mb-4 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-900"><ArrowLeft className="size-4" />Cases</Link>
+      <Link to="/cases" className="mb-4 inline-flex items-center gap-1 text-sm text-zinc-600 hover:text-zinc-900"><ArrowLeft className="size-4" />Cases</Link>
       <PageHeader
         title={c.subject_name}
         subtitle={
@@ -187,7 +187,7 @@ export default function CaseDetail() {
               </div>
             ))}
             {patterns.map((p) => (
-              <div key={p.id} className="flex gap-2 text-sm"><Lightbulb className="mt-0.5 size-4 shrink-0 text-zinc-400" /><div><span className="font-medium">Part of a pattern: </span><Link to={`/insights#${encodeURIComponent(p.id)}`} className="text-indigo-600 hover:underline">{p.title}</Link><span className="text-zinc-600"> — {sentence(p.per_case.find((x) => x.case_id === c.case_id)?.message ?? "")}</span></div></div>
+              <div key={p.id} className="flex gap-2 text-sm"><Lightbulb className="mt-0.5 size-4 shrink-0 text-zinc-600" /><div><span className="font-medium">Part of a pattern: </span><Link to={`/insights#${encodeURIComponent(p.id)}`} className="text-indigo-600 hover:underline">{p.title}</Link><span className="text-zinc-600"> — {sentence(p.per_case.find((x) => x.case_id === c.case_id)?.message ?? "")}</span></div></div>
             ))}
           </CardContent>
         </Card>
@@ -195,15 +195,15 @@ export default function CaseDetail() {
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <section className="xl:col-span-2">
-          <h2 className="mb-4 text-section">Timeline <span className="text-base font-normal text-zinc-500">· {c.steps.length} steps</span></h2>
+          <h2 className="mb-4 text-section">Timeline <span className="text-base font-normal text-zinc-600">· {c.steps.length} steps</span></h2>
           <ol className="relative space-y-2 before:absolute before:bottom-2 before:left-3 before:top-2 before:w-px before:bg-zinc-200">
             {c.steps.map((s, i) => {
               const marker = own.handoff[i];
               return (
                 <React.Fragment key={s.event_id}>
                   {marker && (
-                    <li className="relative flex items-center gap-2 pl-9 text-xs font-medium text-indigo-700">
-                      <span className="absolute left-0 flex size-6 items-center justify-center rounded-md border border-indigo-200 bg-indigo-50"><ArrowRightLeft className="size-3.5" /></span>
+                    <li className="relative flex items-center gap-2 pl-9 text-sm font-medium text-indigo-700">
+                      <span className="absolute left-0 flex size-6 items-center justify-center rounded-md border border-indigo-200 bg-indigo-50"><ArrowRightLeft className="size-4" /></span>
                       Handoff: {marker}
                     </li>
                   )}
@@ -214,7 +214,7 @@ export default function CaseDetail() {
           </ol>
           <TimeNote />
           {c.out_of_order.length > 0 && (
-            <p className="mt-2 text-xs text-zinc-500">Order note: {c.out_of_order.map((o) => `${lab(o.later)} came after ${lab(o.earlier).toLowerCase()}`).join("; ")}.</p>
+            <p className="mt-2 text-sm text-zinc-600">Order note: {c.out_of_order.map((o) => `${lab(o.later)} came after ${lab(o.earlier).toLowerCase()}`).join("; ")}.</p>
           )}
         </section>
         <aside className="order-first grid grid-cols-2 gap-4 xl:order-none xl:block xl:space-y-4">
@@ -225,9 +225,9 @@ export default function CaseDetail() {
               <CardContent className="space-y-2 text-sm">
                 {caseFeedback.map((f) => (
                   <div key={f.id} className="rounded-lg bg-zinc-50 px-4 py-2">
-                    <div className="flex items-center gap-2"><Badge variant="accent">Added</Badge><span className="font-medium">{f.activity ? lab(f.activity) : "Other step"}</span>{(f.proposed_step as { date?: string })?.date && <span className="text-xs text-zinc-500">{fmtDay((f.proposed_step as { date: string }).date)}</span>}</div>
+                    <div className="flex items-center gap-2"><Badge variant="accent">Added</Badge><span className="font-medium">{f.activity ? lab(f.activity) : "Other step"}</span>{(f.proposed_step as { date?: string })?.date && <span className="text-sm text-zinc-600">{fmtDay((f.proposed_step as { date: string }).date)}</span>}</div>
                     {f.note && <p className="mt-1 text-zinc-700">{f.note}</p>}
-                    <div className="mt-1 text-xs text-zinc-500">{f.user}</div>
+                    <div className="mt-1 text-sm text-zinc-600">{f.user}</div>
                   </div>
                 ))}
               </CardContent>

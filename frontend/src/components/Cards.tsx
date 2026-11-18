@@ -28,7 +28,7 @@ export function InsightCard({ insight, cases, feedback, highlight }: { insight: 
   return (
     <Card ref={ref} id={insight.id} className={highlight ? "border-indigo-600" : undefined}>
       <div className="flex gap-3 p-5">
-        <Icon className={`mt-1 size-4 shrink-0 ${insight.severity === "warning" ? "text-amber-600" : "text-zinc-400"}`} />
+        <Icon className={`mt-1 size-4 shrink-0 ${insight.severity === "warning" ? "text-amber-600" : "text-zinc-600"}`} />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="text-card text-zinc-900">{insight.title}</h3>
@@ -37,7 +37,7 @@ export function InsightCard({ insight, cases, feedback, highlight }: { insight: 
           </div>
           <p className="mt-1 text-base text-zinc-700">{insight.kind === "process_insight" ? insight.message.split(" Systemic because")[0] : insight.message}</p>
           {insight.kind === "process_insight" && (
-            <p className="mt-2 text-xs text-zinc-500"><span className="font-medium text-zinc-600">Why this is a pattern: </span>{patternReason(insight)}</p>
+            <p className="mt-2 text-sm text-zinc-600"><span className="font-medium text-zinc-600">Why this is a pattern: </span>{patternReason(insight)}</p>
           )}
           {insight.per_case.length > 0 ? (
             <ul className="mt-4 divide-y divide-zinc-100 rounded-lg border border-zinc-200">
@@ -51,7 +51,7 @@ export function InsightCard({ insight, cases, feedback, highlight }: { insight: 
           ) : insight.affected_case_ids.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
               {insight.affected_case_ids.map((id) => (
-                <Link key={id} to={caseHref(id)} className="rounded-md border border-zinc-200 px-2 py-0.5 text-xs text-zinc-700 hover:border-indigo-600 hover:text-indigo-600">{name(id)}</Link>
+                <Link key={id} to={caseHref(id)} className="rounded-md border border-zinc-300 px-2 py-0.5 text-sm text-zinc-700 hover:border-indigo-600 hover:text-indigo-600">{name(id)}</Link>
               ))}
             </div>
           )}
@@ -75,12 +75,12 @@ export function QuestionCard({ q, feedback }: { q: OpenQuestion; feedback?: Feed
   return (
     <Card className="flex flex-col p-5">
       <h3 className="text-card text-zinc-900">{q.question}</h3>
-      <p className="mt-1 text-xs text-zinc-500">{q.why}</p>
+      <p className="mt-1 text-sm text-zinc-600">{q.why}</p>
       {answers.length > 0 && (
         <ul className="mt-4 space-y-2">
           {answers.map((a) => (
             <li key={a.id} className="rounded-lg bg-zinc-50 px-4 py-2 text-sm">
-              <div className="text-xs text-zinc-500">{a.user} · {fmtTime(toLocal(a.created_at))}</div>
+              <div className="text-sm text-zinc-600">{a.user} · {fmtTime(toLocal(a.created_at))}</div>
               <div className="mt-0.5 text-zinc-800">{a.note}</div>
             </li>
           ))}

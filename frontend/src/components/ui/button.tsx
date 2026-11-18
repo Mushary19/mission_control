@@ -9,12 +9,12 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-indigo-600 text-white hover:bg-indigo-700",
-        outline: "border border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-50",
+        outline: "border border-zinc-300 bg-white text-zinc-800 hover:bg-zinc-50",
         ghost: "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
         subtle: "bg-zinc-100 text-zinc-800 hover:bg-zinc-200",
         link: "text-indigo-600 underline-offset-2 hover:underline px-0 h-auto",
       },
-      size: { default: "h-8 px-3", sm: "h-8 px-3 text-xs", xs: "h-6 px-2 text-xs", icon: "h-8 w-8" },
+      size: { default: "h-8 px-3", sm: "h-8 px-3", xs: "h-7 px-2", icon: "h-8 w-8" },
     },
     defaultVariants: { variant: "default", size: "default" },
   },

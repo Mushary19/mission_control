@@ -24,7 +24,7 @@ export function SourceIcon({ source, className }: { source: Source; className?: 
   const I = SOURCE_ICON[source];
   return (
     <Tip content={SOURCE_LABEL[source]}>
-      <span className={cn("inline-flex size-6 shrink-0 items-center justify-center rounded-md border border-zinc-200 bg-white text-zinc-500", className)} aria-label={SOURCE_LABEL[source]}>
+      <span className={cn("inline-flex size-6 shrink-0 items-center justify-center rounded-md border border-zinc-300 bg-white text-zinc-600", className)} aria-label={SOURCE_LABEL[source]}>
         <I className="size-3.5" />
       </span>
     </Tip>
@@ -40,7 +40,7 @@ export function WindowBadges({ before, after, notes }: { before: boolean; after:
   if (!before && !after) return null;
   const tip = notes?.length ? notes.map((n) => n[0].toUpperCase() + n.slice(1)).join(". ") + "." : undefined;
   return (
-    <span className="inline-flex flex-nowrap items-center gap-1">
+    <span className="inline-flex flex-wrap items-center gap-1">
       {before && <Tip content={tip ?? "The case started before 2 Mar: earlier steps are not in the data."}><Badge variant="dashed">Started before 2 Mar</Badge></Tip>}
       {after && <Tip content={tip ?? "The case continues after 29 Mar: later steps are not in the data."}><Badge variant="dashed">Continues after 29 Mar</Badge></Tip>}
     </span>
@@ -53,7 +53,7 @@ export function PathConfidenceBadge({ level }: { level: Confidence }) {
 }
 
 export function Empty({ children }: { children: React.ReactNode }) {
-  return <div className="rounded-lg border border-dashed border-zinc-200 px-4 py-6 text-center text-sm text-zinc-500">{children}</div>;
+  return <div className="rounded-lg border border-dashed border-zinc-200 px-4 py-6 text-center text-sm text-zinc-600">{children}</div>;
 }
 
 export function Loading({ rows = 4 }: { rows?: number }) {
@@ -73,7 +73,7 @@ export function PageHeader({ title, subtitle, right }: { title: React.ReactNode;
     <div className="mb-8 flex items-start justify-between gap-4">
       <div className="min-w-0">
         <h1 className="text-title tracking-tight text-zinc-900">{title}</h1>
-        {subtitle && <div className="mt-2 text-base text-zinc-500">{subtitle}</div>}
+        {subtitle && <div className="mt-2 text-base text-zinc-600">{subtitle}</div>}
       </div>
       {right && <div className="shrink-0">{right}</div>}
     </div>
@@ -81,7 +81,7 @@ export function PageHeader({ title, subtitle, right }: { title: React.ReactNode;
 }
 
 export function TimeNote() {
-  return <p className="mt-4 text-xs text-zinc-500">All times in Sri Lanka time (UTC+05:30)</p>;
+  return <p className="mt-4 text-sm text-zinc-600">All times in Sri Lanka time (UTC+05:30)</p>;
 }
 
 /** Confirm / Reject (+ optional comment) for any feedback target. Shows the latest verdict already given. */
@@ -100,7 +100,7 @@ export function FeedbackButtons({ base, existing, withComment = false, size = "x
         <Button variant={last?.verdict === "reject" ? "subtle" : "outline"} size={size} onClick={() => send("reject")} disabled={post.isPending}><ThumbsDown />Reject</Button>
         {withComment && <Button variant="ghost" size={size} onClick={() => setComment((c) => !c)}>Comment</Button>}
         {last && (
-          <span className="inline-flex items-center gap-1 text-xs text-zinc-500">
+          <span className="inline-flex items-center gap-1 text-sm text-zinc-600">
             {last.verdict === "confirm" ? <Check className="size-3.5 text-emerald-600" /> : <X className="size-3.5 text-red-600" />}
             {last.verdict === "confirm" ? "Confirmed" : "Rejected"} by {last.user}
           </span>
@@ -134,13 +134,13 @@ export function Proof({ eventId }: { eventId: string }) {
   const shown = all ? lines : lines.slice(0, 3);
   return (
     <div className="space-y-2">
-      <div className="text-xs text-zinc-500">
+      <div className="text-sm text-zinc-600">
         {q.data!.line_count === 1 ? "Raw record" : `${q.data!.line_count} raw screen frames (one session)`} · read from the export, unchanged
       </div>
       {shown.map((l) => (
         <div key={`${l.file}:${l.line}`} className="rounded-lg border border-zinc-200">
-          <div className="border-b border-zinc-200 bg-zinc-50 px-3 py-1.5 font-mono text-micro text-zinc-600">{l.file} · line {l.line}</div>
-          <pre className="max-h-72 overflow-auto px-3 py-2 font-mono text-micro text-zinc-800">{JSON.stringify(l.record, null, 2)}</pre>
+          <div className="border-b border-zinc-200 bg-zinc-50 px-3 py-1.5 font-mono text-sm text-zinc-600">{l.file} · line {l.line}</div>
+          <pre className="max-h-72 overflow-auto px-3 py-2 font-mono text-sm text-zinc-800">{JSON.stringify(l.record, null, 2)}</pre>
         </div>
       ))}
       {lines.length > 3 && !all && <Button variant="link" size="xs" onClick={() => setAll(true)}>Show all {lines.length} frames</Button>}
@@ -149,5 +149,5 @@ export function Proof({ eventId }: { eventId: string }) {
 }
 
 export function When({ iso }: { iso: string }) {
-  return <span className="tabular-nums text-zinc-500">{fmtTime(iso)}</span>;
+  return <span className="tabular-nums text-zinc-600">{fmtTime(iso)}</span>;
 }

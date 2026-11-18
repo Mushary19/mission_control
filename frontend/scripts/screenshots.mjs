@@ -1,6 +1,7 @@
 // Opens every screen in Chrome, saves screenshots to docs/screenshots/, and walks the demo path:
 // Overview -> "Laptops come after the start date" -> Chiara's case -> laptop step -> Proof -> Confirm -> Feedback page.
-// Every screen is shot at 1440px (docs/screenshots/) and 1024px (docs/screenshots/1024/) and run through a layout audit.
+// Every screen is shot at 1920px (docs/screenshots/), 1440px (docs/screenshots/1440/) and 1280px (docs/screenshots/1280/)
+// and run through a layout audit.
 // Usage: BASE=http://localhost:5174 CHROME=/usr/bin/google-chrome node scripts/screenshots.mjs
 import { chromium } from "playwright-core";
 import { mkdirSync } from "node:fs";
@@ -11,14 +12,14 @@ const OUT = fileURLToPath(new URL("../../docs/screenshots/", import.meta.url));
 mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.launch({ executablePath: process.env.CHROME ?? "/usr/bin/google-chrome", headless: true });
-const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
 const problems = [];
 page.on("console", (m) => m.type() === "error" && problems.push(`console: ${m.text()}`));
 page.on("pageerror", (e) => problems.push(`pageerror: ${e.message}`));
 page.on("response", (r) => r.status() >= 400 && problems.push(`HTTP ${r.status()} ${r.url()}`));
 
-// Layout audit run on every screen: text under 12px, text cut off sideways, badges that overflow,
-// cards in one grid row with different heights. Line-clamped text (intentional) is not reported.
+// Layout audit run on every screen: text under 14px, text cut off (ellipsis or line clamp), horizontal scrollbars,
+// badges that overflow, content spilling out of a card, cards in one grid row with different heights.
 const audit = () => page.evaluate(() => {
   const out = [];
   const label = (el) => (el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 50);
@@ -27,10 +28,12 @@ const audit = () => page.evaluate(() => {
     if (!visible(el)) continue;
     const cs = getComputedStyle(el);
     const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
-    if (ownText && parseFloat(cs.fontSize) < 12) out.push(`font ${cs.fontSize}: "${label(el)}"`);
+    if (ownText && parseFloat(cs.fontSize) < 14) out.push(`font ${cs.fontSize}: "${label(el)}"`);
     const clamped = cs.webkitLineClamp && cs.webkitLineClamp !== "none";
     const clipsX = cs.overflowX === "hidden" || cs.textOverflow === "ellipsis";
     if (clipsX && !clamped && el.scrollWidth > el.clientWidth + 1 && ownText) out.push(`cut off: "${label(el)}"`);
+    if (clamped && el.scrollHeight > el.clientHeight + 1) out.push(`clamped (…): "${label(el)}"`);
+    if (["auto", "scroll"].includes(cs.overflowX) && el.scrollWidth > el.clientWidth + 1) out.push(`horizontal scrollbar: "${label(el)}"`);
     if (el.matches("span.h-6.whitespace-nowrap") && el.scrollWidth > el.clientWidth + 1) out.push(`badge overflow: "${label(el)}"`);
   }
   if (document.documentElement.scrollWidth > innerWidth) out.push(`page scrolls sideways (${document.documentElement.scrollWidth}px > ${innerWidth}px)`);
@@ -57,13 +60,14 @@ const audit = () => page.evaluate(() => {
 });
 const findings = {};
 let dir = OUT;
+let width = 1920;
 const shot = async (name, full = true) => {
   await page.waitForLoadState("networkidle");
   await page.waitForTimeout(250);
   await page.screenshot({ path: `${dir}${name}.png`, fullPage: full });
   const f = await audit();
-  if (f.length) findings[`${dir === OUT ? "1440" : "1024"} ${name}`] = f;
-  console.log("saved", dir === OUT ? "1440" : "1024", name);
+  if (f.length) findings[`${width} ${name}`] = f;
+  console.log("saved", width, name);
 };
 const go = async (path, name) => { await page.goto(BASE + path); await shot(name); };
 
@@ -142,17 +146,20 @@ await check("How it works links open out/ files", async () => {
   if (r.status() !== 200 || !(await r.json()).cases) throw new Error(`files endpoint ${r.status()}`);
 });
 
-// narrower desktop: every screen again at 1024px into docs/screenshots/1024/ (feedback now has the demo entry)
-dir = `${OUT}1024/`;
-mkdirSync(dir, { recursive: true });
-await page.setViewportSize({ width: 1024, height: 800 });
-await screens();
-await page.goto(BASE + "/cases/" + encodeURIComponent("onboarding:chiara-ekwueme"));
-const laptop1024 = page.locator("li", { has: page.getByText("Laptop delivered", { exact: true }) }).last();
-await laptop1024.getByRole("button", { name: "Proof" }).click();
-await laptop1024.locator("pre").first().waitFor();
-await shot("14-demo-proof", false);
-await go("/feedback", "15-feedback");
+// narrower desktops: every screen again (feedback now has the demo entry)
+for (const w of [1440, 1280]) {
+  width = w;
+  dir = `${OUT}${w}/`;
+  mkdirSync(dir, { recursive: true });
+  await page.setViewportSize({ width: w, height: 900 });
+  await screens();
+  await page.goto(BASE + "/cases/" + encodeURIComponent("onboarding:chiara-ekwueme"));
+  const laptop = page.locator("li", { has: page.getByText("Laptop delivered", { exact: true }) }).last();
+  await laptop.getByRole("button", { name: "Proof" }).click();
+  await laptop.locator("pre").first().waitFor();
+  await shot("14-demo-proof", false);
+  await go("/feedback", "15-feedback");
+}
 
 console.log("\nDEMO PATH\n" + steps.join("\n"));
 console.log("\nLAYOUT AUDIT\n" + (Object.keys(findings).length ? Object.entries(findings).map(([k, v]) => `${k}\n  ${v.join("\n  ")}`).join("\n") : "none"));

@@ -37,41 +37,41 @@ export function Layout() {
         <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 pb-4 pt-2">
           {NAV.map((n, i) =>
             "section" in n ? (
-              <div key={i} className="mt-6 px-2 pb-1 text-micro font-medium text-zinc-500">{n.section}</div>
+              <div key={i} className="mt-6 px-2 pb-1 text-sm font-medium text-zinc-600">{n.section}</div>
             ) : (
               <NavLink
                 key={n.to}
                 to={n.to}
                 end={"end" in n ? n.end : false}
                 className={({ isActive }) =>
-                  cn("group flex h-10 shrink-0 items-center gap-3 rounded-lg px-2 text-base text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900", isActive && "bg-indigo-50 font-medium text-indigo-700 hover:bg-indigo-50 hover:text-indigo-700")
+                  cn("group flex h-nav shrink-0 items-center gap-3 rounded-lg px-2 text-base text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900", isActive && "bg-indigo-50 font-medium text-indigo-700 hover:bg-indigo-50 hover:text-indigo-700")
                 }
               >
-                <n.icon className="size-[18px] shrink-0 text-zinc-400 group-aria-[current=page]:text-indigo-600" />
+                <n.icon className="size-icon shrink-0 text-zinc-600 group-aria-[current=page]:text-indigo-600" />
                 <span className="flex-1">{n.label}</span>
-                {n.to === "/feedback" && fb.data?.count ? <span className="text-xs tabular-nums text-zinc-500">{fb.data.count}</span> : null}
+                {n.to === "/feedback" && fb.data?.count ? <span className="text-sm tabular-nums text-zinc-600">{fb.data.count}</span> : null}
               </NavLink>
             ),
           )}
         </nav>
-        <div className="border-t border-zinc-200 px-6 py-4 text-micro text-zinc-500">Harbourline Talent · synthetic data · 2–29 Mar 2026</div>
+        <div className="border-t border-zinc-200 px-6 py-4 text-sm text-zinc-600">Harbourline Talent · synthetic data · 2–29 Mar 2026</div>
       </aside>
       </div>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-bar shrink-0 items-center justify-between gap-4 border-b border-zinc-200 bg-white px-8">
-          <p className="flex min-w-0 items-center gap-2 text-xs text-zinc-600">
+        <header className="sticky top-0 z-30 flex h-bar shrink-0 items-center justify-between gap-4 border-b border-zinc-200 bg-white px-page">
+          <p className="flex min-w-0 items-center gap-2 text-sm text-zinc-600">
             <span className="size-2 shrink-0 rounded-full bg-amber-500" />
             <span className="line-clamp-2">
             <strong className="font-medium text-zinc-900">Data from 6 of 12 staff (People team).</strong> Account Managers, IT and Finance not exported.</span>
           </p>
-          <label className="flex shrink-0 items-center gap-2 text-xs text-zinc-500">
+          <label className="flex shrink-0 items-center gap-2 text-sm text-zinc-600">
             Reviewing as
             <Select value={user} onChange={(e) => setUser(e.target.value)} aria-label="Reviewing as">
               {(staff.length ? allStaff : [{ name: user, job_title: "" }]).map((s) => <option key={s.name} value={s.name}>{s.name}</option>)}
             </Select>
           </label>
         </header>
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-page">
           <div className="w-full max-w-content">
             <Outlet />
           </div>

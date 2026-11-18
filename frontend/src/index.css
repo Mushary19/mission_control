@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  /* 16px root so Tailwind spacing is a true 4/8px grid; body text is 15px via the `base` token. */
-  html { font-size: 16px; }
+  /* 18px root: every rem size (type, spacing) is 12.5% larger than the Tailwind default. */
+  html { font-size: 112.5%; }
   body { @apply bg-white text-base text-zinc-900 antialiased; font-feature-settings: "cv11", "ss01"; }
   *:focus-visible { @apply outline-none ring-2 ring-indigo-600 ring-offset-1; }
   * { box-shadow: none !important; }
