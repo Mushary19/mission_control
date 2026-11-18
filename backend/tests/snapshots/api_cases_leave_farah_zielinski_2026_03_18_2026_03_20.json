@@ -1,0 +1,199 @@
+{
+ "body": {
+  "case_id": "leave:farah-zielinski:2026-03-18_2026-03-20",
+  "client": "o_elmsworth",
+  "client_name": "Elmsworth",
+  "ends_after_window": false,
+  "flag_count": 0,
+  "flags": [],
+  "handoff": false,
+  "insights": [
+   "ins:leave:sick_two_ways"
+  ],
+  "key": {
+   "dates": {
+    "end": "2026-03-20",
+    "raw": "Wed 18 Mar – Fri 20 Mar",
+    "start": "2026-03-18"
+   },
+   "leave_type": "sick"
+  },
+  "last_activity": "2026-03-09T14:25:16+05:30",
+  "out_of_order": [],
+  "owner_name": "Hana Pemberton",
+  "owner_staff_id": "p_hana-pemberton",
+  "process": "leave",
+  "related_flags": [],
+  "staff_involved": [
+   {
+    "name": "Hana Pemberton",
+    "person_id": "p_hana-pemberton"
+   }
+  ],
+  "start": "2026-03-06T09:02:13+05:30",
+  "started_before_window": false,
+  "status": "declined",
+  "step_count": 5,
+  "steps": [
+   {
+    "activity": "leave_requested",
+    "actor_id": "p_farah-zielinski",
+    "actor_name": "Farah Zielinski",
+    "confidence": "high",
+    "event_id": "mail:nRByySyRxvnzKfr9dWZyQBBw@harbourline.example",
+    "label": "Leave requested",
+    "likely": false,
+    "link": "dates",
+    "link_reason": "Same person and dates (Wed 18 Mar – Fri 20 Mar)",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 34
+    },
+    "resolution": {
+     "candidates": [
+      "p_farah-zielinski"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Sent by the person (their address)"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hi Hana,\n\nI'd like to request sick leave for Wed 18 Mar – Fri 20 Mar.\n\nThanks,\nFarah",
+    "time_local": "2026-03-06T09:02:13+05:30",
+    "title": "Leave request – Wed 18 Mar – Fri 20 Mar"
+   },
+   {
+    "activity": "peoplehub_opened",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "low",
+    "event_id": "screen:hana:381",
+    "label": "PeopleHub opened",
+    "likely": true,
+    "link": "time",
+    "link_reason": "No dates in the record; nearest open leave case of the same person",
+    "raw_ref": {
+     "file": "data/hana/screens/screen_log.jsonl",
+     "line": 381
+    },
+    "resolution": {
+     "candidates": [
+      "p_farah-zielinski"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Farah Zielinski",
+     "reason": "Full name 'Farah Zielinski' written in the text"
+    },
+    "session": {
+     "end_local": "2026-03-06T12:07:25.669707+05:30",
+     "end_utc": "2026-03-06T06:37:25.669707Z",
+     "frame_count": 3,
+     "minutes": 12.3,
+     "start_local": "2026-03-06T11:55:08.669707+05:30",
+     "start_utc": "2026-03-06T06:25:08.669707Z"
+    },
+    "source": "screen",
+    "text": null,
+    "time_local": "2026-03-06T11:55:08.669707+05:30",
+    "title": "Leave - Farah Zielinski - PeopleHub"
+   },
+   {
+    "activity": "client_check_sent",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "mail:JntK2tuhX920pVFOWD8BCzPl@harbourline.example",
+    "label": "Client asked",
+    "likely": false,
+    "link": "dates",
+    "link_reason": "Same person and dates (Wed 18 Mar – Fri 20 Mar)",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 39
+    },
+    "resolution": {
+     "candidates": [
+      "p_farah-zielinski"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Farah Zielinski",
+     "reason": "Full name 'Farah Zielinski' written in the text"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hey Cyrus,\n\nFarah Zielinski has asked for sick leave on Wed 18 Mar – Fri 20 Mar. Is that ok on your side?\n\nBest,\nHana\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-06T12:13:02+05:30",
+    "title": "Leave request – farah – Wed 18 Mar – Fri 20 Mar"
+   },
+   {
+    "activity": "client_declined",
+    "actor_id": "p_cyrus-xiong",
+    "actor_name": "Cyrus Xiong",
+    "confidence": "high",
+    "event_id": "mail:NQxhkwkTBkh6QHcTxo6mHeCd@elmsworthlaw.example",
+    "label": "Client declined",
+    "likely": false,
+    "link": "thread",
+    "link_reason": "Same mail thread",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 46
+    },
+    "resolution": {
+     "candidates": [
+      "p_farah-zielinski"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": null,
+     "reason": "Same thread as an earlier message about Farah Zielinski"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Dear Hana,\n\nUnfortunately that week is busy for us, could they pick other dates?\n\nBest,\nCyrus",
+    "time_local": "2026-03-09T09:18:56+05:30",
+    "title": "RE: Leave request – farah – Wed 18 Mar – Fri 20 Mar"
+   },
+   {
+    "activity": "worker_asked_other_dates",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "mail:BvWSyctbg6j1kf1BwBZ4KG4E@harbourline.example",
+    "label": "Worker asked for other dates",
+    "likely": false,
+    "link": "thread",
+    "link_reason": "Same mail thread",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 56
+    },
+    "resolution": {
+     "candidates": [
+      "p_farah-zielinski"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Recipient address farah.zielinski@harbourline.example"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hey Farah,\n\nThe client asked if you could choose other dates.\n\nBest,\nHana\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-09T14:25:16+05:30",
+    "title": "RE: Leave request – Wed 18 Mar – Fri 20 Mar"
+   }
+  ],
+  "subject_name": "Farah Zielinski",
+  "subject_person_id": "p_farah-zielinski",
+  "summary": "Farah Zielinski: sick leave Wed 18 Mar – Fri 20 Mar at Elmsworth. Handled by Hana Pemberton. 5 steps, declined.",
+  "window_notes": []
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/cases/leave:farah-zielinski:2026-03-18_2026-03-20"
+}

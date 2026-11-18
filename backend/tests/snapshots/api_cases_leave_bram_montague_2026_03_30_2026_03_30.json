@@ -1,0 +1,181 @@
+{
+ "body": {
+  "case_id": "leave:bram-montague:2026-03-30_2026-03-30",
+  "client": "o_hollis",
+  "client_name": "Hollis Vane LLP",
+  "ends_after_window": false,
+  "flag_count": 1,
+  "flags": [
+   {
+    "case_id": "leave:bram-montague:2026-03-30_2026-03-30",
+    "evidence_event_ids": [
+     "mail:0RXnT6Gvf26ODFqMyqxkEMnf@harbourline.example",
+     "mail:LXcNRULEbEAyJuMOH3Qdyh7e@harbourline.example",
+     "mail:a7nJ9fPKveMEz2FhiBFKlat6@harbourline.example",
+     "mail:urLfiQH1LZyQWGVAA4L55Xdq@hollislaw.example"
+    ],
+    "flag_id": "activity_after_last_day:leave:bram-montague:2026-03-30_2026-03-30",
+    "message": "Bram Montague: leave for Mon 30 Mar was approved, but that is on or after the offboarding completed Tue 24 Mar.",
+    "person_id": "p_bram-montague",
+    "person_name": "Bram Montague",
+    "process": "leave",
+    "rule": "activity_after_last_day",
+    "scope": "case",
+    "severity": "warning"
+   }
+  ],
+  "handoff": false,
+  "insights": [
+   "ins:leave:sick_two_ways"
+  ],
+  "key": {
+   "dates": {
+    "end": "2026-03-30",
+    "raw": "Mon 30 Mar",
+    "start": "2026-03-30"
+   },
+   "leave_type": "sick"
+  },
+  "last_activity": "2026-03-03T14:35:09+05:30",
+  "out_of_order": [],
+  "owner_name": "Hana Pemberton",
+  "owner_staff_id": "p_hana-pemberton",
+  "process": "leave",
+  "related_flags": [],
+  "staff_involved": [
+   {
+    "name": "Hana Pemberton",
+    "person_id": "p_hana-pemberton"
+   }
+  ],
+  "start": "2026-03-02T08:58:56+05:30",
+  "started_before_window": false,
+  "status": "complete",
+  "step_count": 4,
+  "steps": [
+   {
+    "activity": "leave_requested",
+    "actor_id": "p_bram-montague",
+    "actor_name": "Bram Montague",
+    "confidence": "high",
+    "event_id": "mail:0RXnT6Gvf26ODFqMyqxkEMnf@harbourline.example",
+    "label": "Leave requested",
+    "likely": false,
+    "link": "dates",
+    "link_reason": "Same person and dates (Mon 30 Mar)",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 1
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-montague"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Sent by the person (their address)"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hi Hana,\n\nI'd like to request sick leave for Mon 30 Mar.\n\nThanks,\nBram",
+    "time_local": "2026-03-02T08:58:56+05:30",
+    "title": "Leave request – Mon 30 Mar"
+   },
+   {
+    "activity": "client_check_sent",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "mail:4cLltXkMNnvjt11G7OzUaIAs@harbourline.example",
+    "label": "Client asked",
+    "likely": false,
+    "link": "dates",
+    "link_reason": "Same person and dates (Mon 30 Mar)",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 7
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-montague"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Bram Montague",
+     "reason": "Full name 'Bram Montague' written in the text"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Morning Nadia,\n\nBram Montague has asked for sick leave on Mon 30 Mar. Is that ok on your side?\n\nBest,\nHana\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-02T15:53:56+05:30",
+    "title": "Leave request – Bram – Mon 30 Mar"
+   },
+   {
+    "activity": "client_approved",
+    "actor_id": "p_nadia-abernethy",
+    "actor_name": "Nadia Abernethy",
+    "confidence": "high",
+    "event_id": "mail:urLfiQH1LZyQWGVAA4L55Xdq@hollislaw.example",
+    "label": "Client approved",
+    "likely": false,
+    "link": "thread",
+    "link_reason": "Same mail thread",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 11
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-montague"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": null,
+     "reason": "Same thread as an earlier message about Bram Montague"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hello Hana,\n\nYes, that's fine.\n\nBest,\nNadia",
+    "time_local": "2026-03-03T08:32:11+05:30",
+    "title": "RE: Leave request – Bram – Mon 30 Mar"
+   },
+   {
+    "activity": "worker_approved",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "mail:a7nJ9fPKveMEz2FhiBFKlat6@harbourline.example",
+    "label": "Worker told: approved",
+    "likely": false,
+    "link": "thread",
+    "link_reason": "Same mail thread",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 17
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-montague"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Recipient address bram.montague@harbourline.example"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Dear Bram,\n\nYour leave for Mon 30 Mar is approved.\n\nBest,\nHana\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-03T14:35:09+05:30",
+    "title": "RE: Leave request – Mon 30 Mar"
+   }
+  ],
+  "subject_name": "Bram Montague",
+  "subject_person_id": "p_bram-montague",
+  "summary": "Bram Montague: sick leave Mon 30 Mar at Hollis Vane LLP. Handled by Hana Pemberton. 4 steps, complete.",
+  "window_notes": []
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/cases/leave:bram-montague:2026-03-30_2026-03-30"
+}

@@ -1,0 +1,159 @@
+{
+ "body": {
+  "case_id": "onboarding:bram-danforth",
+  "client": "o_greythorne",
+  "client_name": "Greythorne Legal Group",
+  "ends_after_window": true,
+  "flag_count": 0,
+  "flags": [],
+  "handoff": false,
+  "insights": [],
+  "key": {
+   "first_day": "2026-03-30"
+  },
+  "last_activity": "2026-03-26T10:15:00+05:30",
+  "out_of_order": [],
+  "owner_name": "Hana Pemberton",
+  "owner_staff_id": "p_hana-pemberton",
+  "process": "onboarding",
+  "related_flags": [],
+  "staff_involved": [
+   {
+    "name": "Hana Pemberton",
+    "person_id": "p_hana-pemberton"
+   }
+  ],
+  "start": "2026-03-23T10:01:09+05:30",
+  "started_before_window": true,
+  "status": "in_progress",
+  "step_count": 4,
+  "steps": [
+   {
+    "activity": "welcome_sent",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "mail:cy1HcysWoPIW90rwMAbxzjz9@harbourline.example",
+    "label": "Welcome sent",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 139
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-danforth"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Recipient address bdanforth@mailbox.example"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Morning Bram,\n\nYour first day with Greythorne Legal Group is Mon 30 Mar. Your work account details will follow from IT.\n\nBest,\nHana\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-23T10:01:09+05:30",
+    "title": "Welcome to Harbourline Talent!"
+   },
+   {
+    "activity": "it_requested",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1774245233797",
+    "label": "IT setup requested",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/teams/messages.jsonl",
+     "line": 54
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-danforth"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Bram Danforth",
+     "reason": "Full name 'Bram Danforth' written in the text"
+    },
+    "session": null,
+    "source": "teams_chat",
+    "text": "Hi Kavya, can you set up M365, VPN and the timesheet app for Bram Danforth? Starts Mon 30 Mar at Greythorne",
+    "time_local": "2026-03-23T11:23:53+05:30",
+    "title": null
+   },
+   {
+    "activity": "it_ready",
+    "actor_id": "p_kavya-jaramillo",
+    "actor_name": "Kavya Jaramillo",
+    "confidence": "high",
+    "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1774259826065",
+    "label": "IT ready",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/teams/messages.jsonl",
+     "line": 56
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-danforth"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": "Bram",
+     "reason": "Matches the open IT request for Bram Danforth in the same chat"
+    },
+    "session": null,
+    "source": "teams_chat",
+    "text": "all set for Bram",
+    "time_local": "2026-03-23T15:27:05+05:30",
+    "title": null
+   },
+   {
+    "activity": "kickoff_meeting",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "medium",
+    "event_id": "calendar:040000008200E00074C5B7101A82E0082C151BD80257B450868D792028BE84A6D36ABC86",
+    "label": "Client kick-off",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/outlook/calendar.jsonl",
+     "line": 21
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-danforth"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Bram Danforth",
+     "reason": "Full name 'Bram Danforth' written in the text"
+    },
+    "session": null,
+    "source": "calendar",
+    "text": null,
+    "time_local": "2026-03-26T10:15:00+05:30",
+    "title": "Kick-off: Bram Danforth x Greythorne Legal Group"
+   }
+  ],
+  "subject_name": "Bram Danforth",
+  "subject_person_id": "p_bram-danforth",
+  "summary": "Bram Danforth: onboarding, first day Mon 30 Mar at Greythorne Legal Group. Handled by Hana Pemberton. 4 steps, in progress.",
+  "window_notes": [
+   "trigger not in the data (likely before 2 Mar, or sent to a mailbox that was not exported)",
+   "first day Mon 30 Mar is after 29 Mar"
+  ]
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/cases/onboarding:bram-danforth"
+}

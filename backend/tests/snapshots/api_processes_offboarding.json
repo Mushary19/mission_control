@@ -1,0 +1,451 @@
+{
+ "body": {
+  "case_count": 12,
+  "dfg": [
+   {
+    "count": 9,
+    "from": "offboarding_acknowledged",
+    "to": "access_disable_requested"
+   },
+   {
+    "count": 8,
+    "from": "laptop_return_arranged",
+    "to": "courier_delivered"
+   },
+   {
+    "count": 7,
+    "from": "courier_booked",
+    "to": "laptop_return_arranged"
+   },
+   {
+    "count": 6,
+    "from": "courier_delivered",
+    "to": "laptop_received"
+   },
+   {
+    "count": 6,
+    "from": "laptop_received",
+    "to": "offboarding_completed"
+   },
+   {
+    "count": 5,
+    "from": "resignation_received",
+    "to": "offboarding_acknowledged"
+   },
+   {
+    "count": 4,
+    "from": "access_disable_requested",
+    "to": "courier_booked"
+   },
+   {
+    "count": 4,
+    "from": "client_ended_engagement",
+    "to": "offboarding_acknowledged"
+   },
+   {
+    "count": 1,
+    "from": "access_disable_requested",
+    "to": "laptop_return_arranged"
+   },
+   {
+    "count": 1,
+    "from": "courier_delivered",
+    "to": "offboarding_completed"
+   }
+  ],
+  "full_trace_cases": 4,
+  "insight_count": 1,
+  "insights": [
+   {
+    "affected_case_ids": [
+     "offboarding:paloma-larkspur"
+    ],
+    "eligible_cases": null,
+    "evidence_event_ids": [
+     "mail:95fjdebGhHH54dBPPOV2cjTx@techdirect.example",
+     "mail:KsU3LsNcdpmUCxnDVa0C35FJ@dunstanlaw.example",
+     "mail:gymMy8ttcpps1y9f7x2qRGoc@techdirect.example",
+     "teams_channel:1774258723655",
+     "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773198711983"
+    ],
+    "id": "flag:activity_after_last_day:offboarding:paloma-larkspur",
+    "kind": "case_flag",
+    "message": "Paloma Larkspur: replacement laptop requested on Mon 23 Mar, needed by Sat 28 Mar; laptop ordered on Tue 24 Mar; laptop shipped on Thu 26 Mar — on or after the last day Tue 24 Mar.",
+    "per_case": [],
+    "process": "offboarding",
+    "rules": [
+     "activity_after_last_day"
+    ],
+    "severity": "warning",
+    "title": "Activity after the last day"
+   }
+  ],
+  "label": "Offboarding",
+  "main_path": {
+   "activities": [
+    "client_ended_engagement",
+    "offboarding_acknowledged",
+    "access_disable_requested",
+    "laptop_return_arranged",
+    "courier_delivered",
+    "laptop_received",
+    "offboarding_completed"
+   ],
+   "cases_following_exactly": 2,
+   "labels": [
+    "Client ended engagement",
+    "Offboarding acknowledged",
+    "Access removal requested",
+    "Laptop return arranged",
+    "Courier delivered",
+    "Laptop received",
+    "Offboarding completed"
+   ],
+   "method": "most common variant among the 4 complete cases that start inside the window (2 of 4); tied with 1 other variant(s)",
+   "tied_alternatives": [
+    {
+     "count": 2,
+     "path": [
+      "resignation_received",
+      "offboarding_acknowledged",
+      "access_disable_requested",
+      "laptop_return_arranged",
+      "courier_delivered",
+      "laptop_received",
+      "offboarding_completed"
+     ]
+    }
+   ]
+  },
+  "main_path_labels": [
+   "Client ended engagement",
+   "Offboarding acknowledged",
+   "Access removal requested",
+   "Laptop return arranged",
+   "Courier delivered",
+   "Laptop received",
+   "Offboarding completed"
+  ],
+  "open_question_count": 4,
+  "open_questions": [
+   {
+    "evidence": {
+     "no_trigger": 3
+    },
+    "id": "offboarding-q1",
+    "process": "offboarding",
+    "question": "Where does a resignation or end-of-engagement notice arrive first: with you, or with the Account Manager?",
+    "why": "3 of 12 offboarding cases have no trigger in the data; Account Manager mailboxes were not exported."
+   },
+   {
+    "evidence": {
+     "days_before_last_day": [
+      8,
+      10,
+      13,
+      13,
+      14,
+      19,
+      19,
+      20,
+      23
+     ]
+    },
+    "id": "offboarding-q2",
+    "process": "offboarding",
+    "question": "How far ahead of the last day do you ask IT to disable access?",
+    "why": "Requests went out between 8 and 23 days before the last day (median 14)."
+   },
+   {
+    "evidence": {
+     "after_laptop_back": 6,
+     "completed": 7
+    },
+    "id": "offboarding-q3",
+    "process": "offboarding",
+    "question": "Do you send 'Offboarding complete' only after IT confirms the laptop is back and wiped?",
+    "why": "In 6 of 7 completed cases IT's 'laptop back' message came first; the others have no such message in the data."
+   },
+   {
+    "evidence": {
+     "activity_after_last_day": 5
+    },
+    "id": "offboarding-q4",
+    "process": "offboarding",
+    "question": "Should anything else stop once someone leaves (leave approvals, replacement laptops)?",
+    "why": "5 flag(s) show leave or laptop activity on or after a person's last day."
+   }
+  ],
+  "path_confidence": {
+   "level": "medium",
+   "reason": "Rests on 4 complete case(s) that start inside the window; 2 of 4 complete in-window cases follow it exactly.",
+   "rule": "high: >= 10 complete in-window cases and the main path is followed exactly by >= 50% of them; medium: >= 4 such cases and a repeating main variant; low: otherwise"
+  },
+  "process": "offboarding",
+  "status_counts": {
+   "complete": 7,
+   "in_progress": 5
+  },
+  "steps": [
+   {
+    "activity": "client_ended_engagement",
+    "case_count": 4,
+    "confidence_mix": {
+     "high": 4
+    },
+    "label": "Client ended engagement",
+    "median_from_case_start_h": 0.0,
+    "median_to_next_h": 3.8,
+    "next_on_main_path": "offboarding_acknowledged",
+    "on_main_path": true,
+    "optional": true,
+    "screen_only": false,
+    "support_pct": 33.3
+   },
+   {
+    "activity": "offboarding_acknowledged",
+    "case_count": 9,
+    "confidence_mix": {
+     "high": 9
+    },
+    "label": "Offboarding acknowledged",
+    "median_from_case_start_h": 5.8,
+    "median_to_next_h": 21.4,
+    "next_on_main_path": "access_disable_requested",
+    "on_main_path": true,
+    "optional": false,
+    "screen_only": false,
+    "support_pct": 75.0
+   },
+   {
+    "activity": "access_disable_requested",
+    "case_count": 9,
+    "confidence_mix": {
+     "high": 4,
+     "medium": 5
+    },
+    "label": "Access removal requested",
+    "median_from_case_start_h": 24.8,
+    "median_to_next_h": 311.8,
+    "next_on_main_path": "laptop_return_arranged",
+    "on_main_path": true,
+    "optional": false,
+    "screen_only": false,
+    "support_pct": 75.0
+   },
+   {
+    "activity": "laptop_return_arranged",
+    "case_count": 8,
+    "confidence_mix": {
+     "high": 8
+    },
+    "label": "Laptop return arranged",
+    "median_from_case_start_h": 236.8,
+    "median_to_next_h": 70.8,
+    "next_on_main_path": "courier_delivered",
+    "on_main_path": true,
+    "optional": false,
+    "screen_only": false,
+    "support_pct": 66.7
+   },
+   {
+    "activity": "courier_delivered",
+    "case_count": 8,
+    "confidence_mix": {
+     "low": 8
+    },
+    "label": "Courier delivered",
+    "median_from_case_start_h": 307.5,
+    "median_to_next_h": 0.1,
+    "next_on_main_path": "laptop_received",
+    "on_main_path": true,
+    "optional": false,
+    "screen_only": false,
+    "support_pct": 66.7
+   },
+   {
+    "activity": "laptop_received",
+    "case_count": 6,
+    "confidence_mix": {
+     "medium": 6
+    },
+    "label": "Laptop received",
+    "median_from_case_start_h": 307.6,
+    "median_to_next_h": 24.1,
+    "next_on_main_path": "offboarding_completed",
+    "on_main_path": true,
+    "optional": false,
+    "screen_only": false,
+    "support_pct": 50.0
+   },
+   {
+    "activity": "offboarding_completed",
+    "case_count": 7,
+    "confidence_mix": {
+     "high": 7
+    },
+    "label": "Offboarding completed",
+    "median_from_case_start_h": 334.2,
+    "median_to_next_h": null,
+    "next_on_main_path": null,
+    "on_main_path": true,
+    "optional": false,
+    "screen_only": false,
+    "support_pct": 58.3
+   },
+   {
+    "activity": "courier_booked",
+    "case_count": 7,
+    "confidence_mix": {
+     "low": 7
+    },
+    "label": "Courier booked",
+    "median_from_case_start_h": 191.7,
+    "median_to_next_h": null,
+    "next_on_main_path": null,
+    "on_main_path": false,
+    "optional": false,
+    "screen_only": true,
+    "support_pct": 58.3
+   },
+   {
+    "activity": "resignation_received",
+    "case_count": 5,
+    "confidence_mix": {
+     "high": 5
+    },
+    "label": "Resignation received",
+    "median_from_case_start_h": 0.0,
+    "median_to_next_h": null,
+    "next_on_main_path": null,
+    "on_main_path": false,
+    "optional": true,
+    "screen_only": false,
+    "support_pct": 41.7
+   }
+  ],
+  "variants": [
+   {
+    "case_ids": [
+     "offboarding:hamza-pemberton",
+     "offboarding:odile-jaramillo",
+     "offboarding:thiago-bellweather"
+    ],
+    "count": 3,
+    "path": [
+     "resignation_received",
+     "offboarding_acknowledged",
+     "access_disable_requested"
+    ],
+    "statuses": {
+     "in_progress": 3
+    }
+   },
+   {
+    "case_ids": [
+     "offboarding:pilar-lowther",
+     "offboarding:quinn-ellingham"
+    ],
+    "count": 2,
+    "path": [
+     "client_ended_engagement",
+     "offboarding_acknowledged",
+     "access_disable_requested",
+     "laptop_return_arranged",
+     "courier_delivered",
+     "laptop_received",
+     "offboarding_completed"
+    ],
+    "statuses": {
+     "complete": 2
+    }
+   },
+   {
+    "case_ids": [
+     "offboarding:bram-montague",
+     "offboarding:ines-marchetti"
+    ],
+    "count": 2,
+    "path": [
+     "laptop_return_arranged",
+     "courier_delivered",
+     "laptop_received",
+     "offboarding_completed"
+    ],
+    "statuses": {
+     "complete": 2
+    }
+   },
+   {
+    "case_ids": [
+     "offboarding:eilidh-penhaligon",
+     "offboarding:jasper-haverford"
+    ],
+    "count": 2,
+    "path": [
+     "resignation_received",
+     "offboarding_acknowledged",
+     "access_disable_requested",
+     "laptop_return_arranged",
+     "courier_delivered",
+     "laptop_received",
+     "offboarding_completed"
+    ],
+    "statuses": {
+     "complete": 2
+    }
+   },
+   {
+    "case_ids": [
+     "offboarding:callum-montague"
+    ],
+    "count": 1,
+    "path": [
+     "client_ended_engagement",
+     "offboarding_acknowledged",
+     "access_disable_requested"
+    ],
+    "statuses": {
+     "in_progress": 1
+    }
+   },
+   {
+    "case_ids": [
+     "offboarding:paloma-larkspur"
+    ],
+    "count": 1,
+    "path": [
+     "client_ended_engagement",
+     "offboarding_acknowledged",
+     "access_disable_requested",
+     "laptop_return_arranged",
+     "courier_delivered"
+    ],
+    "statuses": {
+     "in_progress": 1
+    }
+   },
+   {
+    "case_ids": [
+     "offboarding:aarav-thorne"
+    ],
+    "count": 1,
+    "path": [
+     "laptop_return_arranged",
+     "courier_delivered",
+     "offboarding_completed"
+    ],
+    "statuses": {
+     "complete": 1
+    }
+   }
+  ],
+  "window_badges": {
+   "ends_after_window": 4,
+   "started_before_window": 3
+  }
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/processes/offboarding"
+}

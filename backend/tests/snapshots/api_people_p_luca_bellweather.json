@@ -1,0 +1,27 @@
+{
+ "body": {
+  "cases": [],
+  "display_name": "Luca Bellweather",
+  "emails": [
+   "luca.bellweather@harbourline.example"
+  ],
+  "exported": false,
+  "job_title": null,
+  "kind": "worker",
+  "merge_reason": null,
+  "merged_ids": [],
+  "org": "o_harbourline",
+  "org_name": "Harbourline Talent",
+  "person_id": "p_luca-bellweather",
+  "possible_same_person": [
+   {
+    "name": "Luca Bellweather",
+    "person_id": "p_luca-bellweather-personal",
+    "reason": "work address has no onboarding events; client not known on both sides"
+   }
+  ]
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/people/p_luca-bellweather"
+}

@@ -1,4 +1,4 @@
-// Types mirror backend/schemas.py. The UI reads only the /api endpoints.
+// Types mirror backend/app/schemas/. The UI reads only the /api endpoints.
 import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export type Process = "leave" | "offboarding" | "onboarding";

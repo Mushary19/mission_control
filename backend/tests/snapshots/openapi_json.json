@@ -1,0 +1,2693 @@
+{
+ "body": {
+  "components": {
+   "schemas": {
+    "CaseDetail": {
+     "properties": {
+      "case_id": {
+       "title": "Case Id",
+       "type": "string"
+      },
+      "client": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Client"
+      },
+      "client_name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Client Name"
+      },
+      "ends_after_window": {
+       "title": "Ends After Window",
+       "type": "boolean"
+      },
+      "flag_count": {
+       "title": "Flag Count",
+       "type": "integer"
+      },
+      "flags": {
+       "items": {
+        "$ref": "#/components/schemas/Flag"
+       },
+       "title": "Flags",
+       "type": "array"
+      },
+      "handoff": {
+       "title": "Handoff",
+       "type": "boolean"
+      },
+      "insights": {
+       "description": "ids of process insights that include this case",
+       "items": {
+        "type": "string"
+       },
+       "title": "Insights",
+       "type": "array"
+      },
+      "key": {
+       "additionalProperties": true,
+       "title": "Key",
+       "type": "object"
+      },
+      "last_activity": {
+       "title": "Last Activity",
+       "type": "string"
+      },
+      "out_of_order": {
+       "items": {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       "title": "Out Of Order",
+       "type": "array"
+      },
+      "owner_name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Owner Name"
+      },
+      "owner_staff_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Owner Staff Id"
+      },
+      "process": {
+       "enum": [
+        "leave",
+        "offboarding",
+        "onboarding"
+       ],
+       "title": "Process",
+       "type": "string"
+      },
+      "related_flags": {
+       "default": [],
+       "description": "flags on this person's other cases (cross-process, e.g. leave after the last day)",
+       "items": {
+        "$ref": "#/components/schemas/Flag"
+       },
+       "title": "Related Flags",
+       "type": "array"
+      },
+      "staff_involved": {
+       "items": {
+        "$ref": "#/components/schemas/PersonRef"
+       },
+       "title": "Staff Involved",
+       "type": "array"
+      },
+      "start": {
+       "title": "Start",
+       "type": "string"
+      },
+      "started_before_window": {
+       "title": "Started Before Window",
+       "type": "boolean"
+      },
+      "status": {
+       "enum": [
+        "complete",
+        "in_progress",
+        "declined",
+        "cancelled"
+       ],
+       "title": "Status",
+       "type": "string"
+      },
+      "step_count": {
+       "title": "Step Count",
+       "type": "integer"
+      },
+      "steps": {
+       "items": {
+        "$ref": "#/components/schemas/CaseStep"
+       },
+       "title": "Steps",
+       "type": "array"
+      },
+      "subject_name": {
+       "title": "Subject Name",
+       "type": "string"
+      },
+      "subject_person_id": {
+       "title": "Subject Person Id",
+       "type": "string"
+      },
+      "summary": {
+       "title": "Summary",
+       "type": "string"
+      },
+      "window_notes": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Window Notes",
+       "type": "array"
+      }
+     },
+     "required": [
+      "case_id",
+      "process",
+      "subject_person_id",
+      "subject_name",
+      "status",
+      "started_before_window",
+      "ends_after_window",
+      "step_count",
+      "flag_count",
+      "start",
+      "last_activity",
+      "summary",
+      "key",
+      "staff_involved",
+      "handoff",
+      "window_notes",
+      "steps",
+      "flags",
+      "insights",
+      "out_of_order"
+     ],
+     "title": "CaseDetail",
+     "type": "object"
+    },
+    "CaseStep": {
+     "properties": {
+      "activity": {
+       "title": "Activity",
+       "type": "string"
+      },
+      "actor_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Actor Id"
+      },
+      "actor_name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Actor Name"
+      },
+      "confidence": {
+       "enum": [
+        "high",
+        "medium",
+        "low"
+       ],
+       "title": "Confidence",
+       "type": "string"
+      },
+      "event_id": {
+       "title": "Event Id",
+       "type": "string"
+      },
+      "label": {
+       "title": "Label",
+       "type": "string"
+      },
+      "likely": {
+       "description": "True for screen-based steps: the screen shows what was open, not what was done",
+       "title": "Likely",
+       "type": "boolean"
+      },
+      "link": {
+       "description": "How the step joined the case: thread | dates | person | time",
+       "title": "Link",
+       "type": "string"
+      },
+      "link_reason": {
+       "title": "Link Reason",
+       "type": "string"
+      },
+      "raw_ref": {
+       "$ref": "#/components/schemas/RawRef"
+      },
+      "resolution": {
+       "anyOf": [
+        {
+         "$ref": "#/components/schemas/Resolution"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "session": {
+       "anyOf": [
+        {
+         "$ref": "#/components/schemas/Session"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "source": {
+       "enum": [
+        "mail",
+        "calendar",
+        "teams_chat",
+        "teams_channel",
+        "screen"
+       ],
+       "title": "Source",
+       "type": "string"
+      },
+      "text": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Text"
+      },
+      "time_local": {
+       "title": "Time Local",
+       "type": "string"
+      },
+      "title": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Title"
+      }
+     },
+     "required": [
+      "activity",
+      "label",
+      "event_id",
+      "time_local",
+      "source",
+      "confidence",
+      "likely",
+      "link",
+      "link_reason",
+      "raw_ref"
+     ],
+     "title": "CaseStep",
+     "type": "object"
+    },
+    "CaseSummary": {
+     "properties": {
+      "case_id": {
+       "title": "Case Id",
+       "type": "string"
+      },
+      "client": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Client"
+      },
+      "client_name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Client Name"
+      },
+      "ends_after_window": {
+       "title": "Ends After Window",
+       "type": "boolean"
+      },
+      "flag_count": {
+       "title": "Flag Count",
+       "type": "integer"
+      },
+      "last_activity": {
+       "title": "Last Activity",
+       "type": "string"
+      },
+      "owner_name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Owner Name"
+      },
+      "owner_staff_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Owner Staff Id"
+      },
+      "process": {
+       "enum": [
+        "leave",
+        "offboarding",
+        "onboarding"
+       ],
+       "title": "Process",
+       "type": "string"
+      },
+      "start": {
+       "title": "Start",
+       "type": "string"
+      },
+      "started_before_window": {
+       "title": "Started Before Window",
+       "type": "boolean"
+      },
+      "status": {
+       "enum": [
+        "complete",
+        "in_progress",
+        "declined",
+        "cancelled"
+       ],
+       "title": "Status",
+       "type": "string"
+      },
+      "step_count": {
+       "title": "Step Count",
+       "type": "integer"
+      },
+      "subject_name": {
+       "title": "Subject Name",
+       "type": "string"
+      },
+      "subject_person_id": {
+       "title": "Subject Person Id",
+       "type": "string"
+      },
+      "summary": {
+       "title": "Summary",
+       "type": "string"
+      }
+     },
+     "required": [
+      "case_id",
+      "process",
+      "subject_person_id",
+      "subject_name",
+      "status",
+      "started_before_window",
+      "ends_after_window",
+      "step_count",
+      "flag_count",
+      "start",
+      "last_activity",
+      "summary"
+     ],
+     "title": "CaseSummary",
+     "type": "object"
+    },
+    "Coverage": {
+     "properties": {
+      "exported": {
+       "items": {
+        "$ref": "#/components/schemas/StaffRef"
+       },
+       "title": "Exported",
+       "type": "array"
+      },
+      "label": {
+       "description": "Always shown in the UI, e.g. \"Data from 6 of 12 staff.\"",
+       "title": "Label",
+       "type": "string"
+      },
+      "not_exported": {
+       "items": {
+        "$ref": "#/components/schemas/StaffRef"
+       },
+       "title": "Not Exported",
+       "type": "array"
+      },
+      "staff_exported": {
+       "title": "Staff Exported",
+       "type": "integer"
+      },
+      "staff_total": {
+       "title": "Staff Total",
+       "type": "integer"
+      }
+     },
+     "required": [
+      "staff_total",
+      "staff_exported",
+      "label",
+      "exported",
+      "not_exported"
+     ],
+     "title": "Coverage",
+     "type": "object"
+    },
+    "DfgEdge": {
+     "properties": {
+      "count": {
+       "title": "Count",
+       "type": "integer"
+      },
+      "from": {
+       "title": "From",
+       "type": "string"
+      },
+      "to": {
+       "title": "To",
+       "type": "string"
+      }
+     },
+     "required": [
+      "from",
+      "to",
+      "count"
+     ],
+     "title": "DfgEdge",
+     "type": "object"
+    },
+    "Feedback": {
+     "properties": {
+      "activity": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Activity"
+      },
+      "case_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Case Id"
+      },
+      "created_at": {
+       "format": "date-time",
+       "title": "Created At",
+       "type": "string"
+      },
+      "event_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Event Id"
+      },
+      "id": {
+       "title": "Id",
+       "type": "string"
+      },
+      "insight_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Insight Id"
+      },
+      "note": {
+       "default": "",
+       "title": "Note",
+       "type": "string"
+      },
+      "other_person_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "identity feedback: the possible_same_person counterpart",
+       "title": "Other Person Id"
+      },
+      "person_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Person Id"
+      },
+      "process": {
+       "anyOf": [
+        {
+         "enum": [
+          "leave",
+          "offboarding",
+          "onboarding"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Process"
+      },
+      "proposed_step": {
+       "anyOf": [
+        {
+         "additionalProperties": true,
+         "type": "object"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "verdict \"add\": e.g. {\"activity\": \"...\", \"after\": \"...\", \"description\": \"...\"}",
+       "title": "Proposed Step"
+      },
+      "question_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Question Id"
+      },
+      "target": {
+       "enum": [
+        "process_step",
+        "case_step",
+        "case",
+        "open_question",
+        "insight",
+        "identity"
+       ],
+       "title": "Target",
+       "type": "string"
+      },
+      "user": {
+       "description": "Who is reviewing (no auth; picked in the UI)",
+       "examples": [
+        "Hana Pemberton"
+       ],
+       "title": "User",
+       "type": "string"
+      },
+      "verdict": {
+       "enum": [
+        "confirm",
+        "reject",
+        "add",
+        "answer"
+       ],
+       "title": "Verdict",
+       "type": "string"
+      }
+     },
+     "required": [
+      "user",
+      "target",
+      "verdict",
+      "id",
+      "created_at"
+     ],
+     "title": "Feedback",
+     "type": "object"
+    },
+    "FeedbackIn": {
+     "properties": {
+      "activity": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Activity"
+      },
+      "case_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Case Id"
+      },
+      "event_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Event Id"
+      },
+      "insight_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Insight Id"
+      },
+      "note": {
+       "default": "",
+       "title": "Note",
+       "type": "string"
+      },
+      "other_person_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "identity feedback: the possible_same_person counterpart",
+       "title": "Other Person Id"
+      },
+      "person_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Person Id"
+      },
+      "process": {
+       "anyOf": [
+        {
+         "enum": [
+          "leave",
+          "offboarding",
+          "onboarding"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Process"
+      },
+      "proposed_step": {
+       "anyOf": [
+        {
+         "additionalProperties": true,
+         "type": "object"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "verdict \"add\": e.g. {\"activity\": \"...\", \"after\": \"...\", \"description\": \"...\"}",
+       "title": "Proposed Step"
+      },
+      "question_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Question Id"
+      },
+      "target": {
+       "enum": [
+        "process_step",
+        "case_step",
+        "case",
+        "open_question",
+        "insight",
+        "identity"
+       ],
+       "title": "Target",
+       "type": "string"
+      },
+      "user": {
+       "description": "Who is reviewing (no auth; picked in the UI)",
+       "examples": [
+        "Hana Pemberton"
+       ],
+       "title": "User",
+       "type": "string"
+      },
+      "verdict": {
+       "enum": [
+        "confirm",
+        "reject",
+        "add",
+        "answer"
+       ],
+       "title": "Verdict",
+       "type": "string"
+      }
+     },
+     "required": [
+      "user",
+      "target",
+      "verdict"
+     ],
+     "title": "FeedbackIn",
+     "type": "object"
+    },
+    "FeedbackList": {
+     "properties": {
+      "count": {
+       "title": "Count",
+       "type": "integer"
+      },
+      "items": {
+       "items": {
+        "$ref": "#/components/schemas/Feedback"
+       },
+       "title": "Items",
+       "type": "array"
+      }
+     },
+     "required": [
+      "count",
+      "items"
+     ],
+     "title": "FeedbackList",
+     "type": "object"
+    },
+    "Flag": {
+     "properties": {
+      "case_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Case Id"
+      },
+      "evidence_event_ids": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Evidence Event Ids",
+       "type": "array"
+      },
+      "flag_id": {
+       "title": "Flag Id",
+       "type": "string"
+      },
+      "message": {
+       "title": "Message",
+       "type": "string"
+      },
+      "person_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Person Id"
+      },
+      "person_name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Person Name"
+      },
+      "process": {
+       "anyOf": [
+        {
+         "enum": [
+          "leave",
+          "offboarding",
+          "onboarding"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Process"
+      },
+      "rule": {
+       "title": "Rule",
+       "type": "string"
+      },
+      "scope": {
+       "enum": [
+        "case",
+        "process"
+       ],
+       "title": "Scope",
+       "type": "string"
+      },
+      "severity": {
+       "title": "Severity",
+       "type": "string"
+      }
+     },
+     "required": [
+      "flag_id",
+      "rule",
+      "scope",
+      "severity",
+      "message",
+      "evidence_event_ids"
+     ],
+     "title": "Flag",
+     "type": "object"
+    },
+    "HTTPValidationError": {
+     "properties": {
+      "detail": {
+       "items": {
+        "$ref": "#/components/schemas/ValidationError"
+       },
+       "title": "Detail",
+       "type": "array"
+      }
+     },
+     "title": "HTTPValidationError",
+     "type": "object"
+    },
+    "Insight": {
+     "properties": {
+      "affected_case_ids": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Affected Case Ids",
+       "type": "array"
+      },
+      "eligible_cases": {
+       "anyOf": [
+        {
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Eligible Cases"
+      },
+      "evidence_event_ids": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Evidence Event Ids",
+       "type": "array"
+      },
+      "id": {
+       "title": "Id",
+       "type": "string"
+      },
+      "kind": {
+       "enum": [
+        "process_insight",
+        "case_flag"
+       ],
+       "title": "Kind",
+       "type": "string"
+      },
+      "message": {
+       "title": "Message",
+       "type": "string"
+      },
+      "per_case": {
+       "default": [],
+       "items": {
+        "$ref": "#/components/schemas/InsightCase"
+       },
+       "title": "Per Case",
+       "type": "array"
+      },
+      "process": {
+       "anyOf": [
+        {
+         "enum": [
+          "leave",
+          "offboarding",
+          "onboarding"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Process"
+      },
+      "rules": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Rules",
+       "type": "array"
+      },
+      "severity": {
+       "enum": [
+        "info",
+        "warning"
+       ],
+       "title": "Severity",
+       "type": "string"
+      },
+      "title": {
+       "title": "Title",
+       "type": "string"
+      }
+     },
+     "required": [
+      "id",
+      "kind",
+      "process",
+      "title",
+      "message",
+      "rules",
+      "affected_case_ids",
+      "evidence_event_ids",
+      "severity"
+     ],
+     "title": "Insight",
+     "type": "object"
+    },
+    "InsightCase": {
+     "properties": {
+      "case_id": {
+       "title": "Case Id",
+       "type": "string"
+      },
+      "flag_ids": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Flag Ids",
+       "type": "array"
+      },
+      "message": {
+       "title": "Message",
+       "type": "string"
+      },
+      "person_name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Person Name"
+      },
+      "rules": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Rules",
+       "type": "array"
+      }
+     },
+     "required": [
+      "case_id",
+      "rules",
+      "message",
+      "flag_ids"
+     ],
+     "title": "InsightCase",
+     "type": "object"
+    },
+    "MainPath": {
+     "properties": {
+      "activities": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Activities",
+       "type": "array"
+      },
+      "cases_following_exactly": {
+       "title": "Cases Following Exactly",
+       "type": "integer"
+      },
+      "labels": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Labels",
+       "type": "array"
+      },
+      "method": {
+       "title": "Method",
+       "type": "string"
+      },
+      "tied_alternatives": {
+       "default": [],
+       "items": {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       "title": "Tied Alternatives",
+       "type": "array"
+      }
+     },
+     "required": [
+      "activities",
+      "labels",
+      "method",
+      "cases_following_exactly"
+     ],
+     "title": "MainPath",
+     "type": "object"
+    },
+    "Meta": {
+     "properties": {
+      "coverage": {
+       "$ref": "#/components/schemas/Coverage"
+      },
+      "out_files": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Out Files",
+       "type": "array"
+      },
+      "seen_not_modelled": {
+       "items": {
+        "$ref": "#/components/schemas/SeenNotModelled"
+       },
+       "title": "Seen Not Modelled",
+       "type": "array"
+      },
+      "stage_counts": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "title": "Stage Counts",
+       "type": "object"
+      },
+      "timezone_note": {
+       "title": "Timezone Note",
+       "type": "string"
+      },
+      "window": {
+       "$ref": "#/components/schemas/Window"
+      }
+     },
+     "required": [
+      "coverage",
+      "window",
+      "timezone_note",
+      "stage_counts",
+      "seen_not_modelled",
+      "out_files"
+     ],
+     "title": "Meta",
+     "type": "object"
+    },
+    "OpenQuestion": {
+     "properties": {
+      "evidence": {
+       "additionalProperties": true,
+       "default": {},
+       "title": "Evidence",
+       "type": "object"
+      },
+      "id": {
+       "title": "Id",
+       "type": "string"
+      },
+      "process": {
+       "enum": [
+        "leave",
+        "offboarding",
+        "onboarding"
+       ],
+       "title": "Process",
+       "type": "string"
+      },
+      "question": {
+       "title": "Question",
+       "type": "string"
+      },
+      "why": {
+       "title": "Why",
+       "type": "string"
+      }
+     },
+     "required": [
+      "id",
+      "process",
+      "question",
+      "why"
+     ],
+     "title": "OpenQuestion",
+     "type": "object"
+    },
+    "PathConfidence": {
+     "properties": {
+      "level": {
+       "enum": [
+        "high",
+        "medium",
+        "low"
+       ],
+       "title": "Level",
+       "type": "string"
+      },
+      "reason": {
+       "title": "Reason",
+       "type": "string"
+      },
+      "rule": {
+       "title": "Rule",
+       "type": "string"
+      }
+     },
+     "required": [
+      "level",
+      "reason",
+      "rule"
+     ],
+     "title": "PathConfidence",
+     "type": "object"
+    },
+    "PersonDetail": {
+     "properties": {
+      "cases": {
+       "items": {
+        "$ref": "#/components/schemas/CaseSummary"
+       },
+       "title": "Cases",
+       "type": "array"
+      },
+      "display_name": {
+       "title": "Display Name",
+       "type": "string"
+      },
+      "emails": {
+       "default": [],
+       "items": {
+        "type": "string"
+       },
+       "title": "Emails",
+       "type": "array"
+      },
+      "exported": {
+       "default": false,
+       "title": "Exported",
+       "type": "boolean"
+      },
+      "job_title": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Job Title"
+      },
+      "kind": {
+       "enum": [
+        "staff",
+        "it",
+        "worker",
+        "new_starter",
+        "client",
+        "vendor",
+        "candidate",
+        "unknown"
+       ],
+       "title": "Kind",
+       "type": "string"
+      },
+      "merge_reason": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Merge Reason"
+      },
+      "merged_ids": {
+       "default": [],
+       "items": {
+        "type": "string"
+       },
+       "title": "Merged Ids",
+       "type": "array"
+      },
+      "org": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Org"
+      },
+      "org_name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Org Name"
+      },
+      "person_id": {
+       "title": "Person Id",
+       "type": "string"
+      },
+      "possible_same_person": {
+       "default": [],
+       "items": {
+        "$ref": "#/components/schemas/PossibleSame"
+       },
+       "title": "Possible Same Person",
+       "type": "array"
+      }
+     },
+     "required": [
+      "person_id",
+      "display_name",
+      "kind",
+      "cases"
+     ],
+     "title": "PersonDetail",
+     "type": "object"
+    },
+    "PersonRef": {
+     "properties": {
+      "name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Name"
+      },
+      "person_id": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Person Id"
+      }
+     },
+     "required": [
+      "person_id",
+      "name"
+     ],
+     "title": "PersonRef",
+     "type": "object"
+    },
+    "PossibleSame": {
+     "properties": {
+      "name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Name"
+      },
+      "person_id": {
+       "title": "Person Id",
+       "type": "string"
+      },
+      "reason": {
+       "title": "Reason",
+       "type": "string"
+      }
+     },
+     "required": [
+      "person_id",
+      "reason"
+     ],
+     "title": "PossibleSame",
+     "type": "object"
+    },
+    "ProcessDetail": {
+     "properties": {
+      "case_count": {
+       "title": "Case Count",
+       "type": "integer"
+      },
+      "dfg": {
+       "items": {
+        "$ref": "#/components/schemas/DfgEdge"
+       },
+       "title": "Dfg",
+       "type": "array"
+      },
+      "full_trace_cases": {
+       "title": "Full Trace Cases",
+       "type": "integer"
+      },
+      "insight_count": {
+       "title": "Insight Count",
+       "type": "integer"
+      },
+      "insights": {
+       "items": {
+        "$ref": "#/components/schemas/Insight"
+       },
+       "title": "Insights",
+       "type": "array"
+      },
+      "label": {
+       "title": "Label",
+       "type": "string"
+      },
+      "main_path": {
+       "$ref": "#/components/schemas/MainPath"
+      },
+      "main_path_labels": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Main Path Labels",
+       "type": "array"
+      },
+      "open_question_count": {
+       "title": "Open Question Count",
+       "type": "integer"
+      },
+      "open_questions": {
+       "items": {
+        "$ref": "#/components/schemas/OpenQuestion"
+       },
+       "title": "Open Questions",
+       "type": "array"
+      },
+      "path_confidence": {
+       "$ref": "#/components/schemas/PathConfidence"
+      },
+      "process": {
+       "enum": [
+        "leave",
+        "offboarding",
+        "onboarding"
+       ],
+       "title": "Process",
+       "type": "string"
+      },
+      "status_counts": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "title": "Status Counts",
+       "type": "object"
+      },
+      "steps": {
+       "items": {
+        "$ref": "#/components/schemas/ProcessStep"
+       },
+       "title": "Steps",
+       "type": "array"
+      },
+      "variants": {
+       "items": {
+        "$ref": "#/components/schemas/Variant"
+       },
+       "title": "Variants",
+       "type": "array"
+      },
+      "window_badges": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "title": "Window Badges",
+       "type": "object"
+      }
+     },
+     "required": [
+      "process",
+      "label",
+      "case_count",
+      "status_counts",
+      "window_badges",
+      "full_trace_cases",
+      "path_confidence",
+      "main_path_labels",
+      "open_question_count",
+      "insight_count",
+      "main_path",
+      "steps",
+      "dfg",
+      "variants",
+      "open_questions",
+      "insights"
+     ],
+     "title": "ProcessDetail",
+     "type": "object"
+    },
+    "ProcessStep": {
+     "properties": {
+      "activity": {
+       "title": "Activity",
+       "type": "string"
+      },
+      "case_count": {
+       "title": "Case Count",
+       "type": "integer"
+      },
+      "confidence_mix": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "title": "Confidence Mix",
+       "type": "object"
+      },
+      "label": {
+       "title": "Label",
+       "type": "string"
+      },
+      "median_from_case_start_h": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Median From Case Start H"
+      },
+      "median_to_next_h": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Median To Next H"
+      },
+      "next_on_main_path": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Next On Main Path"
+      },
+      "on_main_path": {
+       "title": "On Main Path",
+       "type": "boolean"
+      },
+      "optional": {
+       "title": "Optional",
+       "type": "boolean"
+      },
+      "screen_only": {
+       "title": "Screen Only",
+       "type": "boolean"
+      },
+      "support_pct": {
+       "title": "Support Pct",
+       "type": "number"
+      }
+     },
+     "required": [
+      "activity",
+      "label",
+      "support_pct",
+      "case_count",
+      "confidence_mix",
+      "on_main_path",
+      "optional",
+      "screen_only"
+     ],
+     "title": "ProcessStep",
+     "type": "object"
+    },
+    "ProcessSummary": {
+     "properties": {
+      "case_count": {
+       "title": "Case Count",
+       "type": "integer"
+      },
+      "full_trace_cases": {
+       "title": "Full Trace Cases",
+       "type": "integer"
+      },
+      "insight_count": {
+       "title": "Insight Count",
+       "type": "integer"
+      },
+      "label": {
+       "title": "Label",
+       "type": "string"
+      },
+      "main_path_labels": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Main Path Labels",
+       "type": "array"
+      },
+      "open_question_count": {
+       "title": "Open Question Count",
+       "type": "integer"
+      },
+      "path_confidence": {
+       "$ref": "#/components/schemas/PathConfidence"
+      },
+      "process": {
+       "enum": [
+        "leave",
+        "offboarding",
+        "onboarding"
+       ],
+       "title": "Process",
+       "type": "string"
+      },
+      "status_counts": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "title": "Status Counts",
+       "type": "object"
+      },
+      "window_badges": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "title": "Window Badges",
+       "type": "object"
+      }
+     },
+     "required": [
+      "process",
+      "label",
+      "case_count",
+      "status_counts",
+      "window_badges",
+      "full_trace_cases",
+      "path_confidence",
+      "main_path_labels",
+      "open_question_count",
+      "insight_count"
+     ],
+     "title": "ProcessSummary",
+     "type": "object"
+    },
+    "RawLine": {
+     "properties": {
+      "file": {
+       "title": "File",
+       "type": "string"
+      },
+      "line": {
+       "title": "Line",
+       "type": "integer"
+      },
+      "raw": {
+       "description": "The original line, byte-for-byte as in the export",
+       "title": "Raw",
+       "type": "string"
+      },
+      "record": {
+       "additionalProperties": true,
+       "description": "The same line parsed as JSON",
+       "title": "Record",
+       "type": "object"
+      }
+     },
+     "required": [
+      "file",
+      "line",
+      "raw",
+      "record"
+     ],
+     "title": "RawLine",
+     "type": "object"
+    },
+    "RawRef": {
+     "properties": {
+      "file": {
+       "description": "Path of the raw export file, relative to the repo root (data/...)",
+       "title": "File",
+       "type": "string"
+      },
+      "line": {
+       "description": "1-based line number in that file",
+       "title": "Line",
+       "type": "integer"
+      }
+     },
+     "required": [
+      "file",
+      "line"
+     ],
+     "title": "RawRef",
+     "type": "object"
+    },
+    "RawResponse": {
+     "properties": {
+      "event_id": {
+       "title": "Event Id",
+       "type": "string"
+      },
+      "line_count": {
+       "title": "Line Count",
+       "type": "integer"
+      },
+      "lines": {
+       "items": {
+        "$ref": "#/components/schemas/RawLine"
+       },
+       "title": "Lines",
+       "type": "array"
+      },
+      "source": {
+       "enum": [
+        "mail",
+        "calendar",
+        "teams_chat",
+        "teams_channel",
+        "screen"
+       ],
+       "title": "Source",
+       "type": "string"
+      }
+     },
+     "required": [
+      "event_id",
+      "source",
+      "line_count",
+      "lines"
+     ],
+     "title": "RawResponse",
+     "type": "object"
+    },
+    "Resolution": {
+     "properties": {
+      "candidates": {
+       "default": [],
+       "items": {
+        "type": "string"
+       },
+       "title": "Candidates",
+       "type": "array"
+      },
+      "confidence": {
+       "anyOf": [
+        {
+         "enum": [
+          "high",
+          "medium",
+          "low"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Confidence"
+      },
+      "method": {
+       "description": "email | sender | chat_member | thread | full_name | initial | first_name_unique | fuzzy | context | chat_pair | ambiguous | unresolved",
+       "title": "Method",
+       "type": "string"
+      },
+      "raw_name": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Raw Name"
+      },
+      "reason": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "description": "Plain sentence: why this person was chosen",
+       "title": "Reason"
+      }
+     },
+     "required": [
+      "method"
+     ],
+     "title": "Resolution",
+     "type": "object"
+    },
+    "SeenNotModelled": {
+     "properties": {
+      "events": {
+       "description": "mail / calendar / Teams records",
+       "title": "Events",
+       "type": "integer"
+      },
+      "key": {
+       "title": "Key",
+       "type": "string"
+      },
+      "label": {
+       "title": "Label",
+       "type": "string"
+      },
+      "screen_sessions": {
+       "title": "Screen Sessions",
+       "type": "integer"
+      }
+     },
+     "required": [
+      "key",
+      "label",
+      "events",
+      "screen_sessions"
+     ],
+     "title": "SeenNotModelled",
+     "type": "object"
+    },
+    "Session": {
+     "properties": {
+      "end_local": {
+       "title": "End Local",
+       "type": "string"
+      },
+      "end_utc": {
+       "title": "End Utc",
+       "type": "string"
+      },
+      "frame_count": {
+       "title": "Frame Count",
+       "type": "integer"
+      },
+      "minutes": {
+       "title": "Minutes",
+       "type": "number"
+      },
+      "start_local": {
+       "title": "Start Local",
+       "type": "string"
+      },
+      "start_utc": {
+       "title": "Start Utc",
+       "type": "string"
+      }
+     },
+     "required": [
+      "start_local",
+      "end_local",
+      "start_utc",
+      "end_utc",
+      "frame_count",
+      "minutes"
+     ],
+     "title": "Session",
+     "type": "object"
+    },
+    "StaffRef": {
+     "properties": {
+      "folder": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Folder"
+      },
+      "job_title": {
+       "title": "Job Title",
+       "type": "string"
+      },
+      "name": {
+       "title": "Name",
+       "type": "string"
+      }
+     },
+     "required": [
+      "name",
+      "job_title"
+     ],
+     "title": "StaffRef",
+     "type": "object"
+    },
+    "ValidationError": {
+     "properties": {
+      "ctx": {
+       "title": "Context",
+       "type": "object"
+      },
+      "input": {
+       "title": "Input"
+      },
+      "loc": {
+       "items": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "integer"
+         }
+        ]
+       },
+       "title": "Location",
+       "type": "array"
+      },
+      "msg": {
+       "title": "Message",
+       "type": "string"
+      },
+      "type": {
+       "title": "Error Type",
+       "type": "string"
+      }
+     },
+     "required": [
+      "loc",
+      "msg",
+      "type"
+     ],
+     "title": "ValidationError",
+     "type": "object"
+    },
+    "Variant": {
+     "properties": {
+      "case_ids": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Case Ids",
+       "type": "array"
+      },
+      "count": {
+       "title": "Count",
+       "type": "integer"
+      },
+      "path": {
+       "items": {
+        "type": "string"
+       },
+       "title": "Path",
+       "type": "array"
+      },
+      "statuses": {
+       "additionalProperties": {
+        "type": "integer"
+       },
+       "title": "Statuses",
+       "type": "object"
+      }
+     },
+     "required": [
+      "path",
+      "count",
+      "case_ids",
+      "statuses"
+     ],
+     "title": "Variant",
+     "type": "object"
+    },
+    "Window": {
+     "properties": {
+      "end": {
+       "title": "End",
+       "type": "string"
+      },
+      "note": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Note"
+      },
+      "start": {
+       "title": "Start",
+       "type": "string"
+      },
+      "timezone": {
+       "title": "Timezone",
+       "type": "string"
+      }
+     },
+     "required": [
+      "start",
+      "end",
+      "timezone"
+     ],
+     "title": "Window",
+     "type": "object"
+    }
+   }
+  },
+  "info": {
+   "description": "Process intelligence for the Harbourline Talent People team (synthetic data, 2–29 Mar 2026). Data from 6 of 12 staff. All times in Sri Lanka time (UTC+05:30). Read-only pipeline outputs + staff feedback.",
+   "title": "Mission Control API",
+   "version": "0.4.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+   "/api/cases": {
+    "get": {
+     "operationId": "cases_api_cases_get",
+     "parameters": [
+      {
+       "in": "query",
+       "name": "process",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Process"
+       }
+      },
+      {
+       "in": "query",
+       "name": "status",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Status"
+       }
+      },
+      {
+       "in": "query",
+       "name": "flagged",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "boolean"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Flagged"
+       }
+      },
+      {
+       "description": "search person, client, case id, summary",
+       "in": "query",
+       "name": "q",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "description": "search person, client, case id, summary",
+        "title": "Q"
+       }
+      }
+     ],
+     "responses": {
+      "200": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "items": {
+           "$ref": "#/components/schemas/CaseSummary"
+          },
+          "title": "Response Cases Api Cases Get",
+          "type": "array"
+         }
+        }
+       },
+       "description": "Successful Response"
+      },
+      "422": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/HTTPValidationError"
+         }
+        }
+       },
+       "description": "Validation Error"
+      }
+     },
+     "summary": "Cases",
+     "tags": [
+      "cases"
+     ]
+    }
+   },
+   "/api/cases/{case_id}": {
+    "get": {
+     "operationId": "case_detail_api_cases__case_id__get",
+     "parameters": [
+      {
+       "in": "path",
+       "name": "case_id",
+       "required": true,
+       "schema": {
+        "title": "Case Id",
+        "type": "string"
+       }
+      }
+     ],
+     "responses": {
+      "200": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/CaseDetail"
+         }
+        }
+       },
+       "description": "Successful Response"
+      },
+      "422": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/HTTPValidationError"
+         }
+        }
+       },
+       "description": "Validation Error"
+      }
+     },
+     "summary": "One case: steps with confidence, likely flag, resolution reason; flags",
+     "tags": [
+      "cases"
+     ]
+    }
+   },
+   "/api/events/{event_id}/raw": {
+    "get": {
+     "operationId": "raw_api_events__event_id__raw_get",
+     "parameters": [
+      {
+       "in": "path",
+       "name": "event_id",
+       "required": true,
+       "schema": {
+        "title": "Event Id",
+        "type": "string"
+       }
+      }
+     ],
+     "responses": {
+      "200": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/RawResponse"
+         }
+        }
+       },
+       "description": "Successful Response"
+      },
+      "422": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/HTTPValidationError"
+         }
+        }
+       },
+       "description": "Validation Error"
+      }
+     },
+     "summary": "The original raw line(s) from data/, unchanged (screen sessions: every frame)",
+     "tags": [
+      "events"
+     ]
+    }
+   },
+   "/api/feedback": {
+    "get": {
+     "operationId": "get_feedback_api_feedback_get",
+     "parameters": [
+      {
+       "in": "query",
+       "name": "target",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Target"
+       }
+      },
+      {
+       "in": "query",
+       "name": "case_id",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Case Id"
+       }
+      },
+      {
+       "in": "query",
+       "name": "process",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Process"
+       }
+      },
+      {
+       "in": "query",
+       "name": "user",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "User"
+       }
+      }
+     ],
+     "responses": {
+      "200": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/FeedbackList"
+         }
+        }
+       },
+       "description": "Successful Response"
+      },
+      "422": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/HTTPValidationError"
+         }
+        }
+       },
+       "description": "Validation Error"
+      }
+     },
+     "summary": "Get Feedback",
+     "tags": [
+      "feedback"
+     ]
+    },
+    "post": {
+     "operationId": "post_feedback_api_feedback_post",
+     "requestBody": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/FeedbackIn"
+        }
+       }
+      },
+      "required": true
+     },
+     "responses": {
+      "201": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/Feedback"
+         }
+        }
+       },
+       "description": "Successful Response"
+      },
+      "422": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/HTTPValidationError"
+         }
+        }
+       },
+       "description": "Validation Error"
+      }
+     },
+     "summary": "Confirm / reject / add a step, or answer an open question",
+     "tags": [
+      "feedback"
+     ]
+    }
+   },
+   "/api/feedback/export": {
+    "get": {
+     "operationId": "export_feedback_api_feedback_export_get",
+     "responses": {
+      "200": {
+       "content": {
+        "text/plain": {
+         "schema": {
+          "type": "string"
+         }
+        }
+       },
+       "description": "Successful Response"
+      }
+     },
+     "summary": "All feedback as JSONL (download)",
+     "tags": [
+      "feedback"
+     ]
+    }
+   },
+   "/api/flags": {
+    "get": {
+     "operationId": "flags_api_flags_get",
+     "parameters": [
+      {
+       "in": "query",
+       "name": "rule",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Rule"
+       }
+      },
+      {
+       "in": "query",
+       "name": "process",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Process"
+       }
+      }
+     ],
+     "responses": {
+      "200": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "items": {
+           "$ref": "#/components/schemas/Flag"
+          },
+          "title": "Response Flags Api Flags Get",
+          "type": "array"
+         }
+        }
+       },
+       "description": "Successful Response"
+      },
+      "422": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/HTTPValidationError"
+         }
+        }
+       },
+       "description": "Validation Error"
+      }
+     },
+     "summary": "Raw flag rule hits (before grouping into insights)",
+     "tags": [
+      "insights"
+     ]
+    }
+   },
+   "/api/insights": {
+    "get": {
+     "operationId": "insights_api_insights_get",
+     "parameters": [
+      {
+       "in": "query",
+       "name": "process",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Process"
+       }
+      },
+      {
+       "in": "query",
+       "name": "kind",
+       "required": false,
+       "schema": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Kind"
+       }
+      }
+     ],
+     "responses": {
+      "200": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "items": {
+           "$ref": "#/components/schemas/Insight"
+          },
+          "title": "Response Insights Api Insights Get",
+          "type": "array"
+         }
+        }
+       },
+       "description": "Successful Response"
+      },
+      "422": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/HTTPValidationError"
+         }
+        }
+       },
+       "description": "Validation Error"
+      }
+     },
+     "summary": "Process insights (systemic) and case flags (specific)",
+     "tags": [
+      "insights"
+     ]
+    }
+   },
+   "/api/meta": {
+    "get": {
+     "operationId": "meta_api_meta_get",
+     "responses": {
+      "200": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/Meta"
+         }
+        }
+       },
+       "description": "Successful Response"
+      }
+     },
+     "summary": "Coverage, export window, pipeline counts",
+     "tags": [
+      "meta"
+     ]
+    }
+   },
+   "/api/people/{person_id}": {
+    "get": {
+     "operationId": "person_api_people__person_id__get",
+     "parameters": [
+      {
+       "in": "path",
+       "name": "person_id",
+       "required": true,
+       "schema": {
+        "title": "Person Id",
+        "type": "string"
+       }
+      }
+     ],
+     "responses": {
+      "200": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/PersonDetail"
+         }
+        }
+       },
+       "description": "Successful Response"
+      },
+      "422": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/HTTPValidationError"
+         }
+        }
+       },
+       "description": "Validation Error"
+      }
+     },
+     "summary": "Person",
+     "tags": [
+      "people"
+     ]
+    }
+   },
+   "/api/processes": {
+    "get": {
+     "operationId": "processes_api_processes_get",
+     "responses": {
+      "200": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "items": {
+           "$ref": "#/components/schemas/ProcessSummary"
+          },
+          "title": "Response Processes Api Processes Get",
+          "type": "array"
+         }
+        }
+       },
+       "description": "Successful Response"
+      }
+     },
+     "summary": "Processes",
+     "tags": [
+      "processes"
+     ]
+    }
+   },
+   "/api/processes/{process}": {
+    "get": {
+     "operationId": "process_detail_api_processes__process__get",
+     "parameters": [
+      {
+       "in": "path",
+       "name": "process",
+       "required": true,
+       "schema": {
+        "title": "Process",
+        "type": "string"
+       }
+      }
+     ],
+     "responses": {
+      "200": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/ProcessDetail"
+         }
+        }
+       },
+       "description": "Successful Response"
+      },
+      "422": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/HTTPValidationError"
+         }
+        }
+       },
+       "description": "Validation Error"
+      }
+     },
+     "summary": "Discovered process: main path, steps, DFG, variants, open questions, insights",
+     "tags": [
+      "processes"
+     ]
+    }
+   }
+  }
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/openapi.json"
+}

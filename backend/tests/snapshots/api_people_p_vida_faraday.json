@@ -1,0 +1,43 @@
+{
+ "body": {
+  "cases": [
+   {
+    "case_id": "onboarding:vida-faraday",
+    "client": "o_ingram",
+    "client_name": "Ingram Stokes Lawyers",
+    "ends_after_window": false,
+    "flag_count": 3,
+    "last_activity": "2026-03-23T10:39:29+05:30",
+    "owner_name": "Lerato Faraday",
+    "owner_staff_id": "p_lerato-faraday",
+    "process": "onboarding",
+    "start": "2026-03-04T10:00:00+05:30",
+    "started_before_window": true,
+    "status": "complete",
+    "step_count": 15,
+    "subject_name": "Vida Faraday",
+    "subject_person_id": "p_vida-faraday",
+    "summary": "Vida Faraday: onboarding, first day Wed 11 Mar at Ingram Stokes Lawyers. Handled by Lerato Faraday (hand-off: Hana Pemberton → Lerato Faraday). 15 steps, complete."
+   }
+  ],
+  "display_name": "Vida Faraday",
+  "emails": [
+   "vida.faraday@harbourline.example",
+   "vida.faraday@mailbox.example"
+  ],
+  "exported": false,
+  "job_title": null,
+  "kind": "new_starter",
+  "merge_reason": "personal address used first in onboarding (2026-03-04), work address from 2026-03-11; same client Ingram Stokes Lawyers",
+  "merged_ids": [
+   "p_vida-faraday-personal"
+  ],
+  "org": "o_harbourline",
+  "org_name": "Harbourline Talent",
+  "person_id": "p_vida-faraday",
+  "possible_same_person": []
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/people/p_vida-faraday"
+}

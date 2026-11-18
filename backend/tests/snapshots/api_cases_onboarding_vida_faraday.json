@@ -1,0 +1,534 @@
+{
+ "body": {
+  "case_id": "onboarding:vida-faraday",
+  "client": "o_ingram",
+  "client_name": "Ingram Stokes Lawyers",
+  "ends_after_window": false,
+  "flag_count": 3,
+  "flags": [
+   {
+    "case_id": "onboarding:vida-faraday",
+    "evidence_event_ids": [
+     "mail:RdMMMaRpLGISVYxQrGKSXvjN@harbourline.example",
+     "teams_channel:1773398042928"
+    ],
+    "flag_id": "laptop_requested_late:onboarding:vida-faraday",
+    "message": "Laptop for Vida Faraday requested on Fri 13 Mar: needed by Wed 11 Mar (the start date), so 2 day(s) late.",
+    "person_id": "p_vida-faraday",
+    "person_name": "Vida Faraday",
+    "process": "onboarding",
+    "rule": "laptop_requested_late",
+    "scope": "case",
+    "severity": "warning"
+   },
+   {
+    "case_id": "onboarding:vida-faraday",
+    "evidence_event_ids": [
+     "teams_channel:1774242569075",
+     "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773393699482"
+    ],
+    "flag_id": "onboarded_before_laptop:onboarding:vida-faraday",
+    "message": "Vida Faraday was confirmed onboarded on Fri 13 Mar; the laptop arrived 9.8 days later (Mon 23 Mar).",
+    "person_id": "p_vida-faraday",
+    "person_name": "Vida Faraday",
+    "process": "onboarding",
+    "rule": "onboarded_before_laptop",
+    "scope": "case",
+    "severity": "warning"
+   },
+   {
+    "case_id": "onboarding:vida-faraday",
+    "evidence_event_ids": [
+     "mail:B6AVR02xxKxP0rqiKUW0wIfV@harbourline.example",
+     "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773393699482"
+    ],
+    "flag_id": "onboarded_with_open_issue:onboarding:vida-faraday",
+    "message": "Vida Faraday replied on Thu 12 Mar: \"Good! Still waiting on access to their DMS but otherwise fine.\". Confirmed onboarded on Fri 13 Mar with no fix in the data.",
+    "person_id": "p_vida-faraday",
+    "person_name": "Vida Faraday",
+    "process": "onboarding",
+    "rule": "onboarded_with_open_issue",
+    "scope": "case",
+    "severity": "warning"
+   }
+  ],
+  "handoff": true,
+  "insights": [
+   "ins:onboarding:day_one_dms",
+   "ins:onboarding:laptop_late"
+  ],
+  "key": {
+   "first_day": "2026-03-11"
+  },
+  "last_activity": "2026-03-23T10:39:29+05:30",
+  "out_of_order": [],
+  "owner_name": "Lerato Faraday",
+  "owner_staff_id": "p_lerato-faraday",
+  "process": "onboarding",
+  "related_flags": [],
+  "staff_involved": [
+   {
+    "name": "Hana Pemberton",
+    "person_id": "p_hana-pemberton"
+   },
+   {
+    "name": "Lerato Faraday",
+    "person_id": "p_lerato-faraday"
+   }
+  ],
+  "start": "2026-03-04T10:00:00+05:30",
+  "started_before_window": true,
+  "status": "complete",
+  "step_count": 15,
+  "steps": [
+   {
+    "activity": "induction_meeting",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "medium",
+    "event_id": "calendar:040000008200E00074C5B7101A82E00817FA945557941B7D328662EF3E8154558BA57D46",
+    "label": "Induction meeting",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/outlook/calendar.jsonl",
+     "line": 2
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Attendee address vida.faraday@harbourline.example"
+    },
+    "session": null,
+    "source": "calendar",
+    "text": null,
+    "time_local": "2026-03-04T10:00:00+05:30",
+    "title": "Induction – Vida F."
+   },
+   {
+    "activity": "induction_completed",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "medium",
+    "event_id": "teams_chat:19:9531985d-0ed9-4e8e-a81e-099936f675cc_f28c105d-3926-4a17-aa09-f29d953f48f1@unq.gbl.spaces:1772602555414",
+    "label": "Induction completed",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/teams/messages.jsonl",
+     "line": 12
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday",
+      "p_vida-sandoval"
+     ],
+     "confidence": "medium",
+     "method": "context",
+     "raw_name": "Vida",
+     "reason": "Only Vida with an onboarding case near this date; client Ingram Stokes Lawyers matches"
+    },
+    "session": null,
+    "source": "teams_chat",
+    "text": "Vida finished induction, good to go for Ingram",
+    "time_local": "2026-03-04T11:05:55+05:30",
+    "title": null
+   },
+   {
+    "activity": "welcome_sent",
+    "actor_id": "p_lerato-faraday",
+    "actor_name": "Lerato Faraday",
+    "confidence": "high",
+    "event_id": "mail:RdMMMaRpLGISVYxQrGKSXvjN@harbourline.example",
+    "label": "Welcome sent",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/lerato/outlook/messages.jsonl",
+     "line": 34
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Recipient address vida.faraday@harbourline.example"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hey Vida,\n\nYour first day with Ingram Stokes Lawyers is Wed 11 Mar. Your work account details will follow from IT.\n\nBest,\nLerato\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-06T08:43:53+05:30",
+    "title": "Welcome to Harbourline Talent!"
+   },
+   {
+    "activity": "it_requested",
+    "actor_id": "p_lerato-faraday",
+    "actor_name": "Lerato Faraday",
+    "confidence": "medium",
+    "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1772788300763",
+    "label": "IT setup requested",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/lerato/teams/messages.jsonl",
+     "line": 15
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday",
+      "p_vida-sandoval"
+     ],
+     "confidence": "medium",
+     "method": "context",
+     "raw_name": "Vida",
+     "reason": "Only Vida with an onboarding case near this date; first day Wed 11 Mar matches; client Ingram Stokes Lawyers matches"
+    },
+    "session": null,
+    "source": "teams_chat",
+    "text": "Hi Tobias, can you set up M365, VPN and the timesheet app for Vida? Starts Wed 11 Mar at Ingram",
+    "time_local": "2026-03-06T14:41:40+05:30",
+    "title": null
+   },
+   {
+    "activity": "it_ready",
+    "actor_id": "p_tobias-northcott",
+    "actor_name": "Tobias Northcott",
+    "confidence": "high",
+    "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773026968748",
+    "label": "IT ready",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/lerato/teams/messages.jsonl",
+     "line": 18
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": "Vida",
+     "reason": "Matches the open IT request for Vida Faraday in the same chat"
+    },
+    "session": null,
+    "source": "teams_chat",
+    "text": "all set for Vida",
+    "time_local": "2026-03-09T08:59:28+05:30",
+    "title": null
+   },
+   {
+    "activity": "kickoff_meeting",
+    "actor_id": "p_lerato-faraday",
+    "actor_name": "Lerato Faraday",
+    "confidence": "medium",
+    "event_id": "calendar:040000008200E00074C5B7101A82E0084235B44CF4389A096AA187DB9881A9957B1E6AFE",
+    "label": "Client kick-off",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/lerato/outlook/calendar.jsonl",
+     "line": 10
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Vida Faraday",
+     "reason": "Full name 'Vida Faraday' written in the text"
+    },
+    "session": null,
+    "source": "calendar",
+    "text": null,
+    "time_local": "2026-03-11T14:30:00+05:30",
+    "title": "Kick-off: Vida Faraday x Ingram Stokes Lawyers"
+   },
+   {
+    "activity": "day_one_checkin",
+    "actor_id": "p_lerato-faraday",
+    "actor_name": "Lerato Faraday",
+    "confidence": "high",
+    "event_id": "mail:lYKUi5XawgeFQ86NpFOEve7I@harbourline.example",
+    "label": "Day-one check-in",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/lerato/outlook/messages.jsonl",
+     "line": 78
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Recipient address vida.faraday@harbourline.example"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hello Vida,\n\nJust checking in, how did your first day go? Anything you're missing?\n\nBest,\nLerato\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-11T16:00:51+05:30",
+    "title": "How was day one?"
+   },
+   {
+    "activity": "day_one_reply",
+    "actor_id": "p_vida-faraday",
+    "actor_name": "Vida Faraday",
+    "confidence": "high",
+    "event_id": "mail:B6AVR02xxKxP0rqiKUW0wIfV@harbourline.example",
+    "label": "Day-one reply",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/lerato/outlook/messages.jsonl",
+     "line": 79
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Sent by the person (their address)"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hey Lerato,\n\nGood! Still waiting on access to their DMS but otherwise fine.\n\nVida",
+    "time_local": "2026-03-12T08:57:26+05:30",
+    "title": "RE: How was day one?"
+   },
+   {
+    "activity": "onboarded_confirmed",
+    "actor_id": "p_lerato-faraday",
+    "actor_name": "Lerato Faraday",
+    "confidence": "medium",
+    "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773393699482",
+    "label": "Onboarded confirmed",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/lerato/teams/messages.jsonl",
+     "line": 35
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday",
+      "p_vida-sandoval"
+     ],
+     "confidence": "medium",
+     "method": "context",
+     "raw_name": "Vida",
+     "reason": "Only Vida with an onboarding case near this date; client Ingram Stokes Lawyers matches"
+    },
+    "session": null,
+    "source": "teams_chat",
+    "text": "Vida onboarded at Ingram ✅",
+    "time_local": "2026-03-13T14:51:39+05:30",
+    "title": null
+   },
+   {
+    "activity": "laptop_requested",
+    "actor_id": "p_ravi-larkspur",
+    "actor_name": "Ravi Larkspur",
+    "confidence": "medium",
+    "event_id": "teams_channel:1773398042928",
+    "label": "Laptop requested",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/_shared/teams_channel/messages.jsonl",
+     "line": 25
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday",
+      "p_vida-sandoval"
+     ],
+     "confidence": "medium",
+     "method": "context",
+     "raw_name": "vida",
+     "reason": "Only Vida with an onboarding case near this date; client Ingram Stokes Lawyers matches"
+    },
+    "session": null,
+    "source": "teams_channel",
+    "text": "Laptop needed for vida (new starter), Ingram, needed by Wed 11 Mar",
+    "time_local": "2026-03-13T16:04:02+05:30",
+    "title": null
+   },
+   {
+    "activity": "laptop_quote",
+    "actor_id": "p_ravi-larkspur",
+    "actor_name": "Ravi Larkspur",
+    "confidence": "high",
+    "event_id": "teams_channel:1773640812190",
+    "label": "Laptop quote",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/_shared/teams_channel/messages.jsonl",
+     "line": 26
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": null,
+     "reason": "Same thread as an earlier message about Vida Faraday"
+    },
+    "session": null,
+    "source": "teams_channel",
+    "text": "Vivobook 15 from Lapworks, ~836 AUD, ok?",
+    "time_local": "2026-03-16T11:30:12+05:30",
+    "title": null
+   },
+   {
+    "activity": "laptop_approved",
+    "actor_id": "p_yannick-xiong",
+    "actor_name": "Yannick Xiong",
+    "confidence": "high",
+    "event_id": "teams_channel:1773717434044",
+    "label": "Laptop approved",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/_shared/teams_channel/messages.jsonl",
+     "line": 31
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": null,
+     "reason": "Same thread as an earlier message about Vida Faraday"
+    },
+    "session": null,
+    "source": "teams_channel",
+    "text": "Approved",
+    "time_local": "2026-03-17T08:47:14+05:30",
+    "title": null
+   },
+   {
+    "activity": "laptop_ordered",
+    "actor_id": "p_lapworks-trading",
+    "actor_name": "Lapworks Trading",
+    "confidence": "high",
+    "event_id": "mail:Ky8YEa7E3afy3azoHDcusegX@lapworks.example",
+    "label": "Laptop ordered",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/ravi/outlook/messages.jsonl",
+     "line": 62
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Vida Faraday",
+     "reason": "Full name 'Vida Faraday' written in the text"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Thank you for your order LA-446516.\n\n1 x Vivobook 15\nDeliver to: Vida Faraday\n\nLapworks Trading",
+    "time_local": "2026-03-17T09:48:26+05:30",
+    "title": "Order confirmation LA-446516"
+   },
+   {
+    "activity": "laptop_shipped",
+    "actor_id": "p_lapworks-trading",
+    "actor_name": "Lapworks Trading",
+    "confidence": "high",
+    "event_id": "mail:p2WIGGRz1Mf9hsRrXelCQAPG@lapworks.example",
+    "label": "Laptop shipped",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/ravi/outlook/messages.jsonl",
+     "line": 71
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": null,
+     "reason": "Same order number as an earlier message about Vida Faraday"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Order LA-446516 is on its way. Tracking: SP560849047\n\nLapworks Trading",
+    "time_local": "2026-03-18T16:30:38+05:30",
+    "title": "Your order LA-446516 has shipped"
+   },
+   {
+    "activity": "laptop_delivered",
+    "actor_id": "p_ravi-larkspur",
+    "actor_name": "Ravi Larkspur",
+    "confidence": "high",
+    "event_id": "teams_channel:1774242569075",
+    "label": "Laptop delivered",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/_shared/teams_channel/messages.jsonl",
+     "line": 39
+    },
+    "resolution": {
+     "candidates": [
+      "p_vida-faraday"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": null,
+     "reason": "Same thread as an earlier message about Vida Faraday"
+    },
+    "session": null,
+    "source": "teams_channel",
+    "text": "Vida has the laptop now",
+    "time_local": "2026-03-23T10:39:29+05:30",
+    "title": null
+   }
+  ],
+  "subject_name": "Vida Faraday",
+  "subject_person_id": "p_vida-faraday",
+  "summary": "Vida Faraday: onboarding, first day Wed 11 Mar at Ingram Stokes Lawyers. Handled by Lerato Faraday (hand-off: Hana Pemberton → Lerato Faraday). 15 steps, complete.",
+  "window_notes": [
+   "trigger not in the data (likely before 2 Mar, or sent to a mailbox that was not exported)"
+  ]
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/cases/onboarding:vida-faraday"
+}

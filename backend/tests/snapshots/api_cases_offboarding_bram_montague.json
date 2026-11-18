@@ -1,0 +1,210 @@
+{
+ "body": {
+  "case_id": "offboarding:bram-montague",
+  "client": "o_hollis",
+  "client_name": "Hollis Vane LLP",
+  "ends_after_window": false,
+  "flag_count": 0,
+  "flags": [],
+  "handoff": false,
+  "insights": [],
+  "key": {
+   "last_day": null
+  },
+  "last_activity": "2026-03-24T10:13:14+05:30",
+  "out_of_order": [],
+  "owner_name": "Hana Pemberton",
+  "owner_staff_id": "p_hana-pemberton",
+  "process": "offboarding",
+  "related_flags": [
+   {
+    "case_id": "leave:bram-montague:2026-03-30_2026-03-30",
+    "evidence_event_ids": [
+     "mail:0RXnT6Gvf26ODFqMyqxkEMnf@harbourline.example",
+     "mail:LXcNRULEbEAyJuMOH3Qdyh7e@harbourline.example",
+     "mail:a7nJ9fPKveMEz2FhiBFKlat6@harbourline.example",
+     "mail:urLfiQH1LZyQWGVAA4L55Xdq@hollislaw.example"
+    ],
+    "flag_id": "activity_after_last_day:leave:bram-montague:2026-03-30_2026-03-30",
+    "message": "Bram Montague: leave for Mon 30 Mar was approved, but that is on or after the offboarding completed Tue 24 Mar.",
+    "person_id": "p_bram-montague",
+    "person_name": "Bram Montague",
+    "process": "leave",
+    "rule": "activity_after_last_day",
+    "scope": "case",
+    "severity": "warning"
+   }
+  ],
+  "staff_involved": [
+   {
+    "name": "Hana Pemberton",
+    "person_id": "p_hana-pemberton"
+   }
+  ],
+  "start": "2026-03-19T10:00:18+05:30",
+  "started_before_window": true,
+  "status": "complete",
+  "step_count": 5,
+  "steps": [
+   {
+    "activity": "courier_booked",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "low",
+    "event_id": "screen:hana:1145",
+    "label": "Courier booked",
+    "likely": true,
+    "link": "time",
+    "link_reason": "SwiftParcel booking page open 20 min before the laptop return mail to Bram Montague",
+    "raw_ref": {
+     "file": "data/hana/screens/screen_log.jsonl",
+     "line": 1145
+    },
+    "resolution": {
+     "candidates": [],
+     "confidence": null,
+     "method": "unresolved",
+     "raw_name": null,
+     "reason": "No name in the record; linked by time in step 3"
+    },
+    "session": {
+     "end_local": "2026-03-19T10:16:08+05:30",
+     "end_utc": "2026-03-19T04:46:08Z",
+     "frame_count": 4,
+     "minutes": 15.8,
+     "start_local": "2026-03-19T10:00:18+05:30",
+     "start_utc": "2026-03-19T04:30:18Z"
+    },
+    "source": "screen",
+    "text": null,
+    "time_local": "2026-03-19T10:00:18+05:30",
+    "title": "Book a pickup | SwiftParcel"
+   },
+   {
+    "activity": "laptop_return_arranged",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "mail:cT4FT88b4AvIka1RiuK4BmfK@harbourline.example",
+    "label": "Laptop return arranged",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 122
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-montague"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Recipient address bram.montague@harbourline.example"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hey Bram,\n\nA courier will collect the laptop tomorrow between 10 and 2. Please pack the charger too.\n\nBest,\nHana\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-19T10:20:10+05:30",
+    "title": "Returning your laptop"
+   },
+   {
+    "activity": "courier_delivered",
+    "actor_id": "p_swiftparcel-couriers",
+    "actor_name": "SwiftParcel Couriers",
+    "confidence": "low",
+    "event_id": "mail:xNEFmyYmA6lbaK3wqmIOCdYo@swiftparcel.example",
+    "label": "Courier delivered",
+    "likely": true,
+    "link": "time",
+    "link_reason": "No name; Bram Montague's return was arranged before this delivery and the laptop came back 1 min later",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 140
+    },
+    "resolution": {
+     "candidates": [],
+     "confidence": null,
+     "method": "unresolved",
+     "raw_name": null,
+     "reason": "No name in the record; linked by time in step 3"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Your consignment has been delivered.\n\nSwiftParcel",
+    "time_local": "2026-03-23T10:02:25+05:30",
+    "title": "Delivered: consignment SP338641441"
+   },
+   {
+    "activity": "laptop_received",
+    "actor_id": "p_tobias-northcott",
+    "actor_name": "Tobias Northcott",
+    "confidence": "medium",
+    "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1774240422392",
+    "label": "Laptop received",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/teams/messages.jsonl",
+     "line": 53
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-danforth",
+      "p_bram-montague",
+      "p_bram-trelawney"
+     ],
+     "confidence": "medium",
+     "method": "context",
+     "raw_name": "Bram",
+     "reason": "Only Bram with an offboarding case near this date"
+    },
+    "session": null,
+    "source": "teams_chat",
+    "text": "Got Bram's laptop back, wiped",
+    "time_local": "2026-03-23T10:03:42+05:30",
+    "title": null
+   },
+   {
+    "activity": "offboarding_completed",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "mail:LXcNRULEbEAyJuMOH3Qdyh7e@harbourline.example",
+    "label": "Offboarding completed",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 150
+    },
+    "resolution": {
+     "candidates": [
+      "p_bram-montague"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Bram Montague",
+     "reason": "Full name 'Bram Montague' written in the text"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hey Nadia,\n\nAccess is removed and equipment returned. Thanks again.\n\nBest,\nHana\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-24T10:13:14+05:30",
+    "title": "Offboarding complete – Bram Montague"
+   }
+  ],
+  "subject_name": "Bram Montague",
+  "subject_person_id": "p_bram-montague",
+  "summary": "Bram Montague: offboarding at Hollis Vane LLP. Handled by Hana Pemberton. 5 steps, complete.",
+  "window_notes": [
+   "trigger not in the data (likely before 2 Mar, or sent to a mailbox that was not exported)"
+  ]
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/cases/offboarding:bram-montague"
+}

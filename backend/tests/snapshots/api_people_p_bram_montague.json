@@ -1,0 +1,58 @@
+{
+ "body": {
+  "cases": [
+   {
+    "case_id": "leave:bram-montague:2026-03-30_2026-03-30",
+    "client": "o_hollis",
+    "client_name": "Hollis Vane LLP",
+    "ends_after_window": false,
+    "flag_count": 1,
+    "last_activity": "2026-03-03T14:35:09+05:30",
+    "owner_name": "Hana Pemberton",
+    "owner_staff_id": "p_hana-pemberton",
+    "process": "leave",
+    "start": "2026-03-02T08:58:56+05:30",
+    "started_before_window": false,
+    "status": "complete",
+    "step_count": 4,
+    "subject_name": "Bram Montague",
+    "subject_person_id": "p_bram-montague",
+    "summary": "Bram Montague: sick leave Mon 30 Mar at Hollis Vane LLP. Handled by Hana Pemberton. 4 steps, complete."
+   },
+   {
+    "case_id": "offboarding:bram-montague",
+    "client": "o_hollis",
+    "client_name": "Hollis Vane LLP",
+    "ends_after_window": false,
+    "flag_count": 0,
+    "last_activity": "2026-03-24T10:13:14+05:30",
+    "owner_name": "Hana Pemberton",
+    "owner_staff_id": "p_hana-pemberton",
+    "process": "offboarding",
+    "start": "2026-03-19T10:00:18+05:30",
+    "started_before_window": true,
+    "status": "complete",
+    "step_count": 5,
+    "subject_name": "Bram Montague",
+    "subject_person_id": "p_bram-montague",
+    "summary": "Bram Montague: offboarding at Hollis Vane LLP. Handled by Hana Pemberton. 5 steps, complete."
+   }
+  ],
+  "display_name": "Bram Montague",
+  "emails": [
+   "bram.montague@harbourline.example"
+  ],
+  "exported": false,
+  "job_title": null,
+  "kind": "worker",
+  "merge_reason": null,
+  "merged_ids": [],
+  "org": "o_harbourline",
+  "org_name": "Harbourline Talent",
+  "person_id": "p_bram-montague",
+  "possible_same_person": []
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/people/p_bram-montague"
+}

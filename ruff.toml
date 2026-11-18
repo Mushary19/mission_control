@@ -1,0 +1,5 @@
+target-version = "py310"
+
+[lint.per-file-ignores]
+# Pydantic copies mutable field defaults per instance; default_factory would drop "default" from the OpenAPI schema.
+"backend/app/schemas/*" = ["RUF012"]

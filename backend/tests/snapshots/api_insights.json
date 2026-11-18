@@ -1,0 +1,460 @@
+{
+ "body": [
+  {
+   "affected_case_ids": [
+    "leave:amara-jaramillo:2026-03-23_2026-03-23",
+    "leave:bram-montague:2026-03-30_2026-03-30",
+    "leave:farah-zielinski:2026-03-18_2026-03-20",
+    "leave:hamza-galloway:2026-03-23_2026-03-23",
+    "leave:hugo-danforth:2026-03-31_2026-03-31",
+    "leave:ilse-oakhurst:2026-03-20_2026-03-24",
+    "leave:lionel-penhaligon:2026-04-20_2026-04-21",
+    "leave:paloma-montague:2026-03-19_2026-03-19",
+    "leave:pilar-lowther:2026-04-13_2026-04-17",
+    "leave:quinn-danforth:2026-03-31_2026-03-31",
+    "leave:quinn-quillfeather:2026-03-31_2026-04-02",
+    "leave:tobias-trelawney:2026-04-20_2026-04-21"
+   ],
+   "eligible_cases": 12,
+   "evidence_event_ids": [
+    "mail:4cLltXkMNnvjt11G7OzUaIAs@harbourline.example",
+    "mail:90BU6646CYYuc9H5ei64wCBU@harbourline.example",
+    "mail:EcpWs6MboJYes4Q1Nk8CI9JP@harbourline.example",
+    "mail:JntK2tuhX920pVFOWD8BCzPl@harbourline.example",
+    "mail:QYE1aQNj1Gmg48WYovanYCMN@harbourline.example",
+    "mail:QZ9fgbOBYZKedl0pqGT0OoJR@harbourline.example",
+    "mail:SVi7E3X3DaocgmMc5IHlpkno@harbourline.example",
+    "mail:Y9UKQjfIF6sc8tnyWiyYBOqM@harbourline.example",
+    "mail:c0DhSjiL4OJHSWWoU8DkUvA0@harbourline.example",
+    "mail:cmO0xpqZHDVt1eShsgJKl7vy@harbourline.example",
+    "mail:fU4o48QJRq3PpnQ5yrZLTWig@harbourline.example",
+    "mail:iL0yZJ5tPta3XoyguBFUoLuB@harbourline.example"
+   ],
+   "id": "ins:leave:sick_two_ways",
+   "kind": "process_insight",
+   "message": "Sick leave is handled two ways: in 7 of 12 sick-leave cases the client was asked for approval (Hana Pemberton 5, Lerato Faraday 2); in 5 the client was only told (Hana Pemberton 2, Lerato Faraday 3). Please confirm which rule applies.",
+   "per_case": [],
+   "process": "leave",
+   "rules": [
+    "sick_leave_two_ways"
+   ],
+   "severity": "info",
+   "title": "Sick leave is handled two ways"
+  },
+  {
+   "affected_case_ids": [
+    "onboarding:farah-corriveau",
+    "onboarding:nuno-montague",
+    "onboarding:otto-vasquez-lowe",
+    "onboarding:vida-faraday"
+   ],
+   "eligible_cases": 9,
+   "evidence_event_ids": [
+    "mail:B6AVR02xxKxP0rqiKUW0wIfV@harbourline.example",
+    "mail:Vq0YK0kCgnTYiVxXNzBEGAxy@harbourline.example",
+    "mail:bjsTJfEfkoF7INtA9F0oQJ8R@harbourline.example",
+    "mail:pjKRP2xK6ZxglUeiCUQlEsYG@harbourline.example",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773393699482",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_86734721-7ebf-4e00-a57e-72e6babced20@unq.gbl.spaces:1774408074049",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_c6f87718-506b-4773-a95e-7403ec66a787@unq.gbl.spaces:1774236688553",
+    "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_c6f87718-506b-4773-a95e-7403ec66a787@unq.gbl.spaces:1774516104106"
+   ],
+   "id": "ins:onboarding:day_one_dms",
+   "kind": "process_insight",
+   "message": "4 of 9 starters who answered the day-one check-in were still waiting on access to the client DMS, and all 4 were confirmed onboarded within 3 days with no fix in the data. Systemic because the same reply ('Good! Still waiting on access to their DMS but otherwise fine.') came from 4 starters at 4 different clients.",
+   "per_case": [
+    {
+     "case_id": "onboarding:farah-corriveau",
+     "flag_ids": [
+      "onboarded_with_open_issue:onboarding:farah-corriveau"
+     ],
+     "message": "Farah Corriveau replied on Tue 24 Mar: \"Good! Still waiting on access to their DMS but otherwise fine.\". Confirmed onboarded on Wed 25 Mar with no fix in the data.",
+     "person_name": "Farah Corriveau",
+     "rules": [
+      "onboarded_with_open_issue"
+     ]
+    },
+    {
+     "case_id": "onboarding:nuno-montague",
+     "flag_ids": [
+      "onboarded_with_open_issue:onboarding:nuno-montague"
+     ],
+     "message": "Nuno Montague replied on Fri 20 Mar: \"Good! Still waiting on access to their DMS but otherwise fine.\". Confirmed onboarded on Mon 23 Mar with no fix in the data.",
+     "person_name": "Nuno Montague",
+     "rules": [
+      "onboarded_with_open_issue"
+     ]
+    },
+    {
+     "case_id": "onboarding:otto-vasquez-lowe",
+     "flag_ids": [
+      "onboarded_with_open_issue:onboarding:otto-vasquez-lowe"
+     ],
+     "message": "Otto Vasquez-Lowe replied on Wed 25 Mar: \"Good! Still waiting on access to their DMS but otherwise fine.\". Confirmed onboarded on Thu 26 Mar with no fix in the data.",
+     "person_name": "Otto Vasquez-Lowe",
+     "rules": [
+      "onboarded_with_open_issue"
+     ]
+    },
+    {
+     "case_id": "onboarding:vida-faraday",
+     "flag_ids": [
+      "onboarded_with_open_issue:onboarding:vida-faraday"
+     ],
+     "message": "Vida Faraday replied on Thu 12 Mar: \"Good! Still waiting on access to their DMS but otherwise fine.\". Confirmed onboarded on Fri 13 Mar with no fix in the data.",
+     "person_name": "Vida Faraday",
+     "rules": [
+      "onboarded_with_open_issue"
+     ]
+    }
+   ],
+   "process": "onboarding",
+   "rules": [
+    "onboarded_with_open_issue"
+   ],
+   "severity": "warning",
+   "title": "Starters confirmed onboarded while still missing DMS access"
+  },
+  {
+   "affected_case_ids": [
+    "onboarding:chiara-ekwueme",
+    "onboarding:farah-corriveau",
+    "onboarding:gulnara-brannigan",
+    "onboarding:lerato-thorne",
+    "onboarding:nuno-montague",
+    "onboarding:otto-vasquez-lowe",
+    "onboarding:sanne-yilmaz",
+    "onboarding:soren-underhill",
+    "onboarding:vida-faraday"
+   ],
+   "eligible_cases": 9,
+   "evidence_event_ids": [
+    "mail:2xaz7Ox73mIFnnEh6zfECUF1@harbourline.example",
+    "mail:F8KaKnIiLfblnoHG0ex9kFXh@harbourline.example",
+    "mail:NoiPArKZBsNrOJBETEybxZyF@harbourline.example",
+    "mail:RdMMMaRpLGISVYxQrGKSXvjN@harbourline.example",
+    "mail:WZcvTlWbcWGp4J1VEu3tdVWJ@harbourline.example",
+    "mail:XfMokjsBeFRgmlNUuSlP6yGd@harbourline.example",
+    "mail:aHaGrwrBZGNSi1GaNSkWxmT9@harbourline.example",
+    "mail:skKwkt2Q6uTq8QgoPRo8xzFf@harbourline.example",
+    "mail:t2N9ND4M0UeNymjkZsrjUphp@harbourline.example",
+    "teams_channel:1773226158396",
+    "teams_channel:1773311198568",
+    "teams_channel:1773398042928",
+    "teams_channel:1773645951734",
+    "teams_channel:1773810217298",
+    "teams_channel:1773832534785",
+    "teams_channel:1774239152363",
+    "teams_channel:1774242569075",
+    "teams_channel:1774259415532",
+    "teams_channel:1774408534570",
+    "teams_channel:1774581093986",
+    "teams_channel:1774589210724",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773290204856",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773393699482",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_86734721-7ebf-4e00-a57e-72e6babced20@unq.gbl.spaces:1774408074049",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_86734721-7ebf-4e00-a57e-72e6babced20@unq.gbl.spaces:1774512957003",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_c6f87718-506b-4773-a95e-7403ec66a787@unq.gbl.spaces:1773215590246",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_c6f87718-506b-4773-a95e-7403ec66a787@unq.gbl.spaces:1774236688553",
+    "teams_chat:19:6b4cb242-24ed-48a6-a1e2-4ef892276658_98d475d3-2056-4fa0-a4d3-158709c0af23@unq.gbl.spaces:1773740745485",
+    "teams_chat:19:6b4cb242-24ed-48a6-a1e2-4ef892276658_ce7a49fb-7ac8-470d-a7ee-5d0a46516bca@unq.gbl.spaces:1774496194611",
+    "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773632468006",
+    "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_c6f87718-506b-4773-a95e-7403ec66a787@unq.gbl.spaces:1773821715537",
+    "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_c6f87718-506b-4773-a95e-7403ec66a787@unq.gbl.spaces:1774516104106"
+   ],
+   "id": "ins:onboarding:laptop_late",
+   "kind": "process_insight",
+   "message": "9 of 9 new starters were affected: 9 laptop request(s) went to Procurement after the needed-by date (always the start date), and 9 starter(s) were confirmed onboarded before their laptop arrived.",
+   "per_case": [
+    {
+     "case_id": "onboarding:chiara-ekwueme",
+     "flag_ids": [
+      "laptop_requested_late:onboarding:chiara-ekwueme",
+      "onboarded_before_laptop:onboarding:chiara-ekwueme"
+     ],
+     "message": "Chiara Ekwueme: laptop needed by Thu 12 Mar (the start date), so 4 day(s) late; the laptop arrived 7.0 days later (Mon 23 Mar).",
+     "person_name": "Chiara Ekwueme",
+     "rules": [
+      "laptop_requested_late",
+      "onboarded_before_laptop"
+     ]
+    },
+    {
+     "case_id": "onboarding:farah-corriveau",
+     "flag_ids": [
+      "laptop_requested_late:onboarding:farah-corriveau",
+      "onboarded_before_laptop:onboarding:farah-corriveau"
+     ],
+     "message": "Farah Corriveau: laptop needed by Mon 23 Mar (the start date), so 2 day(s) late; the laptop was only requested on Wed 25 Mar.",
+     "person_name": "Farah Corriveau",
+     "rules": [
+      "laptop_requested_late",
+      "onboarded_before_laptop"
+     ]
+    },
+    {
+     "case_id": "onboarding:gulnara-brannigan",
+     "flag_ids": [
+      "laptop_requested_late:onboarding:gulnara-brannigan",
+      "onboarded_before_laptop:onboarding:gulnara-brannigan"
+     ],
+     "message": "Gulnara Brannigan: laptop needed by Mon 9 Mar (the start date), so 2 day(s) late; the laptop arrived 6.9 days later (Wed 18 Mar).",
+     "person_name": "Gulnara Brannigan",
+     "rules": [
+      "laptop_requested_late",
+      "onboarded_before_laptop"
+     ]
+    },
+    {
+     "case_id": "onboarding:lerato-thorne",
+     "flag_ids": [
+      "laptop_requested_late:onboarding:lerato-thorne",
+      "onboarded_before_laptop:onboarding:lerato-thorne"
+     ],
+     "message": "Lerato Thorne: laptop needed by Tue 10 Mar (the start date), so 2 day(s) late; the laptop arrived 5.2 days later (Tue 17 Mar).",
+     "person_name": "Lerato Thorne",
+     "rules": [
+      "laptop_requested_late",
+      "onboarded_before_laptop"
+     ]
+    },
+    {
+     "case_id": "onboarding:nuno-montague",
+     "flag_ids": [
+      "laptop_requested_late:onboarding:nuno-montague",
+      "onboarded_before_laptop:onboarding:nuno-montague"
+     ],
+     "message": "Nuno Montague: laptop needed by Thu 19 Mar (the start date), so 4 day(s) late; the laptop was only requested on Mon 23 Mar.",
+     "person_name": "Nuno Montague",
+     "rules": [
+      "laptop_requested_late",
+      "onboarded_before_laptop"
+     ]
+    },
+    {
+     "case_id": "onboarding:otto-vasquez-lowe",
+     "flag_ids": [
+      "laptop_requested_late:onboarding:otto-vasquez-lowe",
+      "onboarded_before_laptop:onboarding:otto-vasquez-lowe"
+     ],
+     "message": "Otto Vasquez-Lowe: laptop needed by Tue 24 Mar (the start date), so 3 day(s) late; the laptop was only requested on Fri 27 Mar.",
+     "person_name": "Otto Vasquez-Lowe",
+     "rules": [
+      "laptop_requested_late",
+      "onboarded_before_laptop"
+     ]
+    },
+    {
+     "case_id": "onboarding:sanne-yilmaz",
+     "flag_ids": [
+      "laptop_requested_late:onboarding:sanne-yilmaz",
+      "onboarded_before_laptop:onboarding:sanne-yilmaz"
+     ],
+     "message": "Sanne Yilmaz: laptop needed by Wed 25 Mar (the start date), so 2 day(s) late; the laptop was only requested on Fri 27 Mar.",
+     "person_name": "Sanne Yilmaz",
+     "rules": [
+      "laptop_requested_late",
+      "onboarded_before_laptop"
+     ]
+    },
+    {
+     "case_id": "onboarding:soren-underhill",
+     "flag_ids": [
+      "laptop_requested_late:onboarding:soren-underhill",
+      "onboarded_before_laptop:onboarding:soren-underhill"
+     ],
+     "message": "Soren Underhill: laptop needed by Mon 16 Mar (the start date), so 2 day(s) late; the laptop arrived 7.8 days later (Thu 26 Mar).",
+     "person_name": "Soren Underhill",
+     "rules": [
+      "laptop_requested_late",
+      "onboarded_before_laptop"
+     ]
+    },
+    {
+     "case_id": "onboarding:vida-faraday",
+     "flag_ids": [
+      "laptop_requested_late:onboarding:vida-faraday",
+      "onboarded_before_laptop:onboarding:vida-faraday"
+     ],
+     "message": "Vida Faraday: laptop needed by Wed 11 Mar (the start date), so 2 day(s) late; the laptop arrived 9.8 days later (Mon 23 Mar).",
+     "person_name": "Vida Faraday",
+     "rules": [
+      "laptop_requested_late",
+      "onboarded_before_laptop"
+     ]
+    }
+   ],
+   "process": "onboarding",
+   "rules": [
+    "onboarded_before_laptop",
+    "laptop_requested_late"
+   ],
+   "severity": "warning",
+   "title": "Laptops come after the start date"
+  },
+  {
+   "affected_case_ids": [
+    "leave:bram-montague:2026-03-30_2026-03-30"
+   ],
+   "eligible_cases": null,
+   "evidence_event_ids": [
+    "mail:0RXnT6Gvf26ODFqMyqxkEMnf@harbourline.example",
+    "mail:LXcNRULEbEAyJuMOH3Qdyh7e@harbourline.example",
+    "mail:a7nJ9fPKveMEz2FhiBFKlat6@harbourline.example",
+    "mail:urLfiQH1LZyQWGVAA4L55Xdq@hollislaw.example"
+   ],
+   "id": "flag:activity_after_last_day:leave:bram-montague:2026-03-30_2026-03-30",
+   "kind": "case_flag",
+   "message": "Bram Montague: leave for Mon 30 Mar was approved, but that is on or after the offboarding completed Tue 24 Mar.",
+   "per_case": [],
+   "process": "leave",
+   "rules": [
+    "activity_after_last_day"
+   ],
+   "severity": "warning",
+   "title": "Activity after the last day"
+  },
+  {
+   "affected_case_ids": [
+    "leave:ines-marchetti:2026-03-31_2026-03-31"
+   ],
+   "eligible_cases": null,
+   "evidence_event_ids": [
+    "mail:NpFuIkyJ4oTBduk7XdCSKxHU@harbourline.example",
+    "mail:PfDdXtyCjnhudxfogDVKg0j8@hollislaw.example",
+    "mail:ixRcENUuEmE7JpYQmZ7VA9Gw@harbourline.example",
+    "screen:lerato:1478",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_b1330c3f-37ba-4acf-a7d5-b5784a7591f2@unq.gbl.spaces:1774421980857",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_b1330c3f-37ba-4acf-a7d5-b5784a7591f2@unq.gbl.spaces:1774586297816"
+   ],
+   "id": "flag:activity_after_last_day:leave:ines-marchetti:2026-03-31_2026-03-31",
+   "kind": "case_flag",
+   "message": "Ines Marchetti: leave for Tue 31 Mar was approved, but that is on or after the offboarding completed Thu 19 Mar; 5 step(s) happened after the offboarding completed Thu 19 Mar (first: leave requested on Wed 25 Mar).",
+   "per_case": [],
+   "process": "leave",
+   "rules": [
+    "activity_after_last_day"
+   ],
+   "severity": "warning",
+   "title": "Activity after the last day"
+  },
+  {
+   "affected_case_ids": [
+    "leave:jasper-haverford:2026-04-01_2026-04-01"
+   ],
+   "eligible_cases": null,
+   "evidence_event_ids": [
+    "mail:4JadFaJGyPxso134bDr7MjZY@harbourline.example",
+    "mail:7MtbiZBBCbN8ZpjZXhagyQ5o@harbourline.example",
+    "mail:ZbCZji8f96KhoHKx7ijyZqpf@bramwelllaw.example",
+    "mail:cdRdJR8b2QxuKxxxQb2x8VCR@harbourline.example",
+    "mail:gZkX3NDoK57defKGaifwxAzV@harbourline.example",
+    "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1772613529852"
+   ],
+   "id": "flag:activity_after_last_day:leave:jasper-haverford:2026-04-01_2026-04-01",
+   "kind": "case_flag",
+   "message": "Jasper Haverford: leave for Wed 1 Apr was approved, but that is on or after the last day Mon 23 Mar.",
+   "per_case": [],
+   "process": "leave",
+   "rules": [
+    "activity_after_last_day"
+   ],
+   "severity": "warning",
+   "title": "Activity after the last day"
+  },
+  {
+   "affected_case_ids": [
+    "leave:pilar-lowther:2026-04-13_2026-04-17"
+   ],
+   "eligible_cases": null,
+   "evidence_event_ids": [
+    "mail:BdbGjx5hteOiB3KyuUDL9NTc@harbourline.example",
+    "mail:QYE1aQNj1Gmg48WYovanYCMN@harbourline.example",
+    "mail:fvYbaQioRG2zkphRapo1joT6@dunstanlaw.example",
+    "mail:ind1ekr0vEJzx1hnptIyPgMV@harbourline.example",
+    "mail:uY2lADVnvyl89uOKeCD9Wei0@harbourline.example",
+    "screen:lerato:1137",
+    "screen:lerato:1203",
+    "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1772444984995"
+   ],
+   "id": "flag:activity_after_last_day:leave:pilar-lowther:2026-04-13_2026-04-17",
+   "kind": "case_flag",
+   "message": "Pilar Lowther: leave for Mon 13 Apr – Fri 17 Apr was approved, but that is on or after the last day Tue 10 Mar; 5 step(s) happened after the last day Tue 10 Mar (first: leave requested on Thu 19 Mar).",
+   "per_case": [],
+   "process": "leave",
+   "rules": [
+    "activity_after_last_day"
+   ],
+   "severity": "warning",
+   "title": "Activity after the last day"
+  },
+  {
+   "affected_case_ids": [
+    "leave:hamza-vasquez-lowe:2026-03-23_2026-03-23"
+   ],
+   "eligible_cases": null,
+   "evidence_event_ids": [
+    "mail:r2QyLvkOOurxM26sbKVZdwNT@ashdownlaw.example",
+    "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_f637a468-5434-4f8f-afc2-52d38c0d0033@unq.gbl.spaces:1772609991738",
+    "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_f637a468-5434-4f8f-afc2-52d38c0d0033@unq.gbl.spaces:1773032032569"
+   ],
+   "id": "flag:cancel_no_followup:leave:hamza-vasquez-lowe:2026-03-23_2026-03-23",
+   "kind": "case_flag",
+   "message": "Hamza Vasquez-Lowe asked on Mon 9 Mar to cancel leave for Mon 23 Mar; no reply, client update or tracker change follows in the data.",
+   "per_case": [],
+   "process": "leave",
+   "rules": [
+    "cancel_no_followup"
+   ],
+   "severity": "warning",
+   "title": "Cancel request with no follow-up"
+  },
+  {
+   "affected_case_ids": [
+    "leave:paloma-montague:2026-03-19_2026-03-19"
+   ],
+   "eligible_cases": null,
+   "evidence_event_ids": [
+    "mail:DA02Cd6fu04STsq92rXphfvQ@larchmontlaw.example",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_9f03bc5a-9158-4222-a033-0f877b7fec4b@unq.gbl.spaces:1772687972472",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_9f03bc5a-9158-4222-a033-0f877b7fec4b@unq.gbl.spaces:1772788636874"
+   ],
+   "id": "flag:cancel_no_followup:leave:paloma-montague:2026-03-19_2026-03-19",
+   "kind": "case_flag",
+   "message": "Paloma Montague asked on Fri 6 Mar to cancel leave for Thu 19 Mar; no reply, client update or tracker change follows in the data.",
+   "per_case": [],
+   "process": "leave",
+   "rules": [
+    "cancel_no_followup"
+   ],
+   "severity": "warning",
+   "title": "Cancel request with no follow-up"
+  },
+  {
+   "affected_case_ids": [
+    "offboarding:paloma-larkspur"
+   ],
+   "eligible_cases": null,
+   "evidence_event_ids": [
+    "mail:95fjdebGhHH54dBPPOV2cjTx@techdirect.example",
+    "mail:KsU3LsNcdpmUCxnDVa0C35FJ@dunstanlaw.example",
+    "mail:gymMy8ttcpps1y9f7x2qRGoc@techdirect.example",
+    "teams_channel:1774258723655",
+    "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773198711983"
+   ],
+   "id": "flag:activity_after_last_day:offboarding:paloma-larkspur",
+   "kind": "case_flag",
+   "message": "Paloma Larkspur: replacement laptop requested on Mon 23 Mar, needed by Sat 28 Mar; laptop ordered on Tue 24 Mar; laptop shipped on Thu 26 Mar — on or after the last day Tue 24 Mar.",
+   "per_case": [],
+   "process": "offboarding",
+   "rules": [
+    "activity_after_last_day"
+   ],
+   "severity": "warning",
+   "title": "Activity after the last day"
+  }
+ ],
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/insights"
+}

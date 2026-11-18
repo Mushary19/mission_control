@@ -1,0 +1,644 @@
+{
+ "body": {
+  "case_count": 41,
+  "dfg": [
+   {
+    "count": 28,
+    "from": "client_approved",
+    "to": "worker_approved"
+   },
+   {
+    "count": 25,
+    "from": "client_check_sent",
+    "to": "client_approved"
+   },
+   {
+    "count": 21,
+    "from": "leave_requested",
+    "to": "peoplehub_opened"
+   },
+   {
+    "count": 18,
+    "from": "leave_requested",
+    "to": "client_check_sent"
+   },
+   {
+    "count": 17,
+    "from": "peoplehub_opened",
+    "to": "client_check_sent"
+   },
+   {
+    "count": 6,
+    "from": "client_check_sent",
+    "to": "client_declined"
+   },
+   {
+    "count": 6,
+    "from": "client_declined",
+    "to": "worker_asked_other_dates"
+   },
+   {
+    "count": 5,
+    "from": "worker_approved",
+    "to": "tracker_updated"
+   },
+   {
+    "count": 4,
+    "from": "client_notified_sick",
+    "to": "worker_approved"
+   },
+   {
+    "count": 4,
+    "from": "peoplehub_opened",
+    "to": "client_notified_sick"
+   },
+   {
+    "count": 3,
+    "from": "client_check_sent",
+    "to": "tracker_updated"
+   },
+   {
+    "count": 2,
+    "from": "tracker_updated",
+    "to": "cancel_requested"
+   },
+   {
+    "count": 2,
+    "from": "tracker_updated",
+    "to": "client_approved"
+   },
+   {
+    "count": 1,
+    "from": "leave_requested",
+    "to": "client_notified_sick"
+   }
+  ],
+  "full_trace_cases": 29,
+  "insight_count": 7,
+  "insights": [
+   {
+    "affected_case_ids": [
+     "leave:amara-jaramillo:2026-03-23_2026-03-23",
+     "leave:bram-montague:2026-03-30_2026-03-30",
+     "leave:farah-zielinski:2026-03-18_2026-03-20",
+     "leave:hamza-galloway:2026-03-23_2026-03-23",
+     "leave:hugo-danforth:2026-03-31_2026-03-31",
+     "leave:ilse-oakhurst:2026-03-20_2026-03-24",
+     "leave:lionel-penhaligon:2026-04-20_2026-04-21",
+     "leave:paloma-montague:2026-03-19_2026-03-19",
+     "leave:pilar-lowther:2026-04-13_2026-04-17",
+     "leave:quinn-danforth:2026-03-31_2026-03-31",
+     "leave:quinn-quillfeather:2026-03-31_2026-04-02",
+     "leave:tobias-trelawney:2026-04-20_2026-04-21"
+    ],
+    "eligible_cases": 12,
+    "evidence_event_ids": [
+     "mail:4cLltXkMNnvjt11G7OzUaIAs@harbourline.example",
+     "mail:90BU6646CYYuc9H5ei64wCBU@harbourline.example",
+     "mail:EcpWs6MboJYes4Q1Nk8CI9JP@harbourline.example",
+     "mail:JntK2tuhX920pVFOWD8BCzPl@harbourline.example",
+     "mail:QYE1aQNj1Gmg48WYovanYCMN@harbourline.example",
+     "mail:QZ9fgbOBYZKedl0pqGT0OoJR@harbourline.example",
+     "mail:SVi7E3X3DaocgmMc5IHlpkno@harbourline.example",
+     "mail:Y9UKQjfIF6sc8tnyWiyYBOqM@harbourline.example",
+     "mail:c0DhSjiL4OJHSWWoU8DkUvA0@harbourline.example",
+     "mail:cmO0xpqZHDVt1eShsgJKl7vy@harbourline.example",
+     "mail:fU4o48QJRq3PpnQ5yrZLTWig@harbourline.example",
+     "mail:iL0yZJ5tPta3XoyguBFUoLuB@harbourline.example"
+    ],
+    "id": "ins:leave:sick_two_ways",
+    "kind": "process_insight",
+    "message": "Sick leave is handled two ways: in 7 of 12 sick-leave cases the client was asked for approval (Hana Pemberton 5, Lerato Faraday 2); in 5 the client was only told (Hana Pemberton 2, Lerato Faraday 3). Please confirm which rule applies.",
+    "per_case": [],
+    "process": "leave",
+    "rules": [
+     "sick_leave_two_ways"
+    ],
+    "severity": "info",
+    "title": "Sick leave is handled two ways"
+   },
+   {
+    "affected_case_ids": [
+     "leave:bram-montague:2026-03-30_2026-03-30"
+    ],
+    "eligible_cases": null,
+    "evidence_event_ids": [
+     "mail:0RXnT6Gvf26ODFqMyqxkEMnf@harbourline.example",
+     "mail:LXcNRULEbEAyJuMOH3Qdyh7e@harbourline.example",
+     "mail:a7nJ9fPKveMEz2FhiBFKlat6@harbourline.example",
+     "mail:urLfiQH1LZyQWGVAA4L55Xdq@hollislaw.example"
+    ],
+    "id": "flag:activity_after_last_day:leave:bram-montague:2026-03-30_2026-03-30",
+    "kind": "case_flag",
+    "message": "Bram Montague: leave for Mon 30 Mar was approved, but that is on or after the offboarding completed Tue 24 Mar.",
+    "per_case": [],
+    "process": "leave",
+    "rules": [
+     "activity_after_last_day"
+    ],
+    "severity": "warning",
+    "title": "Activity after the last day"
+   },
+   {
+    "affected_case_ids": [
+     "leave:ines-marchetti:2026-03-31_2026-03-31"
+    ],
+    "eligible_cases": null,
+    "evidence_event_ids": [
+     "mail:NpFuIkyJ4oTBduk7XdCSKxHU@harbourline.example",
+     "mail:PfDdXtyCjnhudxfogDVKg0j8@hollislaw.example",
+     "mail:ixRcENUuEmE7JpYQmZ7VA9Gw@harbourline.example",
+     "screen:lerato:1478",
+     "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_b1330c3f-37ba-4acf-a7d5-b5784a7591f2@unq.gbl.spaces:1774421980857",
+     "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_b1330c3f-37ba-4acf-a7d5-b5784a7591f2@unq.gbl.spaces:1774586297816"
+    ],
+    "id": "flag:activity_after_last_day:leave:ines-marchetti:2026-03-31_2026-03-31",
+    "kind": "case_flag",
+    "message": "Ines Marchetti: leave for Tue 31 Mar was approved, but that is on or after the offboarding completed Thu 19 Mar; 5 step(s) happened after the offboarding completed Thu 19 Mar (first: leave requested on Wed 25 Mar).",
+    "per_case": [],
+    "process": "leave",
+    "rules": [
+     "activity_after_last_day"
+    ],
+    "severity": "warning",
+    "title": "Activity after the last day"
+   },
+   {
+    "affected_case_ids": [
+     "leave:jasper-haverford:2026-04-01_2026-04-01"
+    ],
+    "eligible_cases": null,
+    "evidence_event_ids": [
+     "mail:4JadFaJGyPxso134bDr7MjZY@harbourline.example",
+     "mail:7MtbiZBBCbN8ZpjZXhagyQ5o@harbourline.example",
+     "mail:ZbCZji8f96KhoHKx7ijyZqpf@bramwelllaw.example",
+     "mail:cdRdJR8b2QxuKxxxQb2x8VCR@harbourline.example",
+     "mail:gZkX3NDoK57defKGaifwxAzV@harbourline.example",
+     "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1772613529852"
+    ],
+    "id": "flag:activity_after_last_day:leave:jasper-haverford:2026-04-01_2026-04-01",
+    "kind": "case_flag",
+    "message": "Jasper Haverford: leave for Wed 1 Apr was approved, but that is on or after the last day Mon 23 Mar.",
+    "per_case": [],
+    "process": "leave",
+    "rules": [
+     "activity_after_last_day"
+    ],
+    "severity": "warning",
+    "title": "Activity after the last day"
+   },
+   {
+    "affected_case_ids": [
+     "leave:pilar-lowther:2026-04-13_2026-04-17"
+    ],
+    "eligible_cases": null,
+    "evidence_event_ids": [
+     "mail:BdbGjx5hteOiB3KyuUDL9NTc@harbourline.example",
+     "mail:QYE1aQNj1Gmg48WYovanYCMN@harbourline.example",
+     "mail:fvYbaQioRG2zkphRapo1joT6@dunstanlaw.example",
+     "mail:ind1ekr0vEJzx1hnptIyPgMV@harbourline.example",
+     "mail:uY2lADVnvyl89uOKeCD9Wei0@harbourline.example",
+     "screen:lerato:1137",
+     "screen:lerato:1203",
+     "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1772444984995"
+    ],
+    "id": "flag:activity_after_last_day:leave:pilar-lowther:2026-04-13_2026-04-17",
+    "kind": "case_flag",
+    "message": "Pilar Lowther: leave for Mon 13 Apr – Fri 17 Apr was approved, but that is on or after the last day Tue 10 Mar; 5 step(s) happened after the last day Tue 10 Mar (first: leave requested on Thu 19 Mar).",
+    "per_case": [],
+    "process": "leave",
+    "rules": [
+     "activity_after_last_day"
+    ],
+    "severity": "warning",
+    "title": "Activity after the last day"
+   },
+   {
+    "affected_case_ids": [
+     "leave:hamza-vasquez-lowe:2026-03-23_2026-03-23"
+    ],
+    "eligible_cases": null,
+    "evidence_event_ids": [
+     "mail:r2QyLvkOOurxM26sbKVZdwNT@ashdownlaw.example",
+     "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_f637a468-5434-4f8f-afc2-52d38c0d0033@unq.gbl.spaces:1772609991738",
+     "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_f637a468-5434-4f8f-afc2-52d38c0d0033@unq.gbl.spaces:1773032032569"
+    ],
+    "id": "flag:cancel_no_followup:leave:hamza-vasquez-lowe:2026-03-23_2026-03-23",
+    "kind": "case_flag",
+    "message": "Hamza Vasquez-Lowe asked on Mon 9 Mar to cancel leave for Mon 23 Mar; no reply, client update or tracker change follows in the data.",
+    "per_case": [],
+    "process": "leave",
+    "rules": [
+     "cancel_no_followup"
+    ],
+    "severity": "warning",
+    "title": "Cancel request with no follow-up"
+   },
+   {
+    "affected_case_ids": [
+     "leave:paloma-montague:2026-03-19_2026-03-19"
+    ],
+    "eligible_cases": null,
+    "evidence_event_ids": [
+     "mail:DA02Cd6fu04STsq92rXphfvQ@larchmontlaw.example",
+     "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_9f03bc5a-9158-4222-a033-0f877b7fec4b@unq.gbl.spaces:1772687972472",
+     "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_9f03bc5a-9158-4222-a033-0f877b7fec4b@unq.gbl.spaces:1772788636874"
+    ],
+    "id": "flag:cancel_no_followup:leave:paloma-montague:2026-03-19_2026-03-19",
+    "kind": "case_flag",
+    "message": "Paloma Montague asked on Fri 6 Mar to cancel leave for Thu 19 Mar; no reply, client update or tracker change follows in the data.",
+    "per_case": [],
+    "process": "leave",
+    "rules": [
+     "cancel_no_followup"
+    ],
+    "severity": "warning",
+    "title": "Cancel request with no follow-up"
+   }
+  ],
+  "label": "Leave",
+  "main_path": {
+   "activities": [
+    "leave_requested",
+    "client_check_sent",
+    "client_approved",
+    "worker_approved"
+   ],
+   "cases_following_exactly": 25,
+   "labels": [
+    "Leave requested",
+    "Client asked",
+    "Client approved",
+    "Worker told: approved"
+   ],
+   "method": "most common variant among the 29 complete cases that start inside the window (25 of 29)",
+   "tied_alternatives": []
+  },
+  "main_path_labels": [
+   "Leave requested",
+   "Client asked",
+   "Client approved",
+   "Worker told: approved"
+  ],
+  "open_question_count": 5,
+  "open_questions": [
+   {
+    "evidence": {
+     "cases_with_tracker_step": 8,
+     "leave_cases": 41
+    },
+    "id": "leave-q1",
+    "process": "leave",
+    "question": "Do you update the Leave tracker after each request, or in batches?",
+    "why": "The tracker was open within 30 min of a PeopleHub or approval step in only 8 of 41 leave cases; it is open for long stretches at other times."
+   },
+   {
+    "evidence": {
+     "asked": 7,
+     "notified": 5
+    },
+    "id": "leave-q2",
+    "process": "leave",
+    "question": "Is sick leave a notice to the client, or a request the client must approve?",
+    "why": "Of 12 sick-leave cases, 7 asked the client and 5 only told the client."
+   },
+   {
+    "evidence": {
+     "before": 17,
+     "both": 17
+    },
+    "id": "leave-q3",
+    "process": "leave",
+    "question": "Do you check the person in PeopleHub before you ask the client, every time?",
+    "why": "PeopleHub was seen open before the client check in 17 of 17 cases where both appear, but PeopleHub shows up in only 21 of 41 leave cases."
+   },
+   {
+    "evidence": {
+     "declined": 6
+    },
+    "id": "leave-q4",
+    "process": "leave",
+    "question": "When a client declines, who follows up: do you wait for the worker to send new dates?",
+    "why": "6 cases were declined and the worker asked for other dates; a new request for the same person appears afterwards in 2 of them."
+   },
+   {
+    "evidence": {
+     "cancel_no_followup": 2
+    },
+    "id": "leave-q5",
+    "process": "leave",
+    "question": "When a worker cancels leave, do you tell the client and update PeopleHub and the tracker?",
+    "why": "2 cancel request(s) have no later action in the data."
+   }
+  ],
+  "path_confidence": {
+   "level": "high",
+   "reason": "Rests on 29 complete case(s) that start inside the window; 25 of 29 complete in-window cases follow it exactly.",
+   "rule": "high: >= 10 complete in-window cases and the main path is followed exactly by >= 50% of them; medium: >= 4 such cases and a repeating main variant; low: otherwise"
+  },
+  "process": "leave",
+  "status_counts": {
+   "cancelled": 2,
+   "complete": 30,
+   "declined": 6,
+   "in_progress": 3
+  },
+  "steps": [
+   {
+    "activity": "leave_requested",
+    "case_count": 40,
+    "confidence_mix": {
+     "high": 40
+    },
+    "label": "Leave requested",
+    "median_from_case_start_h": 0.0,
+    "median_to_next_h": 4.0,
+    "next_on_main_path": "client_check_sent",
+    "on_main_path": true,
+    "optional": false,
+    "screen_only": false,
+    "support_pct": 97.6
+   },
+   {
+    "activity": "client_check_sent",
+    "case_count": 35,
+    "confidence_mix": {
+     "high": 29,
+     "medium": 6
+    },
+    "label": "Client asked",
+    "median_from_case_start_h": 4.0,
+    "median_to_next_h": 23.0,
+    "next_on_main_path": "client_approved",
+    "on_main_path": true,
+    "optional": false,
+    "screen_only": false,
+    "support_pct": 85.4
+   },
+   {
+    "activity": "client_approved",
+    "case_count": 28,
+    "confidence_mix": {
+     "high": 27,
+     "medium": 1
+    },
+    "label": "Client approved",
+    "median_from_case_start_h": 26.7,
+    "median_to_next_h": 2.7,
+    "next_on_main_path": "worker_approved",
+    "on_main_path": true,
+    "optional": false,
+    "screen_only": false,
+    "support_pct": 68.3
+   },
+   {
+    "activity": "worker_approved",
+    "case_count": 32,
+    "confidence_mix": {
+     "high": 32
+    },
+    "label": "Worker told: approved",
+    "median_from_case_start_h": 29.2,
+    "median_to_next_h": null,
+    "next_on_main_path": null,
+    "on_main_path": true,
+    "optional": false,
+    "screen_only": false,
+    "support_pct": 78.0
+   },
+   {
+    "activity": "peoplehub_opened",
+    "case_count": 21,
+    "confidence_mix": {
+     "low": 23
+    },
+    "label": "PeopleHub opened",
+    "median_from_case_start_h": 3.8,
+    "median_to_next_h": null,
+    "next_on_main_path": null,
+    "on_main_path": false,
+    "optional": false,
+    "screen_only": true,
+    "support_pct": 51.2
+   },
+   {
+    "activity": "tracker_updated",
+    "case_count": 8,
+    "confidence_mix": {
+     "low": 8
+    },
+    "label": "Leave tracker updated",
+    "median_from_case_start_h": 24.1,
+    "median_to_next_h": null,
+    "next_on_main_path": null,
+    "on_main_path": false,
+    "optional": true,
+    "screen_only": true,
+    "support_pct": 19.5
+   },
+   {
+    "activity": "client_declined",
+    "case_count": 6,
+    "confidence_mix": {
+     "high": 6
+    },
+    "label": "Client declined",
+    "median_from_case_start_h": 47.2,
+    "median_to_next_h": null,
+    "next_on_main_path": null,
+    "on_main_path": false,
+    "optional": true,
+    "screen_only": false,
+    "support_pct": 14.6
+   },
+   {
+    "activity": "worker_asked_other_dates",
+    "case_count": 6,
+    "confidence_mix": {
+     "high": 5,
+     "low": 1
+    },
+    "label": "Worker asked for other dates",
+    "median_from_case_start_h": 48.7,
+    "median_to_next_h": null,
+    "next_on_main_path": null,
+    "on_main_path": false,
+    "optional": true,
+    "screen_only": false,
+    "support_pct": 14.6
+   },
+   {
+    "activity": "client_notified_sick",
+    "case_count": 5,
+    "confidence_mix": {
+     "high": 5
+    },
+    "label": "Client told (sick)",
+    "median_from_case_start_h": 5.5,
+    "median_to_next_h": null,
+    "next_on_main_path": null,
+    "on_main_path": false,
+    "optional": true,
+    "screen_only": false,
+    "support_pct": 12.2
+   },
+   {
+    "activity": "cancel_requested",
+    "case_count": 2,
+    "confidence_mix": {
+     "high": 2
+    },
+    "label": "Cancel requested",
+    "median_from_case_start_h": 110.5,
+    "median_to_next_h": null,
+    "next_on_main_path": null,
+    "on_main_path": false,
+    "optional": true,
+    "screen_only": false,
+    "support_pct": 4.9
+   }
+  ],
+  "variants": [
+   {
+    "case_ids": [
+     "leave:amara-jaramillo:2026-03-23_2026-03-23",
+     "leave:bianca-jaramillo:2026-04-03_2026-04-05",
+     "leave:bram-montague:2026-03-30_2026-03-30",
+     "leave:callum-grunewald:2026-03-26_2026-03-26",
+     "leave:callum-montague:2026-03-10_2026-03-14",
+     "leave:dario-zielinski:2026-03-16_2026-03-17",
+     "leave:farah-zielinski:2026-03-16_2026-03-16",
+     "leave:greta-brannigan:2026-03-13_2026-03-17",
+     "leave:hamza-galloway:2026-03-23_2026-03-23",
+     "leave:hamza-pemberton:2026-03-11_2026-03-15",
+     "leave:hamza-pemberton:2026-03-23_2026-03-23",
+     "leave:hamza-pemberton:2026-03-24_2026-03-28",
+     "leave:hamza-pemberton:2026-04-03_2026-04-03",
+     "leave:hana-prescott:2026-03-31_2026-03-31",
+     "leave:hugo-danforth:2026-03-31_2026-03-31",
+     "leave:ines-marchetti:2026-03-31_2026-03-31",
+     "leave:jasper-haverford:2026-04-01_2026-04-01",
+     "leave:jovana-penhaligon:2026-03-31_2026-04-01",
+     "leave:kiri-jovanovic:2026-03-16_2026-03-16",
+     "leave:orla-quillfeather:2026-03-23_2026-03-24",
+     "leave:orla-quillfeather:2026-03-27_2026-03-27",
+     "leave:quinn-quillfeather:2026-03-31_2026-04-02",
+     "leave:thiago-bellweather:2026-03-30_2026-03-30",
+     "leave:tobias-trelawney:2026-03-27_2026-03-28",
+     "leave:valeria-dunmore:2026-04-06_2026-04-08"
+    ],
+    "count": 25,
+    "path": [
+     "leave_requested",
+     "client_check_sent",
+     "client_approved",
+     "worker_approved"
+    ],
+    "statuses": {
+     "complete": 25
+    }
+   },
+   {
+    "case_ids": [
+     "leave:amara-jaramillo:2026-04-03_2026-04-04",
+     "leave:farah-zielinski:2026-03-18_2026-03-20",
+     "leave:farah-zielinski:2026-04-16_2026-04-20",
+     "leave:jovana-penhaligon:2026-04-01_2026-04-02",
+     "leave:rania-abernethy:2026-04-13_2026-04-15",
+     "leave:wen-faraday:2026-03-18_2026-03-20"
+    ],
+    "count": 6,
+    "path": [
+     "leave_requested",
+     "client_check_sent",
+     "client_declined",
+     "worker_asked_other_dates"
+    ],
+    "statuses": {
+     "declined": 6
+    }
+   },
+   {
+    "case_ids": [
+     "leave:ilse-oakhurst:2026-03-20_2026-03-24",
+     "leave:lionel-penhaligon:2026-04-20_2026-04-21",
+     "leave:pilar-lowther:2026-04-13_2026-04-17",
+     "leave:quinn-danforth:2026-03-31_2026-03-31"
+    ],
+    "count": 4,
+    "path": [
+     "leave_requested",
+     "client_notified_sick",
+     "worker_approved"
+    ],
+    "statuses": {
+     "complete": 4
+    }
+   },
+   {
+    "case_ids": [
+     "leave:callum-lindqvist:2026-04-17_2026-04-17",
+     "leave:leif-redgrave:2026-03-30_2026-04-03"
+    ],
+    "count": 2,
+    "path": [
+     "leave_requested",
+     "client_check_sent"
+    ],
+    "statuses": {
+     "in_progress": 2
+    }
+   },
+   {
+    "case_ids": [
+     "leave:hamza-vasquez-lowe:2026-03-23_2026-03-23",
+     "leave:paloma-montague:2026-03-19_2026-03-19"
+    ],
+    "count": 2,
+    "path": [
+     "leave_requested",
+     "client_check_sent",
+     "client_approved",
+     "worker_approved",
+     "cancel_requested"
+    ],
+    "statuses": {
+     "cancelled": 2
+    }
+   },
+   {
+    "case_ids": [
+     "leave:yara-hargreaves:2026-03-06_2026-03-07"
+    ],
+    "count": 1,
+    "path": [
+     "client_approved",
+     "worker_approved"
+    ],
+    "statuses": {
+     "complete": 1
+    }
+   },
+   {
+    "case_ids": [
+     "leave:tobias-trelawney:2026-04-20_2026-04-21"
+    ],
+    "count": 1,
+    "path": [
+     "leave_requested",
+     "client_notified_sick"
+    ],
+    "statuses": {
+     "in_progress": 1
+    }
+   }
+  ],
+  "window_badges": {
+   "ends_after_window": 0,
+   "started_before_window": 1
+  }
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/processes/leave"
+}

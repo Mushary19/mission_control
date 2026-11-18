@@ -1,0 +1,135 @@
+{
+ "body": {
+  "coverage": {
+   "exported": [
+    {
+     "folder": "hana",
+     "job_title": "People Operations",
+     "name": "Hana Pemberton"
+    },
+    {
+     "folder": "lerato",
+     "job_title": "People Operations",
+     "name": "Lerato Faraday"
+    },
+    {
+     "folder": "mateus",
+     "job_title": "Talent Partner",
+     "name": "Mateus Vasquez-Lowe"
+    },
+    {
+     "folder": "pavel",
+     "job_title": "Talent Partner",
+     "name": "Pavel Thorne"
+    },
+    {
+     "folder": "ravi",
+     "job_title": "HR Coordinator",
+     "name": "Ravi Larkspur"
+    },
+    {
+     "folder": "yannick",
+     "job_title": "Head of People",
+     "name": "Yannick Xiong"
+    }
+   ],
+   "label": "Data from 6 of 12 staff.",
+   "not_exported": [
+    {
+     "folder": null,
+     "job_title": "Finance",
+     "name": "Ilse Ilunga"
+    },
+    {
+     "folder": null,
+     "job_title": "IT Support",
+     "name": "Kavya Jaramillo"
+    },
+    {
+     "folder": null,
+     "job_title": "Account Manager",
+     "name": "Kenji Montague"
+    },
+    {
+     "folder": null,
+     "job_title": "Account Manager",
+     "name": "Teodor Ellingham"
+    },
+    {
+     "folder": null,
+     "job_title": "IT Support",
+     "name": "Tobias Northcott"
+    },
+    {
+     "folder": null,
+     "job_title": "Account Manager",
+     "name": "Vesna Montague"
+    }
+   ],
+   "staff_exported": 6,
+   "staff_total": 12
+  },
+  "out_files": [
+   "0_profile.json",
+   "1_events.jsonl",
+   "2_events_clean.jsonl",
+   "2_people.json",
+   "2_screen_summary.json",
+   "3_cases.json",
+   "4_processes.json",
+   "5_flags.json",
+   "6_insights.json",
+   "pipeline_report.json"
+  ],
+  "seen_not_modelled": [
+   {
+    "events": 251,
+    "key": "recruiting",
+    "label": "Recruitment (HireTrack, Recruitment tracker, LinkedIn)",
+    "screen_sessions": 1496
+   },
+   {
+    "events": 37,
+    "key": "birthdays",
+    "label": "Birthday gifts",
+    "screen_sessions": 10
+   },
+   {
+    "events": 30,
+    "key": "laptop_replacements",
+    "label": "Laptop replacements",
+    "screen_sessions": 0
+   },
+   {
+    "events": 65,
+    "key": "payroll_queries",
+    "label": "Payslip / timesheet / invoice queries",
+    "screen_sessions": 0
+   }
+  ],
+  "stage_counts": {
+   "1_events (non-screen)": 1239,
+   "after_dedup_and_sessions": 9489,
+   "case_steps": 419,
+   "cases": 70,
+   "context": 4067,
+   "flags": 30,
+   "noise": 3077,
+   "out_of_scope": 1948,
+   "process": 397,
+   "raw": 11346,
+   "screen_frames": 9927,
+   "screen_sessions": 8250
+  },
+  "timezone_note": "All times in Sri Lanka time (UTC+05:30)",
+  "window": {
+   "end": "2026-03-29T23:59:59+05:30",
+   "note": "Mail, Teams and screen logs are filtered by time sent/captured; calendar by event start.",
+   "start": "2026-03-02T00:00:00+05:30",
+   "timezone": "Asia/Colombo"
+  }
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/meta"
+}

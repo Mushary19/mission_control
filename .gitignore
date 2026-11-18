@@ -8,3 +8,5 @@ backend/feedback.db
 out/feedback.jsonl
 .env
 data/
+BUILD_PROMPT.md
+.ruff_cache/

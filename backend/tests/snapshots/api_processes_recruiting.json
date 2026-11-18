@@ -1,0 +1,8 @@
+{
+ "body": {
+  "detail": "unknown process 'recruiting'"
+ },
+ "content_type": "application/json",
+ "status": 404,
+ "url": "/api/processes/recruiting"
+}

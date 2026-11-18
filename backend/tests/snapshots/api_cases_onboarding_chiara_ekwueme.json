@@ -1,0 +1,456 @@
+{
+ "body": {
+  "case_id": "onboarding:chiara-ekwueme",
+  "client": "o_fennimore",
+  "client_name": "Fennimore Quist Law",
+  "ends_after_window": false,
+  "flag_count": 2,
+  "flags": [
+   {
+    "case_id": "onboarding:chiara-ekwueme",
+    "evidence_event_ids": [
+     "mail:WZcvTlWbcWGp4J1VEu3tdVWJ@harbourline.example",
+     "teams_channel:1773645951734"
+    ],
+    "flag_id": "laptop_requested_late:onboarding:chiara-ekwueme",
+    "message": "Laptop for Chiara Ekwueme requested on Mon 16 Mar: needed by Thu 12 Mar (the start date), so 4 day(s) late.",
+    "person_id": "p_chiara-ekwueme",
+    "person_name": "Chiara Ekwueme",
+    "process": "onboarding",
+    "rule": "laptop_requested_late",
+    "scope": "case",
+    "severity": "warning"
+   },
+   {
+    "case_id": "onboarding:chiara-ekwueme",
+    "evidence_event_ids": [
+     "teams_channel:1774239152363",
+     "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773632468006"
+    ],
+    "flag_id": "onboarded_before_laptop:onboarding:chiara-ekwueme",
+    "message": "Chiara Ekwueme was confirmed onboarded on Mon 16 Mar; the laptop arrived 7.0 days later (Mon 23 Mar).",
+    "person_id": "p_chiara-ekwueme",
+    "person_name": "Chiara Ekwueme",
+    "process": "onboarding",
+    "rule": "onboarded_before_laptop",
+    "scope": "case",
+    "severity": "warning"
+   }
+  ],
+  "handoff": true,
+  "insights": [
+   "ins:onboarding:laptop_late"
+  ],
+  "key": {
+   "first_day": "2026-03-12"
+  },
+  "last_activity": "2026-03-23T09:42:32+05:30",
+  "out_of_order": [],
+  "owner_name": "Hana Pemberton",
+  "owner_staff_id": "p_hana-pemberton",
+  "process": "onboarding",
+  "related_flags": [],
+  "staff_involved": [
+   {
+    "name": "Hana Pemberton",
+    "person_id": "p_hana-pemberton"
+   },
+   {
+    "name": "Lerato Faraday",
+    "person_id": "p_lerato-faraday"
+   }
+  ],
+  "start": "2026-03-06T10:54:04+05:30",
+  "started_before_window": true,
+  "status": "complete",
+  "step_count": 13,
+  "steps": [
+   {
+    "activity": "welcome_sent",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "mail:WZcvTlWbcWGp4J1VEu3tdVWJ@harbourline.example",
+    "label": "Welcome sent",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 37
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Recipient address cekwueme@postbox.example"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hey Chiara,\n\nYour first day with Fennimore Quist Law is Thu 12 Mar. Your work account details will follow from IT.\n\nBest,\nHana\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-06T10:54:04+05:30",
+    "title": "Welcome to Harbourline Talent!"
+   },
+   {
+    "activity": "it_requested",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1772779280227",
+    "label": "IT setup requested",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/teams/messages.jsonl",
+     "line": 22
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Chiara Ekwueme",
+     "reason": "Full name 'Chiara Ekwueme' written in the text"
+    },
+    "session": null,
+    "source": "teams_chat",
+    "text": "Hi Tobias, can you set up M365, VPN and the timesheet app for Chiara Ekwueme? Starts Thu 12 Mar at Fennimore",
+    "time_local": "2026-03-06T12:11:19+05:30",
+    "title": null
+   },
+   {
+    "activity": "it_ready",
+    "actor_id": "p_tobias-northcott",
+    "actor_name": "Tobias Northcott",
+    "confidence": "high",
+    "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773025571882",
+    "label": "IT ready",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/teams/messages.jsonl",
+     "line": 23
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": "Chiara",
+     "reason": "Matches the open IT request for Chiara Ekwueme in the same chat"
+    },
+    "session": null,
+    "source": "teams_chat",
+    "text": "all set for Chiara",
+    "time_local": "2026-03-09T08:36:11+05:30",
+    "title": null
+   },
+   {
+    "activity": "kickoff_meeting",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "medium",
+    "event_id": "calendar:040000008200E00074C5B7101A82E008677BEB0CA5FC67CC9A0163802AFD414CBD4D2228",
+    "label": "Client kick-off",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/outlook/calendar.jsonl",
+     "line": 5
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Chiara Ekwueme",
+     "reason": "Full name 'Chiara Ekwueme' written in the text"
+    },
+    "session": null,
+    "source": "calendar",
+    "text": null,
+    "time_local": "2026-03-10T15:15:00+05:30",
+    "title": "Kick-off: Chiara Ekwueme x Fennimore Quist Law"
+   },
+   {
+    "activity": "day_one_checkin",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "high",
+    "event_id": "mail:pW0q63ZngQAsGFqsZA7FmJMu@harbourline.example",
+    "label": "Day-one check-in",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 88
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Recipient address cekwueme@postbox.example"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hi Chiara,\n\nJust checking in, how did your first day go? Anything you're missing?\n\nBest,\nHana\nPeople Operations, Harbourline Talent",
+    "time_local": "2026-03-12T16:00:07+05:30",
+    "title": "How was day one?"
+   },
+   {
+    "activity": "day_one_reply",
+    "actor_id": "p_chiara-ekwueme",
+    "actor_name": "Chiara Ekwueme",
+    "confidence": "high",
+    "event_id": "mail:NyS1WwxDH9keNQpypx3NSNym@harbourline.example",
+    "label": "Day-one reply",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/outlook/messages.jsonl",
+     "line": 91
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "email",
+     "raw_name": null,
+     "reason": "Sent by the person (their address)"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Hey Hana,\n\nWent well, thanks!\n\nChiara",
+    "time_local": "2026-03-13T09:38:44+05:30",
+    "title": "RE: How was day one?"
+   },
+   {
+    "activity": "onboarded_confirmed",
+    "actor_id": "p_hana-pemberton",
+    "actor_name": "Hana Pemberton",
+    "confidence": "medium",
+    "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773632468006",
+    "label": "Onboarded confirmed",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/hana/teams/messages.jsonl",
+     "line": 42
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "medium",
+     "method": "fuzzy",
+     "raw_name": "Chaira Ekwueme",
+     "reason": "'Chaira Ekwueme' is 1 edit(s) from 'Chiara Ekwueme'; no closer name"
+    },
+    "session": null,
+    "source": "teams_chat",
+    "text": "Chaira Ekwueme onboarded at Fennimore ✅",
+    "time_local": "2026-03-16T09:11:08+05:30",
+    "title": null
+   },
+   {
+    "activity": "laptop_requested",
+    "actor_id": "p_lerato-faraday",
+    "actor_name": "Lerato Faraday",
+    "confidence": "high",
+    "event_id": "teams_channel:1773645951734",
+    "label": "Laptop requested",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/_shared/teams_channel/messages.jsonl",
+     "line": 27
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Chiara Ekwueme",
+     "reason": "Full name 'Chiara Ekwueme' written in the text"
+    },
+    "session": null,
+    "source": "teams_channel",
+    "text": "Laptop needed for Chiara Ekwueme (new starter), Fennimore, needed by Thu 12 Mar",
+    "time_local": "2026-03-16T12:55:51+05:30",
+    "title": null
+   },
+   {
+    "activity": "laptop_quote",
+    "actor_id": "p_ravi-larkspur",
+    "actor_name": "Ravi Larkspur",
+    "confidence": "high",
+    "event_id": "teams_channel:1773651913545",
+    "label": "Laptop quote",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/_shared/teams_channel/messages.jsonl",
+     "line": 29
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": null,
+     "reason": "Same thread as an earlier message about Chiara Ekwueme"
+    },
+    "session": null,
+    "source": "teams_channel",
+    "text": "Vivobook 15 from Lapworks, ~1214 AUD, ok?",
+    "time_local": "2026-03-16T14:35:13+05:30",
+    "title": null
+   },
+   {
+    "activity": "laptop_approved",
+    "actor_id": "p_yannick-xiong",
+    "actor_name": "Yannick Xiong",
+    "confidence": "high",
+    "event_id": "teams_channel:1773657491936",
+    "label": "Laptop approved",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/_shared/teams_channel/messages.jsonl",
+     "line": 30
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": null,
+     "reason": "Same thread as an earlier message about Chiara Ekwueme"
+    },
+    "session": null,
+    "source": "teams_channel",
+    "text": "Approved",
+    "time_local": "2026-03-16T16:08:11+05:30",
+    "title": null
+   },
+   {
+    "activity": "laptop_ordered",
+    "actor_id": "p_lapworks-trading",
+    "actor_name": "Lapworks Trading",
+    "confidence": "high",
+    "event_id": "mail:su6MFSEpykqVI156d1Cqv20O@lapworks.example",
+    "label": "Laptop ordered",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/ravi/outlook/messages.jsonl",
+     "line": 61
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "full_name",
+     "raw_name": "Chiara Ekwueme",
+     "reason": "Full name 'Chiara Ekwueme' written in the text"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Thank you for your order LA-456876.\n\n1 x Vivobook 15\nDeliver to: Chiara Ekwueme\n\nLapworks Trading",
+    "time_local": "2026-03-16T17:39:06+05:30",
+    "title": "Order confirmation LA-456876"
+   },
+   {
+    "activity": "laptop_shipped",
+    "actor_id": "p_lapworks-trading",
+    "actor_name": "Lapworks Trading",
+    "confidence": "high",
+    "event_id": "mail:X2owPiZnDvmASarUlqZUZOik@lapworks.example",
+    "label": "Laptop shipped",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/ravi/outlook/messages.jsonl",
+     "line": 67
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": null,
+     "reason": "Same order number as an earlier message about Chiara Ekwueme"
+    },
+    "session": null,
+    "source": "mail",
+    "text": "Order LA-456876 is on its way. Tracking: SP565914243\n\nLapworks Trading",
+    "time_local": "2026-03-18T08:51:33+05:30",
+    "title": "Your order LA-456876 has shipped"
+   },
+   {
+    "activity": "laptop_delivered",
+    "actor_id": "p_ravi-larkspur",
+    "actor_name": "Ravi Larkspur",
+    "confidence": "high",
+    "event_id": "teams_channel:1774239152363",
+    "label": "Laptop delivered",
+    "likely": false,
+    "link": "person",
+    "link_reason": "Same person (one case per person)",
+    "raw_ref": {
+     "file": "data/_shared/teams_channel/messages.jsonl",
+     "line": 38
+    },
+    "resolution": {
+     "candidates": [
+      "p_chiara-ekwueme"
+     ],
+     "confidence": "high",
+     "method": "thread",
+     "raw_name": null,
+     "reason": "Same thread as an earlier message about Chiara Ekwueme"
+    },
+    "session": null,
+    "source": "teams_channel",
+    "text": "Chaira has the laptop now",
+    "time_local": "2026-03-23T09:42:32+05:30",
+    "title": null
+   }
+  ],
+  "subject_name": "Chiara Ekwueme",
+  "subject_person_id": "p_chiara-ekwueme",
+  "summary": "Chiara Ekwueme: onboarding, first day Thu 12 Mar at Fennimore Quist Law. Handled by Hana Pemberton (hand-off: Hana Pemberton → Lerato Faraday). 13 steps, complete.",
+  "window_notes": [
+   "trigger not in the data (likely before 2 Mar, or sent to a mailbox that was not exported)"
+  ]
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/cases/onboarding:chiara-ekwueme"
+}

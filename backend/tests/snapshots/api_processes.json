@@ -1,0 +1,101 @@
+{
+ "body": [
+  {
+   "case_count": 41,
+   "full_trace_cases": 29,
+   "insight_count": 7,
+   "label": "Leave",
+   "main_path_labels": [
+    "Leave requested",
+    "Client asked",
+    "Client approved",
+    "Worker told: approved"
+   ],
+   "open_question_count": 5,
+   "path_confidence": {
+    "level": "high",
+    "reason": "Rests on 29 complete case(s) that start inside the window; 25 of 29 complete in-window cases follow it exactly.",
+    "rule": "high: >= 10 complete in-window cases and the main path is followed exactly by >= 50% of them; medium: >= 4 such cases and a repeating main variant; low: otherwise"
+   },
+   "process": "leave",
+   "status_counts": {
+    "cancelled": 2,
+    "complete": 30,
+    "declined": 6,
+    "in_progress": 3
+   },
+   "window_badges": {
+    "ends_after_window": 0,
+    "started_before_window": 1
+   }
+  },
+  {
+   "case_count": 12,
+   "full_trace_cases": 4,
+   "insight_count": 1,
+   "label": "Offboarding",
+   "main_path_labels": [
+    "Client ended engagement",
+    "Offboarding acknowledged",
+    "Access removal requested",
+    "Laptop return arranged",
+    "Courier delivered",
+    "Laptop received",
+    "Offboarding completed"
+   ],
+   "open_question_count": 4,
+   "path_confidence": {
+    "level": "medium",
+    "reason": "Rests on 4 complete case(s) that start inside the window; 2 of 4 complete in-window cases follow it exactly.",
+    "rule": "high: >= 10 complete in-window cases and the main path is followed exactly by >= 50% of them; medium: >= 4 such cases and a repeating main variant; low: otherwise"
+   },
+   "process": "offboarding",
+   "status_counts": {
+    "complete": 7,
+    "in_progress": 5
+   },
+   "window_badges": {
+    "ends_after_window": 4,
+    "started_before_window": 3
+   }
+  },
+  {
+   "case_count": 17,
+   "full_trace_cases": 3,
+   "insight_count": 2,
+   "label": "Onboarding",
+   "main_path_labels": [
+    "Contract sent",
+    "Induction meeting",
+    "Induction completed",
+    "Welcome sent",
+    "IT setup requested",
+    "IT ready",
+    "Client kick-off",
+    "Day-one check-in",
+    "Day-one reply",
+    "Onboarded confirmed",
+    "Laptop requested",
+    "Laptop quote"
+   ],
+   "open_question_count": 5,
+   "path_confidence": {
+    "level": "low",
+    "reason": "Rests on 3 complete case(s) that start inside the window; only 3 complete in-window cases and none repeat; the path is a consensus order.",
+    "rule": "high: >= 10 complete in-window cases and the main path is followed exactly by >= 50% of them; medium: >= 4 such cases and a repeating main variant; low: otherwise"
+   },
+   "process": "onboarding",
+   "status_counts": {
+    "complete": 9,
+    "in_progress": 8
+   },
+   "window_badges": {
+    "ends_after_window": 3,
+    "started_before_window": 7
+   }
+  }
+ ],
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/processes"
+}

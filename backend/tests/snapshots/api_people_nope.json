@@ -1,0 +1,8 @@
+{
+ "body": {
+  "detail": "unknown person 'nope'"
+ },
+ "content_type": "application/json",
+ "status": 404,
+ "url": "/api/people/nope"
+}
