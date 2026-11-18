@@ -21,22 +21,22 @@ export default function HowItWorks() {
   return (
     <>
       <PageHeader title="How it works" subtitle="From raw exports to the screens you are reviewing. Everything runs on this machine; no data is sent anywhere." />
-      <div className="grid grid-cols-3 gap-4 2xl:grid-cols-6">
+      <div className="grid grid-cols-3 gap-4 xl:grid-cols-6">
         {steps.map((st, i) => (
           <div key={st.n} className="relative h-full">
             <Card className="flex h-full flex-col p-5">
-              <div className="text-sm text-zinc-600">Step {st.n}</div>
+              <div className="text-xs text-zinc-500">Step {st.n}</div>
               <div className="text-card text-zinc-900">{st.title}</div>
               <div className="mt-2 text-stat tabular-nums">{st.count === undefined ? "—" : n(st.count)}</div>
-              <div className="text-sm text-zinc-600">{st.unit}</div>
-              <p className="mt-2 text-sm text-zinc-600">{st.note}</p>
-              <a href={`/api/files/${st.file}`} target="_blank" rel="noreferrer" className="mt-auto flex items-center gap-1 break-all pt-4 font-mono text-sm text-indigo-600 hover:underline"><FileJson className="size-4 shrink-0" />out/{st.file}</a>
+              <div className="text-xs text-zinc-500">{st.unit}</div>
+              <p className="mt-2 text-xs text-zinc-600">{st.note}</p>
+              <a href={`/api/files/${st.file}`} target="_blank" rel="noreferrer" className="mt-auto flex items-center gap-1 pt-4 font-mono text-micro text-indigo-600 hover:underline"><FileJson className="size-4 shrink-0" />out/{st.file}</a>
             </Card>
-            {i < steps.length - 1 && <ArrowRight className="absolute -right-4 top-1/2 z-10 hidden size-4 -translate-y-1/2 text-zinc-400 2xl:block" />}
+            {i < steps.length - 1 && <ArrowRight className="absolute -right-4 top-1/2 z-10 hidden size-4 -translate-y-1/2 text-zinc-300 xl:block" />}
           </div>
         ))}
       </div>
-      <p className="mt-4 text-sm text-zinc-600">
+      <p className="mt-4 text-xs text-zinc-500">
         All output files (committed under <span className="font-mono">out/</span>, opened read-only):{" "}
         {meta.data.out_files.map((f, i) => (
           <span key={f}>{i > 0 && ", "}<a href={`/api/files/${f}`} target="_blank" rel="noreferrer" className="font-mono text-indigo-600 hover:underline">{f}</a></span>

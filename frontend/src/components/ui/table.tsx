@@ -8,6 +8,6 @@ export const THead = (p: React.HTMLAttributes<HTMLTableSectionElement>) => <thea
 export const TBody = (p: React.HTMLAttributes<HTMLTableSectionElement>) => <tbody {...p} />;
 export const TR = ({ className, ...p }: React.HTMLAttributes<HTMLTableRowElement>) => <tr className={cn("border-b border-zinc-100 last:border-0", className)} {...p} />;
 export const TH = ({ className, ...p }: React.ThHTMLAttributes<HTMLTableCellElement>) => (
-  <th className={cn("h-10 whitespace-nowrap px-2.5 text-left align-middle text-card text-zinc-600 border-b border-zinc-200", className)} {...p} />
+  <th className={cn("h-10 whitespace-nowrap px-4 text-left align-middle text-card text-zinc-600 border-b border-zinc-200", className)} {...p} />
 );
-export const TD = ({ className, ...p }: React.TdHTMLAttributes<HTMLTableCellElement>) => <td className={cn("px-2.5 py-3 align-middle", className)} {...p} />;
+export const TD = ({ className, ...p }: React.TdHTMLAttributes<HTMLTableCellElement>) => <td className={cn("px-4 py-3 align-middle", className)} {...p} />;
