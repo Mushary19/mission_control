@@ -3,7 +3,7 @@ PY      ?= .venv/bin/python
 API_PORT ?= 8000
 WEB_PORT ?= 5173
 
-.PHONY: install pipeline dev build test lint start screenshots clean
+.PHONY: install pipeline dev build test lint start screenshots clean up down docker-pipeline
 
 install:            ## Python venv + backend/test deps, frontend deps
 	python3 -m venv .venv
@@ -32,6 +32,18 @@ lint:
 
 start: build        ## production: FastAPI serves the built UI at / and the API at /api
 	$(PY) -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $(API_PORT)
+
+up:                 ## Docker: build + start the app on http://localhost:8000 (data/ mounted read-only)
+	mkdir -p data
+	docker compose up -d --build
+	@echo "Mission Control: http://localhost:8000"
+
+down:               ## Docker: stop (feedback volume kept; add -v to drop it)
+	docker compose down
+
+docker-pipeline:    ## Docker: rebuild out/ from data/ inside the image
+	mkdir -p data
+	docker compose --profile pipeline run --rm pipeline
 
 screenshots:        ## needs `make dev` running and Chrome at /usr/bin/google-chrome
 	cd frontend && BASE=http://localhost:$(WEB_PORT) npm run screenshots

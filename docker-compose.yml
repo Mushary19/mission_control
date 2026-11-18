@@ -1,0 +1,80 @@
+# Mission Control with Docker Compose.
+#   docker compose up                                   app on http://localhost:8000 (UI + API)
+#   docker compose --profile pipeline run --rm pipeline rebuild out/ from data/
+#   docker compose --profile dev up                     API (--reload) + Vite (hot reload) on http://localhost:5173
+# The raw export is never baked into the image: ./data is mounted read-only. If ./data is missing, Docker creates an
+# empty folder (`make up` creates it first, owned by you) and the app runs; Proof says "Raw data not available".
+
+x-data-mount: &data-mount
+  type: bind
+  source: ./data
+  target: /app/data
+  read_only: true
+  bind:
+    create_host_path: true
+
+services:
+  app:
+    build: .
+    image: mission-control:local
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    volumes:
+      - *data-mount
+      - feedback:/var/lib/mission-control
+    environment:
+      MC_DB_PATH: /var/lib/mission-control/feedback.db
+      MC_FEEDBACK_JSONL: /var/lib/mission-control/feedback.jsonl
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  pipeline:
+    profiles: ["pipeline"]
+    image: mission-control:local
+    build: .
+    user: "${UID:-1000}:${GID:-1000}"   # so out/ files stay owned by you
+    working_dir: /app
+    command: ["python", "pipeline/pipeline.py"]
+    volumes:
+      - *data-mount
+      - ./out:/app/out
+
+  # ---- dev: source mounted, API reloads on save, Vite hot-reloads the UI
+  dev-api:
+    profiles: ["dev"]
+    image: mission-control:local
+    build: .
+    user: "${UID:-1000}:${GID:-1000}"
+    working_dir: /app
+    command: ["uvicorn", "app.main:app", "--app-dir", "backend", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "backend"]
+    environment:
+      MC_DB_PATH: /app/backend/feedback.db           # git-ignored, in your working copy
+      MC_FEEDBACK_JSONL: /app/out/feedback.jsonl     # git-ignored
+      MC_FRONTEND_DIST: /nonexistent                 # the UI comes from Vite in dev
+    volumes:
+      - ./:/app
+      - *data-mount
+
+  dev:
+    profiles: ["dev"]
+    image: node:20.18-alpine
+    working_dir: /web
+    command: ["sh", "-c", "npm ci --no-audit --no-fund && npx vite --host 0.0.0.0 --port 5173"]
+    environment:
+      MC_API: http://dev-api:8000        # Vite proxies /api here (see frontend/vite.config.ts)
+      CHOKIDAR_USEPOLLING: "true"        # file changes through the bind mount
+    ports:
+      - "${WEB_PORT:-5173}:5173"
+    volumes:
+      - ./frontend:/web
+      - /web/node_modules                # container's own node_modules (alpine), not the host's
+    depends_on:
+      - dev-api
+
+volumes:
+  feedback:

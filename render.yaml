@@ -1,5 +1,6 @@
-# One web service built from the Dockerfile. Deploy from a PRIVATE copy of the repo that includes data/
-# (the raw export is not committed); without data/ the app works but "Proof" shows no raw records.
+# One web service built from the Dockerfile. The image never contains the raw export (.dockerignore), so the
+# hosted app works but "Proof" says "Raw data not available on this server" unless a private disk holds the
+# export and MC_DATA_DIR points at it.
 services:
   - type: web
     name: mission-control

@@ -1,10 +1,13 @@
-.git
+# Never in the image: the raw export (mounted at runtime), local envs, VCS, backups, runtime feedback.
+data/
 .venv
+**/node_modules
+.git
+*.bundle
+backend/feedback.db
+out/feedback.jsonl
 **/__pycache__
 **/.pytest_cache
 .ruff_cache
-frontend/node_modules
 frontend/dist
-backend/feedback.db
-out/feedback.jsonl
 docs/screenshots

@@ -1,6 +1,6 @@
 """Settings: file locations and CORS origins, read from the environment with repo-relative defaults.
 
-MC_OUT_DIR (out/), MC_DATA_DIR (data/), MC_DB (backend/feedback.db),
+MC_OUT_DIR (out/), MC_DATA_DIR (data/), MC_DB_PATH (alias MC_DB; backend/feedback.db),
 MC_FEEDBACK_JSONL (<out dir>/feedback.jsonl), MC_CORS (comma-separated origins),
 MC_FRONTEND_DIST (frontend/dist; served at / when it exists).
 """
@@ -38,7 +38,7 @@ def load_settings(
     return Settings(
         out_dir=out,
         data_dir=Path(data_dir or os.environ.get("MC_DATA_DIR", ROOT / "data")),
-        db_path=Path(db_path or os.environ.get("MC_DB", ROOT / "backend" / "feedback.db")),
+        db_path=Path(db_path or os.environ.get("MC_DB_PATH") or os.environ.get("MC_DB", ROOT / "backend" / "feedback.db")),
         feedback_jsonl=Path(feedback_jsonl or os.environ.get("MC_FEEDBACK_JSONL", out / "feedback.jsonl")),
         cors_origins=os.environ.get("MC_CORS", DEFAULT_CORS).split(","),
         frontend_dist=Path(os.environ.get("MC_FRONTEND_DIST", ROOT / "frontend" / "dist")),

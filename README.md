@@ -22,11 +22,16 @@ put the export in `data/` (`data/_shared/…`, `data/<person>/…`; it is git-ig
 | `make dev` | API on :8000 (reload) + Vite on :5173 (proxies `/api`) |
 | `make test` | 102 pytest tests (pipeline rules, name resolution, every endpoint, API snapshots) + ruff |
 | `make build` / `make start` | build `frontend/dist`; FastAPI serves it at `/` and the API at `/api` (docs at `/docs`) |
-| `docker build -t mission-control . && docker run -p 8000:8000 mission-control` | same, in one image |
+| `make up` / `make down` / `make docker-pipeline` | the same with Docker Compose (see below) |
 
-**Hosted demo (Render):** `render.yaml` defines one Docker web service. Deploy it from a **private copy of the repo that includes `data/`**.
-The raw export must not go into a public repo. Without `data/` the app works, but the Proof panel says "Raw data not available on this server".
-On the free plan, feedback (SQLite) is lost on redeploy.
+**Hosted demo (Render):** `render.yaml` defines one Docker web service. The image never contains the raw export, so a hosted copy
+shows everything except raw records ("Raw data not available on this server"). To show Proof there, attach a private disk with the
+export and set `MC_DATA_DIR` to it. Never commit `data/`. On the free plan, feedback (SQLite) is lost on redeploy.
+
+### Run with Docker
+
+Put the export in `data/`, run `docker compose up` (or `make up`), and open http://localhost:8000.
+Rebuild `out/` with `docker compose --profile pipeline run --rm pipeline`; develop with hot reload via `docker compose --profile dev up` (UI on :5173).
 
 ## Data
 
