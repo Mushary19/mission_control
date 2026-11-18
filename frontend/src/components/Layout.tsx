@@ -72,7 +72,7 @@ export function Layout() {
           </label>
         </header>
         <main className="flex-1 p-8">
-          <div className="w-full max-w-content">
+          <div className="mx-auto w-full max-w-content">
             <Outlet />
           </div>
         </main>
