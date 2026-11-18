@@ -10,6 +10,7 @@ Steps (each writes to out/):
   3 cases     -> out/3_cases.json                         (Phase 2)
   4 discover  -> out/4_processes.json                     (Phase 3)
   5 flags     -> out/5_flags.json, pipeline_report.json   (Phase 3; also fills case flags in 3_cases.json)
+  6 insights  -> out/6_insights.json                       (Phase 3.5: process insights vs case flags, path confidence)
 
 Requires Python 3.10+ (stdlib zoneinfo; no 3.11-only features).
 Deterministic: same input -> same output (sorted keys, stable ordering, no wall-clock values).
@@ -1816,14 +1817,110 @@ def open_questions(models: dict, cases: list[dict], flags: list[dict], events: l
     hand = sum(c["handoff"] for c in N)
     q["onboarding"].append({"question": "How is an onboarding handed over between Hana and Lerato?", "why": f"{hand} of {len(N)} onboarding cases moved between the two of you mid-way.", "evidence": {"handoffs": hand}})
     for p in q:
-        q[p] = q[p][:5]
+        q[p] = [{"id": f"{p}-q{i}", "process": p, **x} for i, x in enumerate(q[p][:5], 1)]
     return dict(q)
 
 
-def insights(cases: list[dict], events: list[dict]) -> dict:
-    replies = [e for e in events if e["activity"] == "day_one_reply"]
-    dms = [e for e in replies if e["fields"].get("reports_issue")]
-    return {"onboarding": [{"insight": "day_one_dms_issue", "message": f"{len(dms)} of {len(replies)} starters who replied to the day-one check-in reported they were still waiting on DMS access.", "evidence_event_ids": sorted(e["event_id"] for e in dms)}]}
+# --------------------------------------------------------------------------- step 6 (Phase 3.5): insights
+
+SYSTEMIC_SHARE = 0.5  # a rule that hits >= 50% of eligible cases is a process insight, not a case flag
+SYSTEMIC_MIN = 3      # ... and it must hit at least 3 cases
+PATH_CONFIDENCE = "high: >= 10 complete in-window cases and the main path is followed exactly by >= 50% of them; medium: >= 4 such cases and a repeating main variant; low: otherwise"
+
+
+def path_confidence(m: dict) -> dict:
+    full, exact = m["full_trace_cases"], m["main_path"]["cases_following_exactly"]
+    repeating = m["main_path"]["method"].startswith("most common variant")
+    if full >= 10 and repeating and exact / full >= 0.5:
+        level = "high"
+    elif full >= 4 and repeating:
+        level = "medium"
+    else:
+        level = "low"
+    how = f"{exact} of {full} complete in-window cases follow it exactly" if repeating else f"only {full} complete in-window cases and none repeat; the path is a consensus order"
+    return {"level": level, "reason": f"Rests on {full} complete case(s) that start inside the window; {how}.", "rule": PATH_CONFIDENCE}
+
+
+def step6_insights(models: dict, cases: list[dict], flags: list[dict], events: list[dict]) -> dict:
+    by_case = {c["case_id"]: c for c in cases}
+    ev_by_id = {e["event_id"]: e for e in events}
+    has = lambda c, a: any(s["activity"] == a for s in c["steps"])  # noqa: E731
+    onb = [c for c in cases if c["process"] == "onboarding"]
+    by_rule = defaultdict(list)
+    for f in flags:
+        by_rule[f["rule"]].append(f)
+    out = []
+
+    def systemic(hits: int, eligible: int) -> bool:
+        return hits >= SYSTEMIC_MIN and eligible and hits / eligible >= SYSTEMIC_SHARE
+
+    # b + c merged: one laptop problem per starter
+    lap = defaultdict(list)
+    for f in by_rule["onboarded_before_laptop"] + by_rule["laptop_requested_late"]:
+        lap[f["case_id"]].append(f)
+    eligible = [c for c in onb if has(c, "onboarded_confirmed") or has(c, "laptop_requested")]
+    if lap:
+        per = []
+        for cid in sorted(lap):
+            fs = sorted(lap[cid], key=lambda f: f["rule"])
+            parts = [f["message"].split(": ", 1)[-1] if f["rule"] == "laptop_requested_late" else f["message"].split("; ", 1)[-1] for f in fs]
+            parts = [x.rstrip(".") for x in parts]
+            per.append({"case_id": cid, "person_name": by_case[cid]["subject_name"], "rules": [f["rule"] for f in fs], "message": f"{by_case[cid]['subject_name']}: laptop " + "; ".join(parts) + ".", "flag_ids": [f["flag_id"] for f in fs]})
+        ids = sorted(lap)
+        late = len({f["case_id"] for f in by_rule["laptop_requested_late"]})
+        before = len({f["case_id"] for f in by_rule["onboarded_before_laptop"]})
+        item = {"process": "onboarding", "title": "Laptops come after the start date",
+                "message": f"{len(ids)} of {len(eligible)} new starters were affected: {late} laptop request(s) went to Procurement after the needed-by date (always the start date), and {before} starter(s) were confirmed onboarded before their laptop arrived.",
+                "rules": ["onboarded_before_laptop", "laptop_requested_late"], "affected_case_ids": ids,
+                "evidence_event_ids": sorted({e for cid in ids for f in lap[cid] for e in f["evidence_event_ids"]}), "per_case": per,
+                "eligible_cases": len(eligible), "severity": "warning"}
+        if systemic(len(ids), len(eligible)):
+            out.append({"id": "ins:onboarding:laptop_late", "kind": "process_insight", **item})
+        else:
+            for p_ in per:
+                out.append({"id": f"flag:{p_['flag_ids'][0]}", "kind": "case_flag", "process": "onboarding", "title": "Laptop late", "message": p_["message"], "rules": p_["rules"], "affected_case_ids": [p_["case_id"]], "evidence_event_ids": sorted({e for f in lap[p_["case_id"]] for e in f["evidence_event_ids"]}), "per_case": [], "severity": "warning"})
+
+    # d: open day-one issue. Systemic by share, or when the same issue repeats at >= 3 different clients
+    d = by_rule["onboarded_with_open_issue"]
+    if d:
+        replied = [c for c in onb if has(c, "day_one_reply")]
+        quotes = Counter(f["message"].split('"')[1] for f in d if '"' in f["message"])
+        quote, n_same = quotes.most_common(1)[0] if quotes else ("", 0)
+        clients = {by_case[f["case_id"]]["client"] for f in d}
+        is_sys = systemic(len(d), len(replied)) or (n_same >= SYSTEMIC_MIN and len(clients) >= SYSTEMIC_MIN)
+        why = f"the same reply ({quote!r}) came from {n_same} starters at {len(clients)} different clients" if not systemic(len(d), len(replied)) else f"{len(d)} of {len(replied)} replies"
+        if is_sys:
+            out.append({"id": "ins:onboarding:day_one_dms", "kind": "process_insight", "process": "onboarding", "title": "Starters confirmed onboarded while still missing DMS access",
+                        "message": f"{len(d)} of {len(replied)} starters who answered the day-one check-in were still waiting on access to the client DMS, and all {len(d)} were confirmed onboarded within 3 days with no fix in the data. Systemic because {why}.",
+                        "rules": ["onboarded_with_open_issue"], "affected_case_ids": sorted(f["case_id"] for f in d),
+                        "evidence_event_ids": sorted({e for f in d for e in f["evidence_event_ids"]}),
+                        "per_case": [{"case_id": f["case_id"], "person_name": f["person_name"], "rules": [f["rule"]], "message": f["message"], "flag_ids": [f["flag_id"]]} for f in d],
+                        "eligible_cases": len(replied), "severity": "warning"})
+        else:
+            by_rule["_case"] += d
+
+    # f: process-level by nature
+    for f in by_rule["sick_leave_two_ways"]:
+        sick = [c for c in cases if c["process"] == "leave" and c["key"].get("leave_type") == "sick"]
+        out.append({"id": "ins:leave:sick_two_ways", "kind": "process_insight", "process": "leave", "title": "Sick leave is handled two ways", "message": f["message"],
+                    "rules": [f["rule"]], "affected_case_ids": sorted(c["case_id"] for c in sick), "evidence_event_ids": f["evidence_event_ids"], "per_case": [], "eligible_cases": len(sick), "severity": "info"})
+
+    # a, e (+ anything not systemic): specific case flags
+    for rule, title in (("activity_after_last_day", "Activity after the last day"), ("cancel_no_followup", "Cancel request with no follow-up"), ("_case", "Onboarded with an open day-one issue")):
+        fs = by_rule[rule]
+        elig = {"activity_after_last_day": len([c for c in cases if c["process"] == "offboarding"]), "cancel_no_followup": sum(has(c, "cancel_requested") for c in cases)}.get(rule, len(fs))
+        if rule != "_case" and systemic(len({f["person_id"] for f in fs}), elig):
+            title += " (recurring)"
+        for f in fs:
+            out.append({"id": f"flag:{f['flag_id']}", "kind": "case_flag", "process": f["process"], "title": title, "message": f["message"], "rules": [f["rule"]],
+                        "affected_case_ids": [f["case_id"]], "evidence_event_ids": f["evidence_event_ids"], "per_case": [], "severity": "warning"})
+
+    out.sort(key=lambda x: (x["kind"] != "process_insight", x["process"] or "", x["id"]))
+    pc = {p: path_confidence(m) for p, m in models.items()}
+    doc = {"step": "6_insights", "rule": f"process insight = a rule hits >= {SYSTEMIC_MIN} cases and >= {int(SYSTEMIC_SHARE * 100)}% of eligible cases (or the same issue repeats at >= 3 clients); otherwise a case flag. Flags b + c are merged per starter.",
+           "path_confidence": pc, "counts": dict(Counter(x["kind"] for x in out)), "insights": out}
+    write_json(OUT / "6_insights.json", doc)
+    return doc
 
 
 def run_phase3(cases_out: dict) -> dict:
@@ -1832,14 +1929,15 @@ def run_phase3(cases_out: dict) -> dict:
     write_json(OUT / "3_cases.json", cases_out["doc"], compact=True)  # cases now carry their flag ids
     models = {p: discover(p, [c for c in cases if c["process"] == p]) for p in ("leave", "offboarding", "onboarding")}
     qs = open_questions(models, cases, flags, events)
-    ins = insights(cases, events)
+    ins = step6_insights(models, cases, flags, events)
     for p, m in models.items():
         m["open_questions"] = qs.get(p, [])
-        m["insights"] = ins.get(p, [])
+        m["path_confidence"] = ins["path_confidence"][p]
+        m["insight_ids"] = [x["id"] for x in ins["insights"] if x["process"] == p]
         m["process_flags"] = [f["flag_id"] for f in flags if f["scope"] == "process" and f["process"] == p]
     write_json(OUT / "4_processes.json", {"step": "4_processes", "processes": [models[p] for p in ("leave", "offboarding", "onboarding")], "seen_not_modelled": ["recruitment (HireTrack, Recruitment tracker)", "laptop replacements", "birthday gifts", "payslip / timesheet / invoice queries"]})
     write_json(OUT / "5_flags.json", {"step": "5_flags", "counts": dict(sorted(Counter(f["rule"] for f in flags).items())), "flags": flags})
-    return {"models": models, "flags": flags}
+    return {"models": models, "flags": flags, "insights": ins}
 
 
 # --------------------------------------------------------------------------- reports
