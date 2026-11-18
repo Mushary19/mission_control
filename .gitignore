@@ -7,5 +7,5 @@ frontend/dist/
 backend/feedback.db
 out/feedback.jsonl
 .env
-data/
+/data/
 .ruff_cache/

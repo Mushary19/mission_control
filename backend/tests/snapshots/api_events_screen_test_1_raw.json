@@ -1,0 +1,38 @@
+{
+ "body": {
+  "event_id": "screen:test:1",
+  "line_count": 2,
+  "lines": [
+   {
+    "file": "data/test/screens/screen_log.jsonl",
+    "line": 1,
+    "raw": "{\"captured_at\": \"2026-03-10T10:15:00+05:30\", \"file\": \"screenshots/2026-03-10/101500+0530_Leave---Test-Person---PeopleHub_chrome.jpg\", \"app\": \"chrome\", \"window_title\": \"Leave - Test Person - PeopleHub\", \"url\": null, \"idle_seconds\": 0}",
+    "record": {
+     "app": "chrome",
+     "captured_at": "2026-03-10T10:15:00+05:30",
+     "file": "screenshots/2026-03-10/101500+0530_Leave---Test-Person---PeopleHub_chrome.jpg",
+     "idle_seconds": 0,
+     "url": null,
+     "window_title": "Leave - Test Person - PeopleHub"
+    }
+   },
+   {
+    "file": "data/test/screens/screen_log.jsonl",
+    "line": 2,
+    "raw": "{\"captured_at\": \"2026-03-10T10:18:00.250000+05:30\", \"file\": \"screenshots/2026-03-10/101800+0530_Leave---Test-Person---PeopleHub_excel.jpg\", \"app\": \"excel\", \"window_title\": \"Leave - Test Person - PeopleHub\", \"url\": null, \"idle_seconds\": 12}",
+    "record": {
+     "app": "excel",
+     "captured_at": "2026-03-10T10:18:00.250000+05:30",
+     "file": "screenshots/2026-03-10/101800+0530_Leave---Test-Person---PeopleHub_excel.jpg",
+     "idle_seconds": 12,
+     "url": null,
+     "window_title": "Leave - Test Person - PeopleHub"
+    }
+   }
+  ],
+  "source": "screen"
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/events/screen:test:1/raw"
+}

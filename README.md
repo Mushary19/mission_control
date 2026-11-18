@@ -28,6 +28,12 @@ put the export in `data/` (`data/_shared/…`, `data/<person>/…`; it is git-ig
 The raw export must not go into a public repo. Without `data/` the app works, but the Proof panel says "Raw data not available on this server".
 On the free plan, feedback (SQLite) is lost on redeploy.
 
+## Data
+
+The data is synthetic. The raw export is not in this repo. Screenshots show synthetic records.
+`out/` holds the pipeline outputs with message text cut to 200 characters. Tests and docs that need raw records use
+a small invented fixture (`backend/tests/fixtures/data/`, people like "Test Person"), never the real export.
+
 ## What it found
 
 1. **Laptops come after the start date, for every new starter (9 of 9).** Requests went to Procurement 2–4 days after the needed-by date, which is always the start date. 5 starters were confirmed "onboarded" 5–10 days before their laptop arrived.

@@ -1,0 +1,63 @@
+{
+ "body": {
+  "event_id": "calendar:FAKE-ICAL-0001",
+  "line_count": 1,
+  "lines": [
+   {
+    "file": "data/test/outlook/calendar.jsonl",
+    "line": 1,
+    "raw": "{\"id\": \"FAKE-CAL-0001\", \"iCalUId\": \"FAKE-ICAL-0001\", \"createdDateTime\": \"2026-03-09T03:00:00Z\", \"lastModifiedDateTime\": \"2026-03-09T03:00:00Z\", \"subject\": \"Induction – Test P.\", \"bodyPreview\": \"\", \"body\": {\"contentType\": \"html\", \"content\": \"\"}, \"start\": {\"dateTime\": \"2026-03-11T10:00:00.0000000\", \"timeZone\": \"Sri Lanka Standard Time\"}, \"end\": {\"dateTime\": \"2026-03-11T11:00:00.0000000\", \"timeZone\": \"Sri Lanka Standard Time\"}, \"isAllDay\": false, \"isCancelled\": false, \"isOrganizer\": true, \"isOnlineMeeting\": true, \"onlineMeetingProvider\": \"teamsForBusiness\", \"organizer\": {\"emailAddress\": {\"name\": \"Sam Sample\", \"address\": \"sam.sample@test.example\"}}, \"attendees\": [{\"type\": \"required\", \"status\": {\"response\": \"accepted\", \"time\": \"2026-03-09T03:00:00Z\"}, \"emailAddress\": {\"name\": \"Test Person\", \"address\": \"test.person@personal.test\"}}], \"showAs\": \"busy\", \"_mailbox\": \"sam.sample@test.example\"}",
+    "record": {
+     "_mailbox": "sam.sample@test.example",
+     "attendees": [
+      {
+       "emailAddress": {
+        "address": "test.person@personal.test",
+        "name": "Test Person"
+       },
+       "status": {
+        "response": "accepted",
+        "time": "2026-03-09T03:00:00Z"
+       },
+       "type": "required"
+      }
+     ],
+     "body": {
+      "content": "",
+      "contentType": "html"
+     },
+     "bodyPreview": "",
+     "createdDateTime": "2026-03-09T03:00:00Z",
+     "end": {
+      "dateTime": "2026-03-11T11:00:00.0000000",
+      "timeZone": "Sri Lanka Standard Time"
+     },
+     "iCalUId": "FAKE-ICAL-0001",
+     "id": "FAKE-CAL-0001",
+     "isAllDay": false,
+     "isCancelled": false,
+     "isOnlineMeeting": true,
+     "isOrganizer": true,
+     "lastModifiedDateTime": "2026-03-09T03:00:00Z",
+     "onlineMeetingProvider": "teamsForBusiness",
+     "organizer": {
+      "emailAddress": {
+       "address": "sam.sample@test.example",
+       "name": "Sam Sample"
+      }
+     },
+     "showAs": "busy",
+     "start": {
+      "dateTime": "2026-03-11T10:00:00.0000000",
+      "timeZone": "Sri Lanka Standard Time"
+     },
+     "subject": "Induction – Test P."
+    }
+   }
+  ],
+  "source": "calendar"
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/events/calendar:FAKE-ICAL-0001/raw"
+}

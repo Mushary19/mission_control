@@ -50,16 +50,29 @@ def test_case_detail(client: TestClient) -> None:
     assert client.get("/api/cases/nope").status_code == 404
 
 
+def test_event_raw_all_sources(fake_raw_client: TestClient) -> None:
+    """Raw lines come back byte-for-byte from the FAKE fixture, for every source."""
+    from fixtures.fake_raw import FAKE_DATA, FAKE_EVENTS
+
+    for eid, (source, file, lines) in FAKE_EVENTS.items():
+        r = ok(fake_raw_client, f"/api/events/{eid}/raw")
+        assert r["source"] == source and r["line_count"] == len(lines)
+        content = (FAKE_DATA / file.removeprefix("data/")).read_text(encoding="utf-8").split("\n")
+        assert [x["raw"] for x in r["lines"]] == [content[n - 1] for n in lines]  # unchanged
+        assert all(x["record"] for x in r["lines"])
+    assert "Test Person" in ok(fake_raw_client, "/api/events/mail:fake-0001@test.example/raw")["lines"][0]["raw"]
+
+
 @pytest.mark.skipif(not HAS_DATA, reason="data/ export not present")
-def test_event_raw(client: TestClient) -> None:
+def test_event_raw_real_export(client: TestClient) -> None:
+    """With the real export present: a mail and a multi-frame screen session (nothing is stored in the repo)."""
     c = ok(client, f"/api/cases/{BRAM}")
     mail = next(s for s in c["steps"] if s["source"] == "mail")
     r = ok(client, f"/api/events/{mail['event_id']}/raw")
     line = (ROOT / r["lines"][0]["file"]).read_text(encoding="utf-8").split("\n")[r["lines"][0]["line"] - 1]
-    assert r["lines"][0]["raw"] == line  # unchanged
+    assert r["lines"][0]["raw"] == line
     sess = next(s for s in c["steps"] if s["source"] == "screen")
-    rs = ok(client, f"/api/events/{sess['event_id']}/raw")
-    assert rs["line_count"] == sess["session"]["frame_count"]
+    assert ok(client, f"/api/events/{sess['event_id']}/raw")["line_count"] == sess["session"]["frame_count"]
 
 
 def test_insights(client: TestClient) -> None:

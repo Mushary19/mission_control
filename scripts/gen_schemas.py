@@ -1,5 +1,6 @@
 """Writes docs/schemas.md from the Pydantic models in backend/app/schemas/ plus real examples
-(out/ files for the pipeline shapes, the API for the response shapes).
+(out/ files for the pipeline shapes, the API for the response shapes). The raw-record example comes from the
+FAKE fixture in backend/tests/fixtures/data (invented people); this script never reads the real data/.
 
 Run: .venv/bin/python scripts/gen_schemas.py
 """
@@ -14,10 +15,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
+sys.path.insert(0, str(ROOT / "backend" / "tests"))
 
 from app.main import create_app
 from app.schemas import case, event, feedback, insight, meta, person, process
 from fastapi.testclient import TestClient
+from fixtures.fake_raw import FAKE_DATA, build_out
 from pydantic import BaseModel
 
 OUT = ROOT / "out"
@@ -70,7 +73,8 @@ def jsonl_first(path: Path, pred) -> dict:
 
 def main() -> None:
     tmp = Path(tempfile.mkdtemp())
-    app = create_app(db_path=tmp / "fb.db", feedback_jsonl=tmp / "fb.jsonl")
+    # data_dir = the fake fixture: the real export is never read here
+    app = create_app(out_dir=build_out(tmp), data_dir=FAKE_DATA, db_path=tmp / "fb.db", feedback_jsonl=tmp / "fb.jsonl")
     with TestClient(app) as c:
         get = lambda u: c.get(u).json()
         posted = c.post("/api/feedback", json={"user": "Hana Pemberton", "target": "case_step", "verdict": "confirm", "case_id": "offboarding:bram-montague",
@@ -98,8 +102,9 @@ def main() -> None:
             ("Insight (`out/6_insights.json`, `GET /api/insights`)", "`process_insight` = a pattern across cases; `case_flag` = one case.", insight.Insight,
              next(i for i in get("/api/insights") if i["id"] == "ins:onboarding:laptop_late")),
             ("Meta (`GET /api/meta`)", "", meta.Meta, get("/api/meta")),
-            ("Raw record (`GET /api/events/{id}/raw`)", "The original export line(s), unchanged, plus the parsed record.", event.RawResponse,
-             c.get(f"/api/events/{bram['steps'][-1]['event_id']}/raw").json()),
+            ("Raw record (`GET /api/events/{id}/raw`)", ("The original export line(s), unchanged, plus the parsed record. "
+             "Example: an invented placeholder record from the test fixture (the real export is not in this repo)."), event.RawResponse,
+             c.get("/api/events/mail:fake-0001@test.example/raw").json()),
             ("Person detail (`GET /api/people/{id}`)", "", person.PersonDetail, get("/api/people/p_luca-bellweather")),
             ("Feedback in (`POST /api/feedback`)", "Targets: process_step, case_step, case, open_question, insight, identity. Verdicts: confirm, reject, add, answer (open questions only).",
              feedback.FeedbackIn, {k: v for k, v in posted.items() if k not in ("id", "created_at")}),

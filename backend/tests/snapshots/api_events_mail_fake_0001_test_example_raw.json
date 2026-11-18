@@ -1,0 +1,62 @@
+{
+ "body": {
+  "event_id": "mail:fake-0001@test.example",
+  "line_count": 1,
+  "lines": [
+   {
+    "file": "data/test/outlook/messages.jsonl",
+    "line": 1,
+    "raw": "{\"id\": \"FAKE-MAIL-0001\", \"createdDateTime\": \"2026-03-10T04:30:00Z\", \"receivedDateTime\": \"2026-03-10T04:30:00Z\", \"sentDateTime\": \"2026-03-10T04:30:00Z\", \"hasAttachments\": false, \"internetMessageId\": \"<fake-0001@test.example>\", \"subject\": \"Leave request – Mon 16 Mar\", \"bodyPreview\": \"Hi Sam, I'd like to request annual leave for Mon 16 Mar. Thanks, Test\", \"importance\": \"normal\", \"parentFolderId\": \"Inbox-FAKE\", \"conversationId\": \"FAKE-CONV-0001\", \"isRead\": true, \"isDraft\": false, \"body\": {\"contentType\": \"text\", \"content\": \"Hi Sam,\\n\\nI'd like to request annual leave for Mon 16 Mar.\\n\\nThanks,\\nTest\"}, \"sender\": {\"emailAddress\": {\"name\": \"Test Person\", \"address\": \"test.person@test.example\"}}, \"from\": {\"emailAddress\": {\"name\": \"Test Person\", \"address\": \"test.person@test.example\"}}, \"toRecipients\": [{\"emailAddress\": {\"name\": \"Sam Sample\", \"address\": \"sam.sample@test.example\"}}], \"ccRecipients\": [], \"bccRecipients\": [], \"replyTo\": [], \"_mailbox\": \"sam.sample@test.example\", \"_folder_path\": \"Inbox\", \"attachments\": []}",
+    "record": {
+     "_folder_path": "Inbox",
+     "_mailbox": "sam.sample@test.example",
+     "attachments": [],
+     "bccRecipients": [],
+     "body": {
+      "content": "Hi Sam,\n\nI'd like to request annual leave for Mon 16 Mar.\n\nThanks,\nTest",
+      "contentType": "text"
+     },
+     "bodyPreview": "Hi Sam, I'd like to request annual leave for Mon 16 Mar. Thanks, Test",
+     "ccRecipients": [],
+     "conversationId": "FAKE-CONV-0001",
+     "createdDateTime": "2026-03-10T04:30:00Z",
+     "from": {
+      "emailAddress": {
+       "address": "test.person@test.example",
+       "name": "Test Person"
+      }
+     },
+     "hasAttachments": false,
+     "id": "FAKE-MAIL-0001",
+     "importance": "normal",
+     "internetMessageId": "<fake-0001@test.example>",
+     "isDraft": false,
+     "isRead": true,
+     "parentFolderId": "Inbox-FAKE",
+     "receivedDateTime": "2026-03-10T04:30:00Z",
+     "replyTo": [],
+     "sender": {
+      "emailAddress": {
+       "address": "test.person@test.example",
+       "name": "Test Person"
+      }
+     },
+     "sentDateTime": "2026-03-10T04:30:00Z",
+     "subject": "Leave request – Mon 16 Mar",
+     "toRecipients": [
+      {
+       "emailAddress": {
+        "address": "sam.sample@test.example",
+        "name": "Sam Sample"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "source": "mail"
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/events/mail:fake-0001@test.example/raw"
+}

@@ -1,0 +1,43 @@
+{
+ "body": {
+  "event_id": "teams_chat:19:fake-sam_fake-it@unq.gbl.spaces:1000000000001",
+  "line_count": 1,
+  "lines": [
+   {
+    "file": "data/test/teams/messages.jsonl",
+    "line": 1,
+    "raw": "{\"id\": \"1000000000001\", \"chatId\": \"19:fake-sam_fake-it@unq.gbl.spaces\", \"chatType\": \"oneOnOne\", \"messageType\": \"message\", \"createdDateTime\": \"2026-03-12T05:00:00Z\", \"lastModifiedDateTime\": \"2026-03-12T05:00:00Z\", \"from\": {\"user\": {\"id\": \"fake-it\", \"displayName\": \"Ivy Example\", \"userIdentityType\": \"aadUser\"}}, \"body\": {\"contentType\": \"html\", \"content\": \"<p>all set for Test</p>\"}, \"attachments\": [], \"mentions\": [], \"reactions\": [], \"_members\": [\"Sam Sample\", \"Ivy Example\"]}",
+    "record": {
+     "_members": [
+      "Sam Sample",
+      "Ivy Example"
+     ],
+     "attachments": [],
+     "body": {
+      "content": "<p>all set for Test</p>",
+      "contentType": "html"
+     },
+     "chatId": "19:fake-sam_fake-it@unq.gbl.spaces",
+     "chatType": "oneOnOne",
+     "createdDateTime": "2026-03-12T05:00:00Z",
+     "from": {
+      "user": {
+       "displayName": "Ivy Example",
+       "id": "fake-it",
+       "userIdentityType": "aadUser"
+      }
+     },
+     "id": "1000000000001",
+     "lastModifiedDateTime": "2026-03-12T05:00:00Z",
+     "mentions": [],
+     "messageType": "message",
+     "reactions": []
+    }
+   }
+  ],
+  "source": "teams_chat"
+ },
+ "content_type": "application/json",
+ "status": 200,
+ "url": "/api/events/teams_chat:19:fake-sam_fake-it@unq.gbl.spaces:1000000000001/raw"
+}

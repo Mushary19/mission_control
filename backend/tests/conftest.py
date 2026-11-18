@@ -14,6 +14,7 @@ from fastapi.testclient import TestClient
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "backend"))
+sys.path.insert(0, str(ROOT / "backend" / "tests"))
 
 from app.main import create_app
 
@@ -33,6 +34,20 @@ def make_client(tmp: Path) -> TestClient:
     app = create_app(db_path=tmp / "feedback.db", feedback_jsonl=tmp / "feedback.jsonl")
     app.state.tmp = tmp
     return TestClient(app)
+
+
+def make_fake_raw_client(tmp: Path) -> TestClient:
+    """Client whose data/ is the FAKE fixture (tests/fixtures/data) and whose out/ has matching fake events."""
+    from fixtures.fake_raw import FAKE_DATA, build_out
+
+    app = create_app(out_dir=build_out(tmp), data_dir=FAKE_DATA, db_path=tmp / "feedback.db", feedback_jsonl=tmp / "feedback.jsonl")
+    return TestClient(app)
+
+
+@pytest.fixture(scope="module")
+def fake_raw_client(tmp_path_factory: pytest.TempPathFactory) -> Iterator[TestClient]:
+    with make_fake_raw_client(tmp_path_factory.mktemp("fake")) as c:
+        yield c
 
 
 @pytest.fixture(scope="module")
