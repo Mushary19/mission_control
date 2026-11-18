@@ -1,0 +1,889 @@
+{
+  "coverage": {
+    "exported": [
+      {
+        "folder": "hana",
+        "jobTitle": "People Operations",
+        "name": "Hana Pemberton"
+      },
+      {
+        "folder": "lerato",
+        "jobTitle": "People Operations",
+        "name": "Lerato Faraday"
+      },
+      {
+        "folder": "mateus",
+        "jobTitle": "Talent Partner",
+        "name": "Mateus Vasquez-Lowe"
+      },
+      {
+        "folder": "pavel",
+        "jobTitle": "Talent Partner",
+        "name": "Pavel Thorne"
+      },
+      {
+        "folder": "ravi",
+        "jobTitle": "HR Coordinator",
+        "name": "Ravi Larkspur"
+      },
+      {
+        "folder": "yannick",
+        "jobTitle": "Head of People",
+        "name": "Yannick Xiong"
+      }
+    ],
+    "label": "Data from 6 of 12 staff.",
+    "not_exported": [
+      {
+        "jobTitle": "Finance",
+        "mail": "ilse.ilunga@harbourline.example",
+        "name": "Ilse Ilunga"
+      },
+      {
+        "jobTitle": "IT Support",
+        "mail": "kavya.jaramillo@harbourline.example",
+        "name": "Kavya Jaramillo"
+      },
+      {
+        "jobTitle": "Account Manager",
+        "mail": "kenji.montague@harbourline.example",
+        "name": "Kenji Montague"
+      },
+      {
+        "jobTitle": "Account Manager",
+        "mail": "teodor.ellingham@harbourline.example",
+        "name": "Teodor Ellingham"
+      },
+      {
+        "jobTitle": "IT Support",
+        "mail": "tobias.northcott@harbourline.example",
+        "name": "Tobias Northcott"
+      },
+      {
+        "jobTitle": "Account Manager",
+        "mail": "vesna.montague@harbourline.example",
+        "name": "Vesna Montague"
+      }
+    ],
+    "staff_exported": 6,
+    "staff_in_directory": 12
+  },
+  "dedup_summary": {
+    "calendar": {
+      "items_by_mailbox_count": {
+        "1": 149,
+        "2": 20,
+        "6": 4
+      },
+      "key": "iCalUId",
+      "raw_records": 213,
+      "removed_by_dedup": 40,
+      "unique_items": 173
+    },
+    "mail": {
+      "items_by_mailbox_count": {
+        "1": 780,
+        "2": 9
+      },
+      "key": "internetMessageId",
+      "raw_records": 798,
+      "removed_by_dedup": 9,
+      "unique_items": 789
+    },
+    "screen": {
+      "key": null,
+      "note": "per-person; no cross-mailbox dedup",
+      "raw_records": 9927
+    },
+    "teams_channel": {
+      "key": "id",
+      "note": "single shared export",
+      "raw_records": 56,
+      "unique_items": 56
+    },
+    "teams_chat": {
+      "items_by_mailbox_count": {
+        "1": 90,
+        "2": 131
+      },
+      "key": "chatId+id",
+      "raw_records": 352,
+      "removed_by_dedup": 131,
+      "unique_items": 221
+    }
+  },
+  "export_window": {
+    "end": "2026-03-29T23:59:59+05:30",
+    "mailboxes": [
+      "pavel",
+      "mateus",
+      "lerato",
+      "hana",
+      "ravi",
+      "yannick"
+    ],
+    "note": "Mail, Teams and screen logs are filtered by time sent/captured; calendar by event start.",
+    "start": "2026-03-02T00:00:00+05:30",
+    "timezone": "Asia/Colombo"
+  },
+  "per_person": {
+    "hana": {
+      "display_name": "Hana Pemberton",
+      "sources": {
+        "calendar": {
+          "duplicates_across_mailboxes": 8,
+          "duplicates_within_file": 0,
+          "facts": {
+            "timeZone:Sri Lanka Standard Time": 22
+          },
+          "file": "data/hana/outlook/calendar.jsonl",
+          "outside_export_window": 0,
+          "records": 22,
+          "time_field": {
+            "start.dateTime+start.timeZone": 22
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd.ddddddd [Sri Lanka Standard Time]": 22
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T10:00:00+05:30",
+              "utc": "2026-03-02T04:30:00Z"
+            },
+            "last": {
+              "local": "2026-03-26T12:00:00+05:30",
+              "utc": "2026-03-26T06:30:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 14
+        },
+        "mail": {
+          "duplicates_across_mailboxes": 2,
+          "duplicates_within_file": 0,
+          "facts": {
+            "folder:Inbox": 110,
+            "folder:Sent Items": 72
+          },
+          "file": "data/hana/outlook/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 182,
+          "time_field": {
+            "sentDateTime": 182
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 182
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T08:58:56+05:30",
+              "utc": "2026-03-02T03:28:56Z"
+            },
+            "last": {
+              "local": "2026-03-27T18:11:52+05:30",
+              "utc": "2026-03-27T12:41:52Z"
+            }
+          },
+          "unique_to_this_mailbox": 180
+        },
+        "screen": {
+          "duplicates_across_mailboxes": 0,
+          "duplicates_within_file": 0,
+          "facts": {
+            "app:chrome": 500,
+            "app:excel": 226,
+            "app:explorer": 39,
+            "app:lockapp": 86,
+            "app:outlook": 476,
+            "app:spotify": 30,
+            "app:teams": 398,
+            "idle_gt_300s": 20,
+            "with_microseconds": 94
+          },
+          "file": "data/hana/screens/screen_log.jsonl",
+          "outside_export_window": 0,
+          "records": 1755,
+          "time_field": {
+            "captured_at": 1755
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd+dd:dd": 1661,
+            "dddd-dd-ddTdd:dd:dd.dddddd+dd:dd": 94
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T08:56:00+05:30",
+              "utc": "2026-03-02T03:26:00Z"
+            },
+            "last": {
+              "local": "2026-03-27T18:13:50.662524+05:30",
+              "utc": "2026-03-27T12:43:50.662524Z"
+            }
+          },
+          "unique_to_this_mailbox": 0
+        },
+        "teams_chat": {
+          "duplicates_across_mailboxes": 37,
+          "duplicates_within_file": 0,
+          "facts": {},
+          "file": "data/hana/teams/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 71,
+          "time_field": {
+            "createdDateTime": 71
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 71
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:23:20+05:30",
+              "utc": "2026-03-02T03:53:20Z"
+            },
+            "last": {
+              "local": "2026-03-27T13:43:00+05:30",
+              "utc": "2026-03-27T08:13:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 34
+        }
+      }
+    },
+    "lerato": {
+      "display_name": "Lerato Faraday",
+      "sources": {
+        "calendar": {
+          "duplicates_across_mailboxes": 8,
+          "duplicates_within_file": 0,
+          "facts": {
+            "timeZone:Sri Lanka Standard Time": 27
+          },
+          "file": "data/lerato/outlook/calendar.jsonl",
+          "outside_export_window": 0,
+          "records": 27,
+          "time_field": {
+            "start.dateTime+start.timeZone": 27
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd.ddddddd [Sri Lanka Standard Time]": 27
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T10:00:00+05:30",
+              "utc": "2026-03-02T04:30:00Z"
+            },
+            "last": {
+              "local": "2026-03-27T17:30:00+05:30",
+              "utc": "2026-03-27T12:00:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 19
+        },
+        "mail": {
+          "duplicates_across_mailboxes": 1,
+          "duplicates_within_file": 0,
+          "facts": {
+            "folder:Inbox": 104,
+            "folder:Sent Items": 63
+          },
+          "file": "data/lerato/outlook/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 167,
+          "time_field": {
+            "sentDateTime": 167
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 167
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:05:59+05:30",
+              "utc": "2026-03-02T03:35:59Z"
+            },
+            "last": {
+              "local": "2026-03-27T15:30:00+05:30",
+              "utc": "2026-03-27T10:00:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 166
+        },
+        "screen": {
+          "duplicates_across_mailboxes": 0,
+          "duplicates_within_file": 0,
+          "facts": {
+            "app:chrome": 508,
+            "app:excel": 198,
+            "app:explorer": 27,
+            "app:lockapp": 80,
+            "app:outlook": 466,
+            "app:spotify": 31,
+            "app:teams": 371,
+            "idle_gt_300s": 20,
+            "with_microseconds": 74
+          },
+          "file": "data/lerato/screens/screen_log.jsonl",
+          "outside_export_window": 0,
+          "records": 1681,
+          "time_field": {
+            "captured_at": 1681
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd+dd:dd": 1607,
+            "dddd-dd-ddTdd:dd:dd.dddddd+dd:dd": 74
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:05:00+05:30",
+              "utc": "2026-03-02T03:35:00Z"
+            },
+            "last": {
+              "local": "2026-03-27T18:05:11+05:30",
+              "utc": "2026-03-27T12:35:11Z"
+            }
+          },
+          "unique_to_this_mailbox": 0
+        },
+        "teams_chat": {
+          "duplicates_across_mailboxes": 39,
+          "duplicates_within_file": 0,
+          "facts": {},
+          "file": "data/lerato/teams/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 74,
+          "time_field": {
+            "createdDateTime": 74
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 74
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T11:40:07+05:30",
+              "utc": "2026-03-02T06:10:07Z"
+            },
+            "last": {
+              "local": "2026-03-27T11:05:48+05:30",
+              "utc": "2026-03-27T05:35:48Z"
+            }
+          },
+          "unique_to_this_mailbox": 35
+        }
+      }
+    },
+    "mateus": {
+      "display_name": "Mateus Vasquez-Lowe",
+      "sources": {
+        "calendar": {
+          "duplicates_across_mailboxes": 8,
+          "duplicates_within_file": 0,
+          "facts": {
+            "timeZone:Sri Lanka Standard Time": 55
+          },
+          "file": "data/mateus/outlook/calendar.jsonl",
+          "outside_export_window": 0,
+          "records": 55,
+          "time_field": {
+            "start.dateTime+start.timeZone": 55
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd.ddddddd [Sri Lanka Standard Time]": 55
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T08:36:00+05:30",
+              "utc": "2026-03-02T03:06:00Z"
+            },
+            "last": {
+              "local": "2026-03-26T14:00:00+05:30",
+              "utc": "2026-03-26T08:30:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 47
+        },
+        "mail": {
+          "duplicates_across_mailboxes": 4,
+          "duplicates_within_file": 0,
+          "facts": {
+            "folder:Inbox": 99,
+            "folder:Sent Items": 42
+          },
+          "file": "data/mateus/outlook/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 141,
+          "time_field": {
+            "sentDateTime": 141
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 141
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:00:00+05:30",
+              "utc": "2026-03-02T03:30:00Z"
+            },
+            "last": {
+              "local": "2026-03-27T13:18:00+05:30",
+              "utc": "2026-03-27T07:48:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 137
+        },
+        "screen": {
+          "duplicates_across_mailboxes": 0,
+          "duplicates_within_file": 0,
+          "facts": {
+            "app:chrome": 693,
+            "app:excel": 203,
+            "app:explorer": 45,
+            "app:lockapp": 81,
+            "app:outlook": 425,
+            "app:spotify": 28,
+            "app:teams": 381,
+            "idle_gt_300s": 20,
+            "with_microseconds": 119
+          },
+          "file": "data/mateus/screens/screen_log.jsonl",
+          "outside_export_window": 0,
+          "records": 1856,
+          "time_field": {
+            "captured_at": 1856
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd+dd:dd": 1737,
+            "dddd-dd-ddTdd:dd:dd.dddddd+dd:dd": 119
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T08:37:00+05:30",
+              "utc": "2026-03-02T03:07:00Z"
+            },
+            "last": {
+              "local": "2026-03-27T17:42:24+05:30",
+              "utc": "2026-03-27T12:12:24Z"
+            }
+          },
+          "unique_to_this_mailbox": 0
+        },
+        "teams_chat": {
+          "duplicates_across_mailboxes": 55,
+          "duplicates_within_file": 0,
+          "facts": {},
+          "file": "data/mateus/teams/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 59,
+          "time_field": {
+            "createdDateTime": 59
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 59
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:14:41+05:30",
+              "utc": "2026-03-02T03:44:41Z"
+            },
+            "last": {
+              "local": "2026-03-27T13:43:00+05:30",
+              "utc": "2026-03-27T08:13:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 4
+        }
+      }
+    },
+    "pavel": {
+      "display_name": "Pavel Thorne",
+      "sources": {
+        "calendar": {
+          "duplicates_across_mailboxes": 8,
+          "duplicates_within_file": 0,
+          "facts": {
+            "timeZone:Sri Lanka Standard Time": 54
+          },
+          "file": "data/pavel/outlook/calendar.jsonl",
+          "outside_export_window": 0,
+          "records": 54,
+          "time_field": {
+            "start.dateTime+start.timeZone": 54
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd.ddddddd [Sri Lanka Standard Time]": 54
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:37:00+05:30",
+              "utc": "2026-03-02T04:07:00Z"
+            },
+            "last": {
+              "local": "2026-03-26T16:00:00+05:30",
+              "utc": "2026-03-26T10:30:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 46
+        },
+        "mail": {
+          "duplicates_across_mailboxes": 5,
+          "duplicates_within_file": 0,
+          "facts": {
+            "folder:Inbox": 89,
+            "folder:Sent Items": 37
+          },
+          "file": "data/pavel/outlook/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 126,
+          "time_field": {
+            "sentDateTime": 126
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 126
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:33:02+05:30",
+              "utc": "2026-03-02T04:03:02Z"
+            },
+            "last": {
+              "local": "2026-03-27T15:59:00+05:30",
+              "utc": "2026-03-27T10:29:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 121
+        },
+        "screen": {
+          "duplicates_across_mailboxes": 0,
+          "duplicates_within_file": 0,
+          "facts": {
+            "app:chrome": 601,
+            "app:excel": 190,
+            "app:explorer": 35,
+            "app:lockapp": 70,
+            "app:outlook": 373,
+            "app:spotify": 36,
+            "app:teams": 378,
+            "idle_gt_300s": 18,
+            "with_microseconds": 146
+          },
+          "file": "data/pavel/screens/screen_log.jsonl",
+          "outside_export_window": 0,
+          "records": 1683,
+          "time_field": {
+            "captured_at": 1683
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd+dd:dd": 1537,
+            "dddd-dd-ddTdd:dd:dd.dddddd+dd:dd": 146
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T08:43:00+05:30",
+              "utc": "2026-03-02T03:13:00Z"
+            },
+            "last": {
+              "local": "2026-03-26T17:39:38+05:30",
+              "utc": "2026-03-26T12:09:38Z"
+            }
+          },
+          "unique_to_this_mailbox": 0
+        },
+        "teams_chat": {
+          "duplicates_across_mailboxes": 43,
+          "duplicates_within_file": 0,
+          "facts": {},
+          "file": "data/pavel/teams/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 47,
+          "time_field": {
+            "createdDateTime": 47
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 47
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T10:29:18+05:30",
+              "utc": "2026-03-02T04:59:18Z"
+            },
+            "last": {
+              "local": "2026-03-27T12:07:00+05:30",
+              "utc": "2026-03-27T06:37:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 4
+        }
+      }
+    },
+    "ravi": {
+      "display_name": "Ravi Larkspur",
+      "sources": {
+        "calendar": {
+          "duplicates_across_mailboxes": 8,
+          "duplicates_within_file": 0,
+          "facts": {
+            "all_day": 10,
+            "timeZone:Sri Lanka Standard Time": 22
+          },
+          "file": "data/ravi/outlook/calendar.jsonl",
+          "outside_export_window": 0,
+          "records": 22,
+          "time_field": {
+            "start.dateTime+start.timeZone": 22
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd.ddddddd [Sri Lanka Standard Time]": 22
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T10:00:00+05:30",
+              "utc": "2026-03-02T04:30:00Z"
+            },
+            "last": {
+              "local": "2026-03-27T00:00:00+05:30",
+              "utc": "2026-03-26T18:30:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 14
+        },
+        "mail": {
+          "duplicates_across_mailboxes": 0,
+          "duplicates_within_file": 0,
+          "facts": {
+            "folder:Inbox": 99,
+            "folder:Sent Items": 9
+          },
+          "file": "data/ravi/outlook/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 108,
+          "time_field": {
+            "sentDateTime": 108
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 108
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:46:00+05:30",
+              "utc": "2026-03-02T04:16:00Z"
+            },
+            "last": {
+              "local": "2026-03-27T15:53:25+05:30",
+              "utc": "2026-03-27T10:23:25Z"
+            }
+          },
+          "unique_to_this_mailbox": 108
+        },
+        "screen": {
+          "duplicates_across_mailboxes": 0,
+          "duplicates_within_file": 0,
+          "facts": {
+            "app:chrome": 525,
+            "app:excel": 165,
+            "app:explorer": 44,
+            "app:lockapp": 80,
+            "app:outlook": 348,
+            "app:spotify": 29,
+            "app:teams": 362,
+            "idle_gt_300s": 18,
+            "with_microseconds": 50
+          },
+          "file": "data/ravi/screens/screen_log.jsonl",
+          "outside_export_window": 0,
+          "records": 1553,
+          "time_field": {
+            "captured_at": 1553
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd+dd:dd": 1503,
+            "dddd-dd-ddTdd:dd:dd.dddddd+dd:dd": 50
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T08:43:00+05:30",
+              "utc": "2026-03-02T03:13:00Z"
+            },
+            "last": {
+              "local": "2026-03-27T18:03:33+05:30",
+              "utc": "2026-03-27T12:33:33Z"
+            }
+          },
+          "unique_to_this_mailbox": 0
+        },
+        "teams_chat": {
+          "duplicates_across_mailboxes": 33,
+          "duplicates_within_file": 0,
+          "facts": {},
+          "file": "data/ravi/teams/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 46,
+          "time_field": {
+            "createdDateTime": 46
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 46
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T11:50:00+05:30",
+              "utc": "2026-03-02T06:20:00Z"
+            },
+            "last": {
+              "local": "2026-03-27T14:26:37+05:30",
+              "utc": "2026-03-27T08:56:37Z"
+            }
+          },
+          "unique_to_this_mailbox": 13
+        }
+      }
+    },
+    "yannick": {
+      "display_name": "Yannick Xiong",
+      "sources": {
+        "calendar": {
+          "duplicates_across_mailboxes": 24,
+          "duplicates_within_file": 0,
+          "facts": {
+            "timeZone:Sri Lanka Standard Time": 33
+          },
+          "file": "data/yannick/outlook/calendar.jsonl",
+          "outside_export_window": 0,
+          "records": 33,
+          "time_field": {
+            "start.dateTime+start.timeZone": 33
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd.ddddddd [Sri Lanka Standard Time]": 33
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T10:00:00+05:30",
+              "utc": "2026-03-02T04:30:00Z"
+            },
+            "last": {
+              "local": "2026-03-26T16:00:00+05:30",
+              "utc": "2026-03-26T10:30:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 9
+        },
+        "mail": {
+          "duplicates_across_mailboxes": 6,
+          "duplicates_within_file": 0,
+          "facts": {
+            "folder:Inbox": 74
+          },
+          "file": "data/yannick/outlook/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 74,
+          "time_field": {
+            "sentDateTime": 74
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 74
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:33:02+05:30",
+              "utc": "2026-03-02T04:03:02Z"
+            },
+            "last": {
+              "local": "2026-03-27T15:32:00+05:30",
+              "utc": "2026-03-27T10:02:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 68
+        },
+        "screen": {
+          "duplicates_across_mailboxes": 0,
+          "duplicates_within_file": 0,
+          "facts": {
+            "app:chrome": 389,
+            "app:excel": 198,
+            "app:explorer": 30,
+            "app:lockapp": 75,
+            "app:outlook": 354,
+            "app:spotify": 23,
+            "app:teams": 330,
+            "idle_gt_300s": 18
+          },
+          "file": "data/yannick/screens/screen_log.jsonl",
+          "outside_export_window": 0,
+          "records": 1399,
+          "time_field": {
+            "captured_at": 1399
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:dd+dd:dd": 1399
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:08:00+05:30",
+              "utc": "2026-03-02T03:38:00Z"
+            },
+            "last": {
+              "local": "2026-03-27T18:19:46+05:30",
+              "utc": "2026-03-27T12:49:46Z"
+            }
+          },
+          "unique_to_this_mailbox": 0
+        },
+        "teams_chat": {
+          "duplicates_across_mailboxes": 55,
+          "duplicates_within_file": 0,
+          "facts": {},
+          "file": "data/yannick/teams/messages.jsonl",
+          "outside_export_window": 0,
+          "records": 55,
+          "time_field": {
+            "createdDateTime": 55
+          },
+          "time_format_variants": {
+            "dddd-dd-ddTdd:dd:ddZ": 55
+          },
+          "time_range": {
+            "first": {
+              "local": "2026-03-02T09:14:41+05:30",
+              "utc": "2026-03-02T03:44:41Z"
+            },
+            "last": {
+              "local": "2026-03-27T09:27:00+05:30",
+              "utc": "2026-03-27T03:57:00Z"
+            }
+          },
+          "unique_to_this_mailbox": 0
+        }
+      }
+    }
+  },
+  "shared": {
+    "teams_channel": {
+      "duplicates_within_file": 0,
+      "facts": {
+        "channel:General": 9,
+        "channel:Procurement": 47,
+        "replies": 32,
+        "root_posts": 24
+      },
+      "file": "data/_shared/teams_channel/messages.jsonl",
+      "outside_export_window": 0,
+      "records": 56,
+      "time_field": {
+        "createdDateTime": 56
+      },
+      "time_format_variants": {
+        "dddd-dd-ddTdd:dd:ddZ": 56
+      },
+      "time_range": {
+        "first": {
+          "local": "2026-03-02T13:43:28+05:30",
+          "utc": "2026-03-02T08:13:28Z"
+        },
+        "last": {
+          "local": "2026-03-27T14:54:47+05:30",
+          "utc": "2026-03-27T09:24:47Z"
+        }
+      }
+    }
+  },
+  "step": "0_profile",
+  "totals": {
+    "raw_records": 11346
+  }
+}

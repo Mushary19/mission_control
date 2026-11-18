@@ -1,0 +1,1374 @@
+{
+  "phase1": {
+    "activity_by_process": {
+      "leave": {
+        "cancel_requested": 2,
+        "client_approved": 28,
+        "client_check_sent": 35,
+        "client_declined": 6,
+        "client_notified_sick": 5,
+        "leave_requested": 40,
+        "peoplehub_opened": 23,
+        "worker_approved": 32,
+        "worker_asked_other_dates": 6
+      },
+      "offboarding": {
+        "access_disable_requested": 9,
+        "client_ended_engagement": 4,
+        "courier_delivered": 8,
+        "laptop_received": 6,
+        "laptop_return_arranged": 8,
+        "offboarding_acknowledged": 9,
+        "offboarding_completed": 7,
+        "resignation_received": 5
+      },
+      "onboarding": {
+        "contract_reminder": 4,
+        "contract_sent": 10,
+        "contract_signed": 8,
+        "day_one_checkin": 9,
+        "day_one_reply": 9,
+        "induction_completed": 9,
+        "induction_meeting": 9,
+        "it_ready": 12,
+        "it_requested": 12,
+        "kickoff_meeting": 11,
+        "laptop_approved": 7,
+        "laptop_confirmed_by_starter": 2,
+        "laptop_delivered": 3,
+        "laptop_ordered": 7,
+        "laptop_quote": 9,
+        "laptop_requested": 9,
+        "laptop_shipped": 5,
+        "onboarded_confirmed": 9,
+        "training_enrolled": 8,
+        "welcome_sent": 12
+      }
+    },
+    "all_day_calendar": [
+      {
+        "category": "out_of_scope",
+        "date": "2026-03-04",
+        "mailbox": "ravi",
+        "reason": "birthday reminder (all-day; gifts not modelled)",
+        "subject": "🎂 Bram Montague birthday"
+      },
+      {
+        "category": "out_of_scope",
+        "date": "2026-03-04",
+        "mailbox": "ravi",
+        "reason": "birthday reminder (all-day; gifts not modelled)",
+        "subject": "🎂 Paloma Brannigan birthday"
+      },
+      {
+        "category": "out_of_scope",
+        "date": "2026-03-09",
+        "mailbox": "ravi",
+        "reason": "birthday reminder (all-day; gifts not modelled)",
+        "subject": "🎂 Jovana Penhaligon birthday"
+      },
+      {
+        "category": "out_of_scope",
+        "date": "2026-03-10",
+        "mailbox": "ravi",
+        "reason": "birthday reminder (all-day; gifts not modelled)",
+        "subject": "🎂 Valeria Dunmore birthday"
+      },
+      {
+        "category": "out_of_scope",
+        "date": "2026-03-11",
+        "mailbox": "ravi",
+        "reason": "birthday reminder (all-day; gifts not modelled)",
+        "subject": "🎂 Jasper Haverford birthday"
+      },
+      {
+        "category": "out_of_scope",
+        "date": "2026-03-16",
+        "mailbox": "ravi",
+        "reason": "birthday reminder (all-day; gifts not modelled)",
+        "subject": "🎂 Ysolde Thorne birthday"
+      },
+      {
+        "category": "out_of_scope",
+        "date": "2026-03-18",
+        "mailbox": "ravi",
+        "reason": "birthday reminder (all-day; gifts not modelled)",
+        "subject": "🎂 Kiri Jovanovic birthday"
+      },
+      {
+        "category": "out_of_scope",
+        "date": "2026-03-25",
+        "mailbox": "ravi",
+        "reason": "birthday reminder (all-day; gifts not modelled)",
+        "subject": "🎂 Tobias Stanhope birthday"
+      },
+      {
+        "category": "out_of_scope",
+        "date": "2026-03-25",
+        "mailbox": "ravi",
+        "reason": "birthday reminder (all-day; gifts not modelled)",
+        "subject": "🎂 Hana Prescott birthday"
+      },
+      {
+        "category": "out_of_scope",
+        "date": "2026-03-27",
+        "mailbox": "ravi",
+        "reason": "birthday reminder (all-day; gifts not modelled)",
+        "subject": "🎂 Aarav Merriweather birthday"
+      }
+    ],
+    "category_by_source": {
+      "calendar": {
+        "out_of_scope": 153,
+        "process": 20
+      },
+      "mail": {
+        "noise": 306,
+        "out_of_scope": 237,
+        "process": 246
+      },
+      "screen": {
+        "context": 4067,
+        "noise": 2654,
+        "out_of_scope": 1506,
+        "process": 23
+      },
+      "teams_channel": {
+        "noise": 9,
+        "out_of_scope": 19,
+        "process": 28
+      },
+      "teams_chat": {
+        "noise": 108,
+        "out_of_scope": 33,
+        "process": 80
+      }
+    },
+    "events_by_source": {
+      "calendar": 173,
+      "mail": 789,
+      "screen": 8250,
+      "teams_channel": 56,
+      "teams_chat": 221
+    },
+    "identity_merged": [
+      {
+        "ids": [
+          "p_bram-danforth",
+          "p_bram-danforth-personal"
+        ],
+        "name": "Bram Danforth",
+        "reason": "personal address used first in onboarding (2026-03-23), work address from 2026-03-26; same client Greythorne Legal Group; NOTE work address already sent 2 non-onboarding mail(s) before onboarding (first: 2026-03-06 'Timesheet query – Bram')"
+      },
+      {
+        "ids": [
+          "p_chiara-ekwueme",
+          "p_chiara-ekwueme-personal"
+        ],
+        "name": "Chiara Ekwueme",
+        "reason": "personal address used first in onboarding (2026-03-06), work address from 2026-03-10; same client Fennimore Quist Law"
+      },
+      {
+        "ids": [
+          "p_farah-corriveau",
+          "p_farah-corriveau-personal"
+        ],
+        "name": "Farah Corriveau",
+        "reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-18; same client Hollis Vane LLP"
+      },
+      {
+        "ids": [
+          "p_gulnara-brannigan",
+          "p_gulnara-brannigan-personal"
+        ],
+        "name": "Gulnara Brannigan",
+        "reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-04; same client Northgate Fell Legal"
+      },
+      {
+        "ids": [
+          "p_lerato-thorne",
+          "p_lerato-thorne-personal"
+        ],
+        "name": "Lerato Thorne",
+        "reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-10; same client Ingram Stokes Lawyers"
+      },
+      {
+        "ids": [
+          "p_mateus-zielinski",
+          "p_mateus-zielinski-personal"
+        ],
+        "name": "Mateus Zielinski",
+        "reason": "personal address used first in onboarding (2026-03-16), work address from 2026-03-27; same client Dunstan Wray & Co"
+      },
+      {
+        "ids": [
+          "p_nuno-montague",
+          "p_nuno-montague-personal"
+        ],
+        "name": "Nuno Montague",
+        "reason": "personal address used first in onboarding (2026-03-03), work address from 2026-03-19; same client Ashdown & Mercer LLP"
+      },
+      {
+        "ids": [
+          "p_otto-vasquez-lowe",
+          "p_otto-vasquez-lowe-personal"
+        ],
+        "name": "Otto Vasquez-Lowe",
+        "reason": "personal address used first in onboarding (2026-03-11), work address from 2026-03-24; same client Mossgiel Barristers Chambers"
+      },
+      {
+        "ids": [
+          "p_sanne-yilmaz",
+          "p_sanne-yilmaz-personal"
+        ],
+        "name": "Sanne Yilmaz",
+        "reason": "personal address used first in onboarding (2026-03-18), work address from 2026-03-23; same client Greythorne Legal Group; NOTE work address already sent 2 non-onboarding mail(s) before onboarding (first: 2026-03-03 'Payslip – Sanne')"
+      },
+      {
+        "ids": [
+          "p_soren-underhill",
+          "p_soren-underhill-personal"
+        ],
+        "name": "Soren Underhill",
+        "reason": "personal address used first in onboarding (2026-03-09), work address from 2026-03-11; same client Dunstan Wray & Co"
+      },
+      {
+        "ids": [
+          "p_vida-faraday",
+          "p_vida-faraday-personal"
+        ],
+        "name": "Vida Faraday",
+        "reason": "personal address used first in onboarding (2026-03-04), work address from 2026-03-11; same client Ingram Stokes Lawyers"
+      }
+    ],
+    "people_by_kind": {
+      "candidate": 47,
+      "client": 20,
+      "it": 2,
+      "new_starter": 17,
+      "staff": 10,
+      "vendor": 7,
+      "worker": 61
+    },
+    "possible_same_person": [
+      {
+        "ids": [
+          "p_jun-hargreaves",
+          "p_jun-hargreaves-personal"
+        ],
+        "name": "Jun Hargreaves",
+        "reason": "work address has no onboarding events; client not known on both sides"
+      },
+      {
+        "ids": [
+          "p_luca-bellweather",
+          "p_luca-bellweather-personal"
+        ],
+        "name": "Luca Bellweather",
+        "reason": "work address has no onboarding events; client not known on both sides"
+      },
+      {
+        "ids": [
+          "p_mateus-jaramillo",
+          "p_mateus-jaramillo-personal"
+        ],
+        "name": "Mateus Jaramillo",
+        "reason": "personal address has no onboarding events; work address has no onboarding events; client not known on both sides"
+      },
+      {
+        "ids": [
+          "p_noor-yardley",
+          "p_noor-yardley-personal"
+        ],
+        "name": "Noor Yardley",
+        "reason": "work address has no onboarding events; client not known on both sides"
+      },
+      {
+        "ids": [
+          "p_wanjiru-castellano",
+          "p_wanjiru-castellano-personal"
+        ],
+        "name": "Wanjiru Castellano",
+        "reason": "work address has no onboarding events; client not known on both sides"
+      }
+    ],
+    "raw_by_source": {
+      "calendar": 213,
+      "mail": 798,
+      "screen": 9927,
+      "teams_channel": 56,
+      "teams_chat": 352
+    },
+    "screen_session_activities": {
+      "courier_booked/context": 7,
+      "peoplehub_opened/process": 23,
+      "tracker_updated/context": 383,
+      "training_enrolled/context": 8
+    },
+    "soft_resolutions": [
+      {
+        "activity": "client_approved",
+        "candidates": [
+          "Yara Hargreaves"
+        ],
+        "chosen": "Yara Hargreaves",
+        "event_id": "mail:IGkyCcUfmIknQXCsPin1aAnc@bramwelllaw.example",
+        "method": "first_name_unique",
+        "process": "leave",
+        "raw_name": "Yara",
+        "reason": "Only non-staff person named 'Yara' is Yara Hargreaves",
+        "time_local": "2026-03-02T09:03"
+      },
+      {
+        "activity": "it_requested",
+        "candidates": [
+          "Gulnara Brannigan"
+        ],
+        "chosen": "Gulnara Brannigan",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1772431808320",
+        "method": "first_name_unique",
+        "process": "onboarding",
+        "raw_name": "Gulnara",
+        "reason": "Only non-staff person named 'Gulnara' is Gulnara Brannigan",
+        "time_local": "2026-03-02T11:40"
+      },
+      {
+        "activity": null,
+        "candidates": [
+          "Tobias Prescott",
+          "Tobias Stanhope",
+          "Tobias Trelawney",
+          "Tobias Zamora"
+        ],
+        "chosen": null,
+        "event_id": "teams_channel:1772444281724",
+        "method": "ambiguous",
+        "process": null,
+        "raw_name": "Tobias",
+        "reason": "4 candidates; out of scope, so no case context used",
+        "time_local": "2026-03-02T15:08"
+      },
+      {
+        "activity": "access_disable_requested",
+        "candidates": [
+          "Pilar Lowther",
+          "Pilar Sutherland"
+        ],
+        "chosen": "Pilar Lowther",
+        "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1772444984995",
+        "method": "context",
+        "process": "offboarding",
+        "raw_name": "Pilar",
+        "reason": "Only Pilar with an offboarding case near this date; last day Tue 10 Mar matches",
+        "time_local": "2026-03-02T15:19"
+      },
+      {
+        "activity": null,
+        "candidates": [],
+        "chosen": null,
+        "event_id": "teams_channel:1772446925685",
+        "method": "unresolved",
+        "process": null,
+        "raw_name": "Ravi Kettering",
+        "reason": "No person matches 'Ravi Kettering'",
+        "time_local": "2026-03-02T15:52"
+      },
+      {
+        "activity": "client_check_sent",
+        "candidates": [
+          "Hamza Esterhuizen",
+          "Hamza Galloway",
+          "Hamza Pemberton",
+          "Hamza Vasquez-Lowe"
+        ],
+        "chosen": "Hamza Vasquez-Lowe",
+        "event_id": "mail:WQCeigoN9WS6gOqypp09xrOW@harbourline.example",
+        "method": "context",
+        "process": "leave",
+        "raw_name": "Hmaza",
+        "reason": "3 Hamzas have a leave case near this date; only Hamza Vasquez-Lowe's case was already open",
+        "time_local": "2026-03-02T16:51"
+      },
+      {
+        "activity": "it_ready",
+        "candidates": [
+          "Gulnara Brannigan"
+        ],
+        "chosen": "Gulnara Brannigan",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1772508264747",
+        "method": "chat_pair",
+        "process": "onboarding",
+        "raw_name": null,
+        "reason": "No name; the latest open IT request in this chat was for Gulnara Brannigan",
+        "time_local": "2026-03-03T08:54"
+      },
+      {
+        "activity": "access_disable_requested",
+        "candidates": [
+          "Eilidh Penhaligon"
+        ],
+        "chosen": "Eilidh Penhaligon",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1772515454034",
+        "method": "first_name_unique",
+        "process": "offboarding",
+        "raw_name": "Eilidh",
+        "reason": "Only non-staff person named 'Eilidh' is Eilidh Penhaligon",
+        "time_local": "2026-03-03T10:54"
+      },
+      {
+        "activity": "induction_completed",
+        "candidates": [
+          "Vida Faraday",
+          "Vida Sandoval"
+        ],
+        "chosen": "Vida Faraday",
+        "event_id": "teams_chat:19:9531985d-0ed9-4e8e-a81e-099936f675cc_f28c105d-3926-4a17-aa09-f29d953f48f1@unq.gbl.spaces:1772602555414",
+        "method": "context",
+        "process": "onboarding",
+        "raw_name": "Vida",
+        "reason": "Only Vida with an onboarding case near this date; client Ingram Stokes Lawyers matches",
+        "time_local": "2026-03-04T11:05"
+      },
+      {
+        "activity": "client_check_sent",
+        "candidates": [
+          "Thiago Bellweather",
+          "Thiago Corriveau"
+        ],
+        "chosen": "Thiago Bellweather",
+        "event_id": "mail:1YYtim7ynSrrHU7FU6aOCPO9@harbourline.example",
+        "method": "context",
+        "process": "leave",
+        "raw_name": "Thiago",
+        "reason": "Only Thiago with a leave case near this date; dates Mon 30 Mar match",
+        "time_local": "2026-03-04T14:05"
+      },
+      {
+        "activity": null,
+        "candidates": [],
+        "chosen": null,
+        "event_id": "mail:J9baeDfSq372uTXt9gyelRTl@lapworks.example",
+        "method": "unresolved",
+        "process": null,
+        "raw_name": "Ravi Kettering",
+        "reason": "No person matches 'Ravi Kettering'",
+        "time_local": "2026-03-04T15:42"
+      },
+      {
+        "activity": "induction_completed",
+        "candidates": [
+          "Lerato Thorne"
+        ],
+        "chosen": "Lerato Thorne",
+        "event_id": "teams_chat:19:6513270e-a6a3-40c5-a128-892fd23f0824_6b0d549b-11e2-43d9-a173-6cad8d116ece@unq.gbl.spaces:1772624100154",
+        "method": "first_name_unique",
+        "process": "onboarding",
+        "raw_name": "Lerato",
+        "reason": "Only non-staff person named 'Lerato' is Lerato Thorne",
+        "time_local": "2026-03-04T17:05"
+      },
+      {
+        "activity": "access_disable_requested",
+        "candidates": [
+          "Quinn Ellingham"
+        ],
+        "chosen": "Quinn Ellingham",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1772783034694",
+        "method": "fuzzy",
+        "process": "offboarding",
+        "raw_name": "Qunin Ellingham",
+        "reason": "'Qunin Ellingham' is 1 edit(s) from 'Quinn Ellingham'; no closer name",
+        "time_local": "2026-03-06T13:13"
+      },
+      {
+        "activity": "client_check_sent",
+        "candidates": [
+          "Hamza Esterhuizen",
+          "Hamza Galloway",
+          "Hamza Pemberton",
+          "Hamza Vasquez-Lowe"
+        ],
+        "chosen": "Hamza Pemberton",
+        "event_id": "mail:QBXvwQH9OGBfuGxv8pofLonX@harbourline.example",
+        "method": "context",
+        "process": "leave",
+        "raw_name": "Hamza",
+        "reason": "2 Hamzas have a leave case near this date; only Hamza Pemberton's dates Wed 11 Mar – Sun 15 Mar match",
+        "time_local": "2026-03-06T13:52"
+      },
+      {
+        "activity": "client_check_sent",
+        "candidates": [
+          "Callum Bellweather",
+          "Callum Delacroix",
+          "Callum Grünewald",
+          "Callum Lindqvist",
+          "Callum Montague"
+        ],
+        "chosen": "Callum Montague",
+        "event_id": "mail:iDdY2eYceBobGy4nfVrKYYOy@harbourline.example",
+        "method": "context",
+        "process": "leave",
+        "raw_name": "Callum",
+        "reason": "3 Callums have a leave case near this date; only Callum Montague's case was already open",
+        "time_local": "2026-03-06T14:00"
+      },
+      {
+        "activity": "it_requested",
+        "candidates": [
+          "Vida Faraday",
+          "Vida Sandoval"
+        ],
+        "chosen": "Vida Faraday",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1772788300763",
+        "method": "context",
+        "process": "onboarding",
+        "raw_name": "Vida",
+        "reason": "Only Vida with an onboarding case near this date; first day Wed 11 Mar matches; client Ingram Stokes Lawyers matches",
+        "time_local": "2026-03-06T14:41"
+      },
+      {
+        "activity": "it_ready",
+        "candidates": [
+          "Lerato Thorne"
+        ],
+        "chosen": "Lerato Thorne",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1773032649329",
+        "method": "chat_pair",
+        "process": "onboarding",
+        "raw_name": null,
+        "reason": "No name; the latest open IT request in this chat was for Lerato Thorne",
+        "time_local": "2026-03-09T10:34"
+      },
+      {
+        "activity": "client_check_sent",
+        "candidates": [
+          "Kiri Jovanovic"
+        ],
+        "chosen": "Kiri Jovanovic",
+        "event_id": "mail:wegR8MChnf1YHqxyTIeWHrwK@harbourline.example",
+        "method": "initial",
+        "process": "leave",
+        "raw_name": "Kiri J.",
+        "reason": "Only Kiri Jovanovic matches 'Kiri J.' (first name + initial)",
+        "time_local": "2026-03-09T11:29"
+      },
+      {
+        "activity": "it_ready",
+        "candidates": [
+          "Soren Underhill"
+        ],
+        "chosen": "Soren Underhill",
+        "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773116752008",
+        "method": "chat_pair",
+        "process": "onboarding",
+        "raw_name": null,
+        "reason": "No name; the latest open IT request in this chat was for Soren Underhill",
+        "time_local": "2026-03-10T09:55"
+      },
+      {
+        "activity": "access_disable_requested",
+        "candidates": [
+          "Paloma Brannigan",
+          "Paloma Larkspur",
+          "Paloma Montague"
+        ],
+        "chosen": "Paloma Larkspur",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773198711983",
+        "method": "context",
+        "process": "offboarding",
+        "raw_name": "Paloma",
+        "reason": "Only Paloma with an offboarding case near this date; last day Tue 24 Mar matches",
+        "time_local": "2026-03-11T08:41"
+      },
+      {
+        "activity": "onboarded_confirmed",
+        "candidates": [
+          "Gulnara Brannigan"
+        ],
+        "chosen": "Gulnara Brannigan",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_c6f87718-506b-4773-a95e-7403ec66a787@unq.gbl.spaces:1773215590246",
+        "method": "first_name_unique",
+        "process": "onboarding",
+        "raw_name": "Gulnara",
+        "reason": "Only non-staff person named 'Gulnara' is Gulnara Brannigan",
+        "time_local": "2026-03-11T13:23"
+      },
+      {
+        "activity": "laptop_received",
+        "candidates": [
+          "Pilar Lowther",
+          "Pilar Sutherland"
+        ],
+        "chosen": "Pilar Lowther",
+        "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1773372776640",
+        "method": "context",
+        "process": "offboarding",
+        "raw_name": "Pilar",
+        "reason": "Only Pilar with an offboarding case near this date",
+        "time_local": "2026-03-13T09:02"
+      },
+      {
+        "activity": "onboarded_confirmed",
+        "candidates": [
+          "Vida Faraday",
+          "Vida Sandoval"
+        ],
+        "chosen": "Vida Faraday",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773393699482",
+        "method": "context",
+        "process": "onboarding",
+        "raw_name": "Vida",
+        "reason": "Only Vida with an onboarding case near this date; client Ingram Stokes Lawyers matches",
+        "time_local": "2026-03-13T14:51"
+      },
+      {
+        "activity": "laptop_requested",
+        "candidates": [
+          "Vida Faraday",
+          "Vida Sandoval"
+        ],
+        "chosen": "Vida Faraday",
+        "event_id": "teams_channel:1773398042928",
+        "method": "context",
+        "process": "onboarding",
+        "raw_name": "vida",
+        "reason": "Only Vida with an onboarding case near this date; client Ingram Stokes Lawyers matches",
+        "time_local": "2026-03-13T16:04"
+      },
+      {
+        "activity": "onboarded_confirmed",
+        "candidates": [
+          "Chiara Ekwueme"
+        ],
+        "chosen": "Chiara Ekwueme",
+        "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20@unq.gbl.spaces:1773632468006",
+        "method": "fuzzy",
+        "process": "onboarding",
+        "raw_name": "Chaira Ekwueme",
+        "reason": "'Chaira Ekwueme' is 1 edit(s) from 'Chiara Ekwueme'; no closer name",
+        "time_local": "2026-03-16T09:11"
+      },
+      {
+        "activity": "induction_completed",
+        "candidates": [
+          "Nuno Montague"
+        ],
+        "chosen": "Nuno Montague",
+        "event_id": "teams_chat:19:6513270e-a6a3-40c5-a128-892fd23f0824_f28c105d-3926-4a17-aa09-f29d953f48f1@unq.gbl.spaces:1773638554317",
+        "method": "first_name_unique",
+        "process": "onboarding",
+        "raw_name": "Nuno",
+        "reason": "Only non-staff person named 'Nuno' is Nuno Montague",
+        "time_local": "2026-03-16T10:52"
+      },
+      {
+        "activity": "it_requested",
+        "candidates": [
+          "Nuno Montague"
+        ],
+        "chosen": "Nuno Montague",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773722304050",
+        "method": "first_name_unique",
+        "process": "onboarding",
+        "raw_name": "Nuno",
+        "reason": "Only non-staff person named 'Nuno' is Nuno Montague",
+        "time_local": "2026-03-17T10:08"
+      },
+      {
+        "activity": "it_requested",
+        "candidates": [
+          "Farah Corriveau",
+          "Farah Wolstenholme",
+          "Farah Zielinski"
+        ],
+        "chosen": "Farah Corriveau",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773725400590",
+        "method": "context",
+        "process": "onboarding",
+        "raw_name": "Farah",
+        "reason": "2 Farahs have an onboarding case near this date; only Farah Corriveau's case was already open",
+        "time_local": "2026-03-17T11:00"
+      },
+      {
+        "activity": "it_ready",
+        "candidates": [
+          "Nuno Montague"
+        ],
+        "chosen": "Nuno Montague",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773806571739",
+        "method": "chat_pair",
+        "process": "onboarding",
+        "raw_name": null,
+        "reason": "No name; the latest open IT request in this chat was for Nuno Montague",
+        "time_local": "2026-03-18T09:32"
+      },
+      {
+        "activity": "laptop_received",
+        "candidates": [
+          "Ines Marchetti"
+        ],
+        "chosen": "Ines Marchetti",
+        "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773807267059",
+        "method": "first_name_unique",
+        "process": "offboarding",
+        "raw_name": "Ines",
+        "reason": "Only non-staff person named 'Ines' is Ines Marchetti",
+        "time_local": "2026-03-18T09:44"
+      },
+      {
+        "activity": "client_check_sent",
+        "candidates": [
+          "Callum Bellweather",
+          "Callum Delacroix",
+          "Callum Grünewald",
+          "Callum Lindqvist",
+          "Callum Montague"
+        ],
+        "chosen": "Callum Grünewald",
+        "event_id": "mail:67YtE8BwjB4oInFjNRUVXrru@harbourline.example",
+        "method": "context",
+        "process": "leave",
+        "raw_name": "Callum",
+        "reason": "2 Callums have a leave case near this date; only Callum Grünewald's dates Thu 26 Mar match",
+        "time_local": "2026-03-18T09:55"
+      },
+      {
+        "activity": "laptop_requested",
+        "candidates": [
+          "Soren Jaramillo",
+          "Soren Underhill"
+        ],
+        "chosen": "Soren Underhill",
+        "event_id": "teams_channel:1773832534785",
+        "method": "context",
+        "process": "onboarding",
+        "raw_name": "Soren",
+        "reason": "Only Soren with an onboarding case near this date; client Dunstan Wray & Co matches",
+        "time_local": "2026-03-18T16:45"
+      },
+      {
+        "activity": "it_requested",
+        "candidates": [
+          "Sanne Yilmaz"
+        ],
+        "chosen": "Sanne Yilmaz",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773836719998",
+        "method": "first_name_unique",
+        "process": "onboarding",
+        "raw_name": "sanne",
+        "reason": "Only non-staff person named 'Sanne' is Sanne Yilmaz",
+        "time_local": "2026-03-18T17:55"
+      },
+      {
+        "activity": "it_ready",
+        "candidates": [
+          "Sanne Yilmaz"
+        ],
+        "chosen": "Sanne Yilmaz",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773889887927",
+        "method": "chat_pair",
+        "process": "onboarding",
+        "raw_name": null,
+        "reason": "No name; the latest open IT request in this chat was for Sanne Yilmaz",
+        "time_local": "2026-03-19T08:41"
+      },
+      {
+        "activity": "laptop_received",
+        "candidates": [
+          "Quinn Danforth",
+          "Quinn Ellingham",
+          "Quinn Quillfeather"
+        ],
+        "chosen": "Quinn Ellingham",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773891951368",
+        "method": "context",
+        "process": "offboarding",
+        "raw_name": "Quinn",
+        "reason": "Only Quinn with an offboarding case near this date",
+        "time_local": "2026-03-19T09:15"
+      },
+      {
+        "activity": "laptop_received",
+        "candidates": [
+          "Eilidh Penhaligon"
+        ],
+        "chosen": "Eilidh Penhaligon",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1773894275873",
+        "method": "first_name_unique",
+        "process": "offboarding",
+        "raw_name": "Eilidh",
+        "reason": "Only non-staff person named 'Eilidh' is Eilidh Penhaligon",
+        "time_local": "2026-03-19T09:54"
+      },
+      {
+        "activity": "induction_completed",
+        "candidates": [
+          "Otto Vasquez-Lowe"
+        ],
+        "chosen": "Otto Vasquez-Lowe",
+        "event_id": "teams_chat:19:6513270e-a6a3-40c5-a128-892fd23f0824_6b0d549b-11e2-43d9-a173-6cad8d116ece@unq.gbl.spaces:1773899420652",
+        "method": "initial",
+        "process": "onboarding",
+        "raw_name": "Otto V.",
+        "reason": "Only Otto Vasquez-Lowe matches 'Otto V.' (first name + initial)",
+        "time_local": "2026-03-19T11:20"
+      },
+      {
+        "activity": "it_requested",
+        "candidates": [
+          "Otto Vasquez-Lowe"
+        ],
+        "chosen": "Otto Vasquez-Lowe",
+        "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1773997719570",
+        "method": "initial",
+        "process": "onboarding",
+        "raw_name": "Otto V.",
+        "reason": "Only Otto Vasquez-Lowe matches 'Otto V.' (first name + initial)",
+        "time_local": "2026-03-20T14:38"
+      },
+      {
+        "activity": "onboarded_confirmed",
+        "candidates": [
+          "Nuno Montague"
+        ],
+        "chosen": "Nuno Montague",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_c6f87718-506b-4773-a95e-7403ec66a787@unq.gbl.spaces:1774236688553",
+        "method": "initial",
+        "process": "onboarding",
+        "raw_name": "Nuno M.",
+        "reason": "Only Nuno Montague matches 'Nuno M.' (first name + initial)",
+        "time_local": "2026-03-23T09:01"
+      },
+      {
+        "activity": "laptop_received",
+        "candidates": [
+          "Bram Danforth",
+          "Bram Montague",
+          "Bram Trelawney"
+        ],
+        "chosen": "Bram Montague",
+        "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1774240422392",
+        "method": "context",
+        "process": "offboarding",
+        "raw_name": "Bram",
+        "reason": "Only Bram with an offboarding case near this date",
+        "time_local": "2026-03-23T10:03"
+      },
+      {
+        "activity": "induction_completed",
+        "candidates": [
+          "Luca Bellweather",
+          "Luca Bellweather"
+        ],
+        "chosen": "Luca Bellweather",
+        "event_id": "teams_chat:19:6513270e-a6a3-40c5-a128-892fd23f0824_f28c105d-3926-4a17-aa09-f29d953f48f1@unq.gbl.spaces:1774338616892",
+        "method": "context",
+        "process": "onboarding",
+        "raw_name": "Luca",
+        "reason": "Only Luca with an onboarding case near this date; client Larchmont Shaw LLP matches",
+        "time_local": "2026-03-24T13:20"
+      },
+      {
+        "activity": "access_disable_requested",
+        "candidates": [
+          "Callum Bellweather",
+          "Callum Delacroix",
+          "Callum Grünewald",
+          "Callum Lindqvist",
+          "Callum Montague"
+        ],
+        "chosen": "Callum Montague",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1774407727855",
+        "method": "context",
+        "process": "offboarding",
+        "raw_name": "Callum",
+        "reason": "Only Callum with an offboarding case near this date; last day Mon 13 Apr matches",
+        "time_local": "2026-03-25T08:32"
+      },
+      {
+        "activity": "laptop_requested",
+        "candidates": [
+          "Farah Corriveau",
+          "Farah Wolstenholme",
+          "Farah Zielinski"
+        ],
+        "chosen": "Farah Corriveau",
+        "event_id": "teams_channel:1774408534570",
+        "method": "context",
+        "process": "onboarding",
+        "raw_name": "Farah",
+        "reason": "2 Farahs have an onboarding case near this date; only Farah Corriveau's client Hollis Vane LLP matches",
+        "time_local": "2026-03-25T08:45"
+      },
+      {
+        "activity": "laptop_received",
+        "candidates": [
+          "Jasper Ellingham",
+          "Jasper Haverford"
+        ],
+        "chosen": "Jasper Haverford",
+        "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1774410808671",
+        "method": "context",
+        "process": "offboarding",
+        "raw_name": "Jasper",
+        "reason": "Only Jasper with an offboarding case near this date",
+        "time_local": "2026-03-25T09:23"
+      },
+      {
+        "activity": "it_ready",
+        "candidates": [
+          "Mateus Zielinski"
+        ],
+        "chosen": "Mateus Zielinski",
+        "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1774421743261",
+        "method": "chat_pair",
+        "process": "onboarding",
+        "raw_name": null,
+        "reason": "No name; the latest open IT request in this chat was for Mateus Zielinski",
+        "time_local": "2026-03-25T12:25"
+      },
+      {
+        "activity": "it_requested",
+        "candidates": [
+          "Luca Bellweather",
+          "Luca Bellweather"
+        ],
+        "chosen": "Luca Bellweather",
+        "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1774517925001",
+        "method": "context",
+        "process": "onboarding",
+        "raw_name": "Luca B.",
+        "reason": "Only Luca with an onboarding case near this date; first day Wed 1 Apr matches; client Larchmont Shaw LLP matches",
+        "time_local": "2026-03-26T15:08"
+      },
+      {
+        "activity": "laptop_requested",
+        "candidates": [
+          "Otto Vasquez-Lowe"
+        ],
+        "chosen": "Otto Vasquez-Lowe",
+        "event_id": "teams_channel:1774581093986",
+        "method": "first_name_unique",
+        "process": "onboarding",
+        "raw_name": "Otto",
+        "reason": "Only non-staff person named 'Otto' is Otto Vasquez-Lowe",
+        "time_local": "2026-03-27T08:41"
+      },
+      {
+        "activity": "laptop_requested",
+        "candidates": [
+          "Sanne Yilmaz"
+        ],
+        "chosen": "Sanne Yilmaz",
+        "event_id": "teams_channel:1774589210724",
+        "method": "fuzzy",
+        "process": "onboarding",
+        "raw_name": "Snane",
+        "reason": "'Snane' is 1 edit(s) from 'Sanne'; no closer name",
+        "time_local": "2026-03-27T10:56"
+      }
+    ],
+    "stages": {
+      "after_dedup_and_sessions": 9489,
+      "context": 4067,
+      "noise": 3077,
+      "out_of_scope": 1948,
+      "process": 397,
+      "raw": 11346,
+      "screen_frames": 9927
+    },
+    "unmatched_text": []
+  },
+  "phase2": {
+    "case_count": 70,
+    "cases_by_process_status": {
+      "leave": {
+        "cancelled": 2,
+        "complete": 30,
+        "declined": 6,
+        "in_progress": 3
+      },
+      "offboarding": {
+        "complete": 7,
+        "in_progress": 5
+      },
+      "onboarding": {
+        "complete": 9,
+        "in_progress": 8
+      }
+    },
+    "out_of_order": [
+      {
+        "case_id": "onboarding:lerato-thorne",
+        "issues": [
+          {
+            "earlier": "day_one_checkin",
+            "earlier_time": "2026-03-10T16:00",
+            "expected": "kickoff_meeting before day_one_checkin",
+            "later": "kickoff_meeting",
+            "later_time": "2026-03-11T12:15"
+          },
+          {
+            "earlier": "day_one_reply",
+            "earlier_time": "2026-03-11T10:32",
+            "expected": "kickoff_meeting before day_one_reply",
+            "later": "kickoff_meeting",
+            "later_time": "2026-03-11T12:15"
+          }
+        ]
+      },
+      {
+        "case_id": "onboarding:nuno-montague",
+        "issues": [
+          {
+            "earlier": "day_one_checkin",
+            "earlier_time": "2026-03-19T16:00",
+            "expected": "kickoff_meeting before day_one_checkin",
+            "later": "kickoff_meeting",
+            "later_time": "2026-03-20T11:00"
+          },
+          {
+            "earlier": "day_one_reply",
+            "earlier_time": "2026-03-20T09:04",
+            "expected": "kickoff_meeting before day_one_reply",
+            "later": "kickoff_meeting",
+            "later_time": "2026-03-20T11:00"
+          }
+        ]
+      },
+      {
+        "case_id": "onboarding:otto-vasquez-lowe",
+        "issues": [
+          {
+            "earlier": "day_one_checkin",
+            "earlier_time": "2026-03-24T16:00",
+            "expected": "kickoff_meeting before day_one_checkin",
+            "later": "kickoff_meeting",
+            "later_time": "2026-03-25T16:15"
+          },
+          {
+            "earlier": "day_one_reply",
+            "earlier_time": "2026-03-25T11:25",
+            "expected": "kickoff_meeting before day_one_reply",
+            "later": "kickoff_meeting",
+            "later_time": "2026-03-25T16:15"
+          }
+        ]
+      }
+    ],
+    "screen_link_stats": {
+      "courier_booked:linked": 7,
+      "courier_delivered:linked": 8,
+      "tracker_updated:linked": 8,
+      "tracker_updated:unlinked": 375,
+      "training_enrolled:linked": 7,
+      "training_enrolled:unlinked": 1
+    },
+    "step_count": 419,
+    "unlinked_process_events": []
+  },
+  "phase3": {
+    "flag_counts": {
+      "activity_after_last_day": 5,
+      "cancel_no_followup": 2,
+      "laptop_requested_late": 9,
+      "onboarded_before_laptop": 9,
+      "onboarded_with_open_issue": 4,
+      "sick_leave_two_ways": 1
+    },
+    "main_paths": {
+      "leave": {
+        "activities": [
+          "leave_requested",
+          "client_check_sent",
+          "client_approved",
+          "worker_approved"
+        ],
+        "cases_following_exactly": 25,
+        "labels": [
+          "Leave requested",
+          "Client asked",
+          "Client approved",
+          "Worker told: approved"
+        ],
+        "method": "most common variant among the 29 complete cases that start inside the window (25 of 29)",
+        "tied_alternatives": []
+      },
+      "offboarding": {
+        "activities": [
+          "client_ended_engagement",
+          "offboarding_acknowledged",
+          "access_disable_requested",
+          "laptop_return_arranged",
+          "courier_delivered",
+          "laptop_received",
+          "offboarding_completed"
+        ],
+        "cases_following_exactly": 2,
+        "labels": [
+          "Client ended engagement",
+          "Offboarding acknowledged",
+          "Access removal requested",
+          "Laptop return arranged",
+          "Courier delivered",
+          "Laptop received",
+          "Offboarding completed"
+        ],
+        "method": "most common variant among the 4 complete cases that start inside the window (2 of 4); tied with 1 other variant(s)",
+        "tied_alternatives": [
+          {
+            "count": 2,
+            "path": [
+              "resignation_received",
+              "offboarding_acknowledged",
+              "access_disable_requested",
+              "laptop_return_arranged",
+              "courier_delivered",
+              "laptop_received",
+              "offboarding_completed"
+            ]
+          }
+        ]
+      },
+      "onboarding": {
+        "activities": [
+          "contract_sent",
+          "induction_meeting",
+          "induction_completed",
+          "welcome_sent",
+          "it_requested",
+          "it_ready",
+          "kickoff_meeting",
+          "day_one_checkin",
+          "day_one_reply",
+          "onboarded_confirmed",
+          "laptop_requested",
+          "laptop_quote"
+        ],
+        "cases_following_exactly": 1,
+        "labels": [
+          "Contract sent",
+          "Induction meeting",
+          "Induction completed",
+          "Welcome sent",
+          "IT setup requested",
+          "IT ready",
+          "Client kick-off",
+          "Day-one check-in",
+          "Day-one reply",
+          "Onboarded confirmed",
+          "Laptop requested",
+          "Laptop quote"
+        ],
+        "method": "no variant repeats among the 3 complete in-window cases; consensus path: activities in >= 50% of all 17 cases, ordered by how often each comes before the others",
+        "tied_alternatives": []
+      }
+    },
+    "top_variants": {
+      "leave": [
+        {
+          "case_ids": [
+            "leave:amara-jaramillo:2026-03-23_2026-03-23",
+            "leave:bianca-jaramillo:2026-04-03_2026-04-05",
+            "leave:bram-montague:2026-03-30_2026-03-30",
+            "leave:callum-grunewald:2026-03-26_2026-03-26",
+            "leave:callum-montague:2026-03-10_2026-03-14",
+            "leave:dario-zielinski:2026-03-16_2026-03-17",
+            "leave:farah-zielinski:2026-03-16_2026-03-16",
+            "leave:greta-brannigan:2026-03-13_2026-03-17",
+            "leave:hamza-galloway:2026-03-23_2026-03-23",
+            "leave:hamza-pemberton:2026-03-11_2026-03-15",
+            "leave:hamza-pemberton:2026-03-23_2026-03-23",
+            "leave:hamza-pemberton:2026-03-24_2026-03-28",
+            "leave:hamza-pemberton:2026-04-03_2026-04-03",
+            "leave:hana-prescott:2026-03-31_2026-03-31",
+            "leave:hugo-danforth:2026-03-31_2026-03-31",
+            "leave:ines-marchetti:2026-03-31_2026-03-31",
+            "leave:jasper-haverford:2026-04-01_2026-04-01",
+            "leave:jovana-penhaligon:2026-03-31_2026-04-01",
+            "leave:kiri-jovanovic:2026-03-16_2026-03-16",
+            "leave:orla-quillfeather:2026-03-23_2026-03-24",
+            "leave:orla-quillfeather:2026-03-27_2026-03-27",
+            "leave:quinn-quillfeather:2026-03-31_2026-04-02",
+            "leave:thiago-bellweather:2026-03-30_2026-03-30",
+            "leave:tobias-trelawney:2026-03-27_2026-03-28",
+            "leave:valeria-dunmore:2026-04-06_2026-04-08"
+          ],
+          "count": 25,
+          "path": [
+            "leave_requested",
+            "client_check_sent",
+            "client_approved",
+            "worker_approved"
+          ],
+          "statuses": {
+            "complete": 25
+          }
+        },
+        {
+          "case_ids": [
+            "leave:amara-jaramillo:2026-04-03_2026-04-04",
+            "leave:farah-zielinski:2026-03-18_2026-03-20",
+            "leave:farah-zielinski:2026-04-16_2026-04-20",
+            "leave:jovana-penhaligon:2026-04-01_2026-04-02",
+            "leave:rania-abernethy:2026-04-13_2026-04-15",
+            "leave:wen-faraday:2026-03-18_2026-03-20"
+          ],
+          "count": 6,
+          "path": [
+            "leave_requested",
+            "client_check_sent",
+            "client_declined",
+            "worker_asked_other_dates"
+          ],
+          "statuses": {
+            "declined": 6
+          }
+        },
+        {
+          "case_ids": [
+            "leave:ilse-oakhurst:2026-03-20_2026-03-24",
+            "leave:lionel-penhaligon:2026-04-20_2026-04-21",
+            "leave:pilar-lowther:2026-04-13_2026-04-17",
+            "leave:quinn-danforth:2026-03-31_2026-03-31"
+          ],
+          "count": 4,
+          "path": [
+            "leave_requested",
+            "client_notified_sick",
+            "worker_approved"
+          ],
+          "statuses": {
+            "complete": 4
+          }
+        }
+      ],
+      "offboarding": [
+        {
+          "case_ids": [
+            "offboarding:hamza-pemberton",
+            "offboarding:odile-jaramillo",
+            "offboarding:thiago-bellweather"
+          ],
+          "count": 3,
+          "path": [
+            "resignation_received",
+            "offboarding_acknowledged",
+            "access_disable_requested"
+          ],
+          "statuses": {
+            "in_progress": 3
+          }
+        },
+        {
+          "case_ids": [
+            "offboarding:pilar-lowther",
+            "offboarding:quinn-ellingham"
+          ],
+          "count": 2,
+          "path": [
+            "client_ended_engagement",
+            "offboarding_acknowledged",
+            "access_disable_requested",
+            "laptop_return_arranged",
+            "courier_delivered",
+            "laptop_received",
+            "offboarding_completed"
+          ],
+          "statuses": {
+            "complete": 2
+          }
+        },
+        {
+          "case_ids": [
+            "offboarding:bram-montague",
+            "offboarding:ines-marchetti"
+          ],
+          "count": 2,
+          "path": [
+            "laptop_return_arranged",
+            "courier_delivered",
+            "laptop_received",
+            "offboarding_completed"
+          ],
+          "statuses": {
+            "complete": 2
+          }
+        }
+      ],
+      "onboarding": [
+        {
+          "case_ids": [
+            "onboarding:jun-hargreaves-personal",
+            "onboarding:noor-yardley-personal",
+            "onboarding:wanjiru-castellano-personal"
+          ],
+          "count": 3,
+          "path": [
+            "contract_sent"
+          ],
+          "statuses": {
+            "in_progress": 3
+          }
+        },
+        {
+          "case_ids": [
+            "onboarding:farah-wolstenholme",
+            "onboarding:yusuf-ekwueme"
+          ],
+          "count": 2,
+          "path": [
+            "contract_sent",
+            "contract_signed",
+            "training_enrolled",
+            "induction_meeting",
+            "induction_completed"
+          ],
+          "statuses": {
+            "in_progress": 2
+          }
+        },
+        {
+          "case_ids": [
+            "onboarding:chiara-ekwueme",
+            "onboarding:gulnara-brannigan"
+          ],
+          "count": 2,
+          "path": [
+            "welcome_sent",
+            "it_requested",
+            "it_ready",
+            "kickoff_meeting",
+            "day_one_checkin",
+            "day_one_reply",
+            "onboarded_confirmed",
+            "laptop_requested",
+            "laptop_quote",
+            "laptop_approved",
+            "laptop_ordered",
+            "laptop_shipped",
+            "laptop_delivered"
+          ],
+          "statuses": {
+            "complete": 2
+          }
+        }
+      ]
+    }
+  },
+  "stage_counts": {
+    "1_events (non-screen)": 1239,
+    "after_dedup_and_sessions": 9489,
+    "case_steps": 419,
+    "cases": 70,
+    "context": 4067,
+    "flags": 30,
+    "noise": 3077,
+    "out_of_scope": 1948,
+    "process": 397,
+    "raw": 11346,
+    "screen_frames": 9927,
+    "screen_sessions": 8250
+  }
+}

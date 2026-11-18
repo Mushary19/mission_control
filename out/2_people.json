@@ -1,0 +1,2313 @@
+{
+  "coverage": "Data from 6 of 12 staff.",
+  "identity_merges": [
+    {
+      "ids": [
+        "p_bram-danforth",
+        "p_bram-danforth-personal"
+      ],
+      "merged": true,
+      "name": "Bram Danforth",
+      "reason": "personal address used first in onboarding (2026-03-23), work address from 2026-03-26; same client Greythorne Legal Group; NOTE work address already sent 2 non-onboarding mail(s) before onboarding (first: 2026-03-06 'Timesheet query – Bram')"
+    },
+    {
+      "ids": [
+        "p_chiara-ekwueme",
+        "p_chiara-ekwueme-personal"
+      ],
+      "merged": true,
+      "name": "Chiara Ekwueme",
+      "reason": "personal address used first in onboarding (2026-03-06), work address from 2026-03-10; same client Fennimore Quist Law"
+    },
+    {
+      "ids": [
+        "p_farah-corriveau",
+        "p_farah-corriveau-personal"
+      ],
+      "merged": true,
+      "name": "Farah Corriveau",
+      "reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-18; same client Hollis Vane LLP"
+    },
+    {
+      "ids": [
+        "p_gulnara-brannigan",
+        "p_gulnara-brannigan-personal"
+      ],
+      "merged": true,
+      "name": "Gulnara Brannigan",
+      "reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-04; same client Northgate Fell Legal"
+    },
+    {
+      "ids": [
+        "p_jun-hargreaves",
+        "p_jun-hargreaves-personal"
+      ],
+      "merged": false,
+      "name": "Jun Hargreaves",
+      "reason": "work address has no onboarding events; client not known on both sides"
+    },
+    {
+      "ids": [
+        "p_lerato-thorne",
+        "p_lerato-thorne-personal"
+      ],
+      "merged": true,
+      "name": "Lerato Thorne",
+      "reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-10; same client Ingram Stokes Lawyers"
+    },
+    {
+      "ids": [
+        "p_luca-bellweather",
+        "p_luca-bellweather-personal"
+      ],
+      "merged": false,
+      "name": "Luca Bellweather",
+      "reason": "work address has no onboarding events; client not known on both sides"
+    },
+    {
+      "ids": [
+        "p_mateus-jaramillo",
+        "p_mateus-jaramillo-personal"
+      ],
+      "merged": false,
+      "name": "Mateus Jaramillo",
+      "reason": "personal address has no onboarding events; work address has no onboarding events; client not known on both sides"
+    },
+    {
+      "ids": [
+        "p_mateus-zielinski",
+        "p_mateus-zielinski-personal"
+      ],
+      "merged": true,
+      "name": "Mateus Zielinski",
+      "reason": "personal address used first in onboarding (2026-03-16), work address from 2026-03-27; same client Dunstan Wray & Co"
+    },
+    {
+      "ids": [
+        "p_noor-yardley",
+        "p_noor-yardley-personal"
+      ],
+      "merged": false,
+      "name": "Noor Yardley",
+      "reason": "work address has no onboarding events; client not known on both sides"
+    },
+    {
+      "ids": [
+        "p_nuno-montague",
+        "p_nuno-montague-personal"
+      ],
+      "merged": true,
+      "name": "Nuno Montague",
+      "reason": "personal address used first in onboarding (2026-03-03), work address from 2026-03-19; same client Ashdown & Mercer LLP"
+    },
+    {
+      "ids": [
+        "p_otto-vasquez-lowe",
+        "p_otto-vasquez-lowe-personal"
+      ],
+      "merged": true,
+      "name": "Otto Vasquez-Lowe",
+      "reason": "personal address used first in onboarding (2026-03-11), work address from 2026-03-24; same client Mossgiel Barristers Chambers"
+    },
+    {
+      "ids": [
+        "p_sanne-yilmaz",
+        "p_sanne-yilmaz-personal"
+      ],
+      "merged": true,
+      "name": "Sanne Yilmaz",
+      "reason": "personal address used first in onboarding (2026-03-18), work address from 2026-03-23; same client Greythorne Legal Group; NOTE work address already sent 2 non-onboarding mail(s) before onboarding (first: 2026-03-03 'Payslip – Sanne')"
+    },
+    {
+      "ids": [
+        "p_soren-underhill",
+        "p_soren-underhill-personal"
+      ],
+      "merged": true,
+      "name": "Soren Underhill",
+      "reason": "personal address used first in onboarding (2026-03-09), work address from 2026-03-11; same client Dunstan Wray & Co"
+    },
+    {
+      "ids": [
+        "p_vida-faraday",
+        "p_vida-faraday-personal"
+      ],
+      "merged": true,
+      "name": "Vida Faraday",
+      "reason": "personal address used first in onboarding (2026-03-04), work address from 2026-03-11; same client Ingram Stokes Lawyers"
+    },
+    {
+      "ids": [
+        "p_wanjiru-castellano",
+        "p_wanjiru-castellano-personal"
+      ],
+      "merged": false,
+      "name": "Wanjiru Castellano",
+      "reason": "work address has no onboarding events; client not known on both sides"
+    }
+  ],
+  "orgs": [
+    {
+      "domains": [
+        "ashdownlaw.example"
+      ],
+      "kind": "client",
+      "name": "Ashdown & Mercer LLP",
+      "org_id": "o_ashdown"
+    },
+    {
+      "domains": [
+        "bramwelllaw.example"
+      ],
+      "kind": "client",
+      "name": "Bramwell",
+      "org_id": "o_bramwell"
+    },
+    {
+      "domains": [
+        "corbettlaw.example"
+      ],
+      "kind": "client",
+      "name": "Corbett",
+      "org_id": "o_corbett"
+    },
+    {
+      "domains": [
+        "dunstanlaw.example"
+      ],
+      "kind": "client",
+      "name": "Dunstan Wray & Co",
+      "org_id": "o_dunstan"
+    },
+    {
+      "domains": [
+        "elmsworthlaw.example"
+      ],
+      "kind": "client",
+      "name": "Elmsworth",
+      "org_id": "o_elmsworth"
+    },
+    {
+      "domains": [
+        "fennimorelaw.example"
+      ],
+      "kind": "client",
+      "name": "Fennimore Quist Law",
+      "org_id": "o_fennimore"
+    },
+    {
+      "domains": [
+        "greythornelaw.example"
+      ],
+      "kind": "client",
+      "name": "Greythorne Legal Group",
+      "org_id": "o_greythorne"
+    },
+    {
+      "domains": [
+        "hamperly.example"
+      ],
+      "kind": "vendor",
+      "name": "Hamperly",
+      "org_id": "o_hamperly"
+    },
+    {
+      "domains": [
+        "harbourline.example"
+      ],
+      "kind": "employer",
+      "name": "Harbourline Talent",
+      "org_id": "o_harbourline"
+    },
+    {
+      "domains": [
+        "hiretrack.example"
+      ],
+      "kind": "vendor",
+      "name": "Hiretrack",
+      "org_id": "o_hiretrack"
+    },
+    {
+      "domains": [
+        "hollislaw.example"
+      ],
+      "kind": "client",
+      "name": "Hollis Vane LLP",
+      "org_id": "o_hollis"
+    },
+    {
+      "domains": [
+        "hrbrew.example"
+      ],
+      "kind": "vendor",
+      "name": "Hrbrew",
+      "org_id": "o_hrbrew"
+    },
+    {
+      "domains": [
+        "ingramlaw.example"
+      ],
+      "kind": "client",
+      "name": "Ingram Stokes Lawyers",
+      "org_id": "o_ingram"
+    },
+    {
+      "domains": [
+        "juniperlaw.example"
+      ],
+      "kind": "client",
+      "name": "Juniper",
+      "org_id": "o_juniper"
+    },
+    {
+      "domains": [
+        "kestrellaw.example"
+      ],
+      "kind": "client",
+      "name": "Kestrel",
+      "org_id": "o_kestrel"
+    },
+    {
+      "domains": [
+        "lapworks.example"
+      ],
+      "kind": "vendor",
+      "name": "Lapworks",
+      "org_id": "o_lapworks"
+    },
+    {
+      "domains": [
+        "larchmontlaw.example"
+      ],
+      "kind": "client",
+      "name": "Larchmont Shaw LLP",
+      "org_id": "o_larchmont"
+    },
+    {
+      "domains": [
+        "linkedin.example"
+      ],
+      "kind": "vendor",
+      "name": "Linkedin",
+      "org_id": "o_linkedin"
+    },
+    {
+      "domains": [
+        "mossgiellaw.example"
+      ],
+      "kind": "client",
+      "name": "Mossgiel Barristers Chambers",
+      "org_id": "o_mossgiel"
+    },
+    {
+      "domains": [
+        "northgatelaw.example"
+      ],
+      "kind": "client",
+      "name": "Northgate Fell Legal",
+      "org_id": "o_northgate"
+    },
+    {
+      "domains": [
+        "swiftparcel.example"
+      ],
+      "kind": "vendor",
+      "name": "Swiftparcel",
+      "org_id": "o_swiftparcel"
+    },
+    {
+      "domains": [
+        "techdirect.example"
+      ],
+      "kind": "vendor",
+      "name": "Techdirect",
+      "org_id": "o_techdirect"
+    }
+  ],
+  "people": [
+    {
+      "display_name": "Aarav Merriweather",
+      "emails": [
+        "aarav.merriweather@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_aarav-merriweather",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Aarav Thorne",
+      "emails": [
+        "aarav.thorne@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_aarav-thorne",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Amara Jaramillo",
+      "emails": [
+        "amara.jaramillo@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_amara-jaramillo",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Anouk Kettering",
+      "emails": [
+        "anouk.kettering@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_anouk-kettering",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Arjun Sutherland",
+      "emails": [
+        "arjun.sutherland@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_arjun-sutherland",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Bastian Delacroix",
+      "emails": [
+        "bdelacroix@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_bastian-delacroix",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Bianca Jaramillo",
+      "emails": [
+        "bianca.jaramillo@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_bianca-jaramillo",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Bram Danforth",
+      "emails": [
+        "bdanforth@mailbox.example",
+        "bram.danforth@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-23), work address from 2026-03-26; same client Greythorne Legal Group; NOTE work address already sent 2 non-onboarding mail(s) before onboarding (first: 2026-03-06 'Timesheet query – Bram')",
+      "merged_ids": [
+        "p_bram-danforth-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_bram-danforth",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Bram Montague",
+      "emails": [
+        "bram.montague@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_bram-montague",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Bram Trelawney",
+      "emails": [
+        "btrelawney@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_bram-trelawney",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Callum Bellweather",
+      "emails": [
+        "callum.bellweather@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_callum-bellweather",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Callum Delacroix",
+      "emails": [
+        "callum.delacroix@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_callum-delacroix",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Callum Grünewald",
+      "emails": [
+        "callum.grunewald@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_callum-grunewald",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Callum Lindqvist",
+      "emails": [
+        "callum.lindqvist@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_callum-lindqvist",
+      "teams_ids": [
+        "cd37880e-42b3-4157-a9bb-38efdb31ccd2"
+      ]
+    },
+    {
+      "display_name": "Callum Montague",
+      "emails": [
+        "callum.montague@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_callum-montague",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Chiara Abernethy",
+      "emails": [
+        "chiaraa78@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_chiara-abernethy",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Chiara Ekwueme",
+      "emails": [
+        "cekwueme@postbox.example",
+        "chiara.ekwueme@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-06), work address from 2026-03-10; same client Fennimore Quist Law",
+      "merged_ids": [
+        "p_chiara-ekwueme-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_chiara-ekwueme",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Chiara Hargreaves",
+      "emails": [
+        "chiara.hargreaves@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_chiara-hargreaves",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Chiara Holloway",
+      "emails": [
+        "cholloway@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_chiara-holloway",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Chiara Yilmaz",
+      "emails": [
+        "chiara.yilmaz@mossgiellaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_mossgiel",
+      "person_id": "p_chiara-yilmaz",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Cyrus Rasmussen",
+      "emails": [
+        "crasmussen@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_cyrus-rasmussen",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Cyrus Xiong",
+      "emails": [
+        "cyrus.xiong@elmsworthlaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_elmsworth",
+      "person_id": "p_cyrus-xiong",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Dario Zielinski",
+      "emails": [
+        "dario.zielinski@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_dario-zielinski",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Dev Lindqvist",
+      "emails": [
+        "dlindqvist@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_dev-lindqvist",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Dev Thorne",
+      "emails": [
+        "dev.thorne@dunstanlaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_dunstan",
+      "person_id": "p_dev-thorne",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Dev Zielinski",
+      "emails": [
+        "dev.zielinski@mossgiellaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_mossgiel",
+      "person_id": "p_dev-zielinski",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Eilidh Penhaligon",
+      "emails": [
+        "eilidh.penhaligon@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_eilidh-penhaligon",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Elio Quillfeather",
+      "emails": [
+        "elioq28@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_elio-quillfeather",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Emeka Oyelaran",
+      "emails": [
+        "emeka.oyelaran@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_emeka-oyelaran",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Esme Corriveau",
+      "emails": [
+        "esmec14@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_esme-corriveau",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Farah Corriveau",
+      "emails": [
+        "farah.corriveau@harbourline.example",
+        "farahc16@inbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-18; same client Hollis Vane LLP",
+      "merged_ids": [
+        "p_farah-corriveau-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_farah-corriveau",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Farah Wolstenholme",
+      "emails": [
+        "farah.wolstenholme@inbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "org": null,
+      "person_id": "p_farah-wolstenholme",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Farah Zielinski",
+      "emails": [
+        "farah.zielinski@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_farah-zielinski",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Fintan Stanhope",
+      "emails": [
+        "fstanhope@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_fintan-stanhope",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Fleur Lowther",
+      "emails": [
+        "fleur.lowther@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_fleur-lowther",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Goran Quintero",
+      "emails": [
+        "goran.quintero@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_goran-quintero",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Greta Brannigan",
+      "emails": [
+        "greta.brannigan@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_greta-brannigan",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Greta Dunmore",
+      "emails": [
+        "gdunmore@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_greta-dunmore",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Gulnara Brannigan",
+      "emails": [
+        "gulnara.brannigan@harbourline.example",
+        "gulnarab63@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-04; same client Northgate Fell Legal",
+      "merged_ids": [
+        "p_gulnara-brannigan-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_gulnara-brannigan",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Halima Bellweather",
+      "emails": [
+        "halima.bellweather@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_halima-bellweather",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Halima Galloway",
+      "emails": [
+        "halima.galloway@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_halima-galloway",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Hamperly Gifts",
+      "emails": [
+        "orders@hamperly.example"
+      ],
+      "exported": false,
+      "kind": "vendor",
+      "org": "o_hamperly",
+      "person_id": "p_hamperly-gifts",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Hamza Esterhuizen",
+      "emails": [
+        "hamzae25@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_hamza-esterhuizen",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Hamza Galloway",
+      "emails": [],
+      "exported": false,
+      "kind": "worker",
+      "org": null,
+      "person_id": "p_hamza-galloway",
+      "teams_ids": [
+        "2e5f950c-33a7-4eea-a4fd-4e14a0f096da"
+      ]
+    },
+    {
+      "display_name": "Hamza Pemberton",
+      "emails": [
+        "hamza.pemberton@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_hamza-pemberton",
+      "teams_ids": [
+        "742a8063-02f4-456d-afe8-6af28d959c31"
+      ]
+    },
+    {
+      "display_name": "Hamza Vasquez-Lowe",
+      "emails": [],
+      "exported": false,
+      "kind": "worker",
+      "org": null,
+      "person_id": "p_hamza-vasquez-lowe",
+      "teams_ids": [
+        "f637a468-5434-4f8f-afc2-52d38c0d0033"
+      ]
+    },
+    {
+      "display_name": "Hana Pemberton",
+      "emails": [
+        "hana.pemberton@harbourline.example"
+      ],
+      "export_folder": "hana",
+      "exported": true,
+      "job_title": "People Operations",
+      "kind": "staff",
+      "org": "o_harbourline",
+      "person_id": "p_hana-pemberton",
+      "teams_ids": [
+        "f28c105d-3926-4a17-aa09-f29d953f48f1"
+      ]
+    },
+    {
+      "display_name": "Hana Prescott",
+      "emails": [
+        "hana.prescott@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_hana-prescott",
+      "teams_ids": []
+    },
+    {
+      "display_name": "HireTrack",
+      "emails": [
+        "no-reply@hiretrack.example"
+      ],
+      "exported": false,
+      "kind": "vendor",
+      "org": "o_hiretrack",
+      "person_id": "p_hiretrack",
+      "teams_ids": []
+    },
+    {
+      "display_name": "HR Brew Weekly",
+      "emails": [
+        "digest@hrbrew.example"
+      ],
+      "exported": false,
+      "kind": "vendor",
+      "org": "o_hrbrew",
+      "person_id": "p_hr-brew-weekly",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Hugo Danforth",
+      "emails": [],
+      "exported": false,
+      "kind": "worker",
+      "org": null,
+      "person_id": "p_hugo-danforth",
+      "teams_ids": [
+        "c28ee907-e4dd-4e99-a103-535b7178ba0a"
+      ]
+    },
+    {
+      "display_name": "Ilse Ilunga",
+      "emails": [
+        "ilse.ilunga@harbourline.example"
+      ],
+      "export_folder": null,
+      "exported": false,
+      "job_title": "Finance",
+      "kind": "staff",
+      "org": "o_harbourline",
+      "person_id": "p_ilse-ilunga",
+      "teams_ids": [
+        "d70820fe-17f5-4f1d-a451-b271795e8229"
+      ]
+    },
+    {
+      "display_name": "Ilse Oakhurst",
+      "emails": [
+        "ilse.oakhurst@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_ilse-oakhurst",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Ines Marchetti",
+      "emails": [
+        "ines.marchetti@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_ines-marchetti",
+      "teams_ids": [
+        "b1330c3f-37ba-4acf-a7d5-b5784a7591f2"
+      ]
+    },
+    {
+      "display_name": "Ishaan Haverford",
+      "emails": [
+        "ishaan.haverford@ashdownlaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_ashdown",
+      "person_id": "p_ishaan-haverford",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Ivo Stanhope",
+      "emails": [
+        "ivo.stanhope@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_ivo-stanhope",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Jasper Dunmore",
+      "emails": [
+        "jasper.dunmore@dunstanlaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_dunstan",
+      "person_id": "p_jasper-dunmore",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Jasper Ellingham",
+      "emails": [
+        "jellingham@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_jasper-ellingham",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Jasper Haverford",
+      "emails": [
+        "jasper.haverford@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_jasper-haverford",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Joaquin Merriweather",
+      "emails": [
+        "joaquin.merriweather@juniperlaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_juniper",
+      "person_id": "p_joaquin-merriweather",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Jovana Ashcombe",
+      "emails": [
+        "jovana.ashcombe@ingramlaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_ingram",
+      "person_id": "p_jovana-ashcombe",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Jovana Penhaligon",
+      "emails": [
+        "jovana.penhaligon@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_jovana-penhaligon",
+      "teams_ids": [
+        "f7d5f124-fe9e-4730-afe7-630844c6b895"
+      ]
+    },
+    {
+      "display_name": "Jun Hargreaves",
+      "emails": [
+        "jun.hargreaves@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_jun-hargreaves",
+      "possible_same_person": [
+        {
+          "person_id": "p_jun-hargreaves-personal",
+          "reason": "work address has no onboarding events; client not known on both sides"
+        }
+      ],
+      "teams_ids": []
+    },
+    {
+      "display_name": "Jun Hargreaves",
+      "emails": [
+        "jun.hargreaves@postbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "org": null,
+      "person_id": "p_jun-hargreaves-personal",
+      "possible_same_person": [
+        {
+          "person_id": "p_jun-hargreaves",
+          "reason": "work address has no onboarding events; client not known on both sides"
+        }
+      ],
+      "teams_ids": []
+    },
+    {
+      "display_name": "Katarina Fairbanks",
+      "emails": [
+        "katarinaf58@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_katarina-fairbanks",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Katarina Prescott",
+      "emails": [
+        "katarinap65@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_katarina-prescott",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Kavya Jaramillo",
+      "emails": [
+        "kavya.jaramillo@harbourline.example"
+      ],
+      "export_folder": null,
+      "exported": false,
+      "job_title": "IT Support",
+      "kind": "it",
+      "org": "o_harbourline",
+      "person_id": "p_kavya-jaramillo",
+      "teams_ids": [
+        "1e398f10-830e-46b0-a2a3-5790c1d3fcff"
+      ]
+    },
+    {
+      "display_name": "Kavya Kettering",
+      "emails": [
+        "kavya.kettering@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_kavya-kettering",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Kavya Quintero",
+      "emails": [
+        "kavya.quintero@bramwelllaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_bramwell",
+      "person_id": "p_kavya-quintero",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Kenji Montague",
+      "emails": [
+        "kenji.montague@harbourline.example"
+      ],
+      "export_folder": null,
+      "exported": false,
+      "job_title": "Account Manager",
+      "kind": "staff",
+      "org": "o_harbourline",
+      "person_id": "p_kenji-montague",
+      "teams_ids": [
+        "86734721-7ebf-4e00-a57e-72e6babced20"
+      ]
+    },
+    {
+      "display_name": "Kenji Oyelaran",
+      "emails": [
+        "kenji.oyelaran@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_kenji-oyelaran",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Kenji Yardley",
+      "emails": [
+        "kenji.yardley@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_kenji-yardley",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Kiri Haverford",
+      "emails": [
+        "khaverford@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_kiri-haverford",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Kiri Holloway",
+      "emails": [
+        "kiri.holloway@northgatelaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_northgate",
+      "person_id": "p_kiri-holloway",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Kiri Jovanovic",
+      "emails": [
+        "kiri.jovanovic@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_kiri-jovanovic",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Kiri Oyelaran",
+      "emails": [
+        "koyelaran@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_kiri-oyelaran",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Kiri Zielinski",
+      "emails": [
+        "kiriz79@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_kiri-zielinski",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Lapworks Trading",
+      "emails": [
+        "orders@lapworks.example"
+      ],
+      "exported": false,
+      "kind": "vendor",
+      "org": "o_lapworks",
+      "person_id": "p_lapworks-trading",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Leif Ilunga",
+      "emails": [
+        "leifi53@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_leif-ilunga",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Leif Pemberton",
+      "emails": [
+        "leif.pemberton@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_leif-pemberton",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Leif Redgrave",
+      "emails": [
+        "leif.redgrave@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_leif-redgrave",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Leif Underhill",
+      "emails": [
+        "lunderhill@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_leif-underhill",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Lerato Faraday",
+      "emails": [
+        "lerato.faraday@harbourline.example"
+      ],
+      "export_folder": "lerato",
+      "exported": true,
+      "job_title": "People Operations",
+      "kind": "staff",
+      "org": "o_harbourline",
+      "person_id": "p_lerato-faraday",
+      "teams_ids": [
+        "6b0d549b-11e2-43d9-a173-6cad8d116ece"
+      ]
+    },
+    {
+      "display_name": "Lerato Thorne",
+      "emails": [
+        "lerato.thorne@harbourline.example",
+        "lerato.thorne@postbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-10; same client Ingram Stokes Lawyers",
+      "merged_ids": [
+        "p_lerato-thorne-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_lerato-thorne",
+      "teams_ids": [
+        "98d475d3-2056-4fa0-a4d3-158709c0af23"
+      ]
+    },
+    {
+      "display_name": "LinkedIn Talent Insights",
+      "emails": [
+        "news@linkedin.example"
+      ],
+      "exported": false,
+      "kind": "vendor",
+      "org": "o_linkedin",
+      "person_id": "p_linkedin-talent-insights",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Lionel Penhaligon",
+      "emails": [
+        "lionel.penhaligon@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_lionel-penhaligon",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Luca Bellweather",
+      "emails": [
+        "luca.bellweather@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_luca-bellweather",
+      "possible_same_person": [
+        {
+          "person_id": "p_luca-bellweather-personal",
+          "reason": "work address has no onboarding events; client not known on both sides"
+        }
+      ],
+      "teams_ids": []
+    },
+    {
+      "display_name": "Luca Bellweather",
+      "emails": [
+        "luca.bellweather@postbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "org": null,
+      "person_id": "p_luca-bellweather-personal",
+      "possible_same_person": [
+        {
+          "person_id": "p_luca-bellweather",
+          "reason": "work address has no onboarding events; client not known on both sides"
+        }
+      ],
+      "teams_ids": []
+    },
+    {
+      "display_name": "Maelle Achterberg",
+      "emails": [
+        "maelle.achterberg@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_maelle-achterberg",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Marisol Achterberg",
+      "emails": [
+        "machterberg@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_marisol-achterberg",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Mateus Jaramillo",
+      "emails": [
+        "mateus.jaramillo@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_mateus-jaramillo",
+      "possible_same_person": [
+        {
+          "person_id": "p_mateus-jaramillo-personal",
+          "reason": "personal address has no onboarding events; work address has no onboarding events; client not known on both sides"
+        }
+      ],
+      "teams_ids": []
+    },
+    {
+      "display_name": "Mateus Jaramillo",
+      "emails": [
+        "mateusj76@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_mateus-jaramillo-personal",
+      "possible_same_person": [
+        {
+          "person_id": "p_mateus-jaramillo",
+          "reason": "personal address has no onboarding events; work address has no onboarding events; client not known on both sides"
+        }
+      ],
+      "teams_ids": []
+    },
+    {
+      "display_name": "Mateus Vasquez-Lowe",
+      "emails": [
+        "mateus.vasquez-lowe@harbourline.example"
+      ],
+      "export_folder": "mateus",
+      "exported": true,
+      "job_title": "Talent Partner",
+      "kind": "staff",
+      "org": "o_harbourline",
+      "person_id": "p_mateus-vasquez-lowe",
+      "teams_ids": [
+        "9531985d-0ed9-4e8e-a81e-099936f675cc"
+      ]
+    },
+    {
+      "display_name": "Mateus Zielinski",
+      "emails": [
+        "mateus.zielinski@harbourline.example",
+        "mzielinski@postbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-16), work address from 2026-03-27; same client Dunstan Wray & Co",
+      "merged_ids": [
+        "p_mateus-zielinski-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_mateus-zielinski",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Mireille Merriweather",
+      "emails": [
+        "mireille.merriweather@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_mireille-merriweather",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Nadia Abernethy",
+      "emails": [
+        "nadia.abernethy@hollislaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_hollis",
+      "person_id": "p_nadia-abernethy",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Nadia Kettering",
+      "emails": [
+        "nadiak99@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_nadia-kettering",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Noor Galloway",
+      "emails": [
+        "noor.galloway@fennimorelaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_fennimore",
+      "person_id": "p_noor-galloway",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Noor Yardley",
+      "emails": [
+        "noor.yardley@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_noor-yardley",
+      "possible_same_person": [
+        {
+          "person_id": "p_noor-yardley-personal",
+          "reason": "work address has no onboarding events; client not known on both sides"
+        }
+      ],
+      "teams_ids": []
+    },
+    {
+      "display_name": "Noor Yardley",
+      "emails": [
+        "nyardley@postbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "org": null,
+      "person_id": "p_noor-yardley-personal",
+      "possible_same_person": [
+        {
+          "person_id": "p_noor-yardley",
+          "reason": "work address has no onboarding events; client not known on both sides"
+        }
+      ],
+      "teams_ids": []
+    },
+    {
+      "display_name": "Noor Zielinski",
+      "emails": [
+        "noorz88@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_noor-zielinski",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Nuno Montague",
+      "emails": [
+        "nmontague@mailbox.example",
+        "nuno.montague@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-03), work address from 2026-03-19; same client Ashdown & Mercer LLP",
+      "merged_ids": [
+        "p_nuno-montague-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_nuno-montague",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Odile Jaramillo",
+      "emails": [
+        "odile.jaramillo@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_odile-jaramillo",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Orla Quillfeather",
+      "emails": [
+        "orla.quillfeather@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_orla-quillfeather",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Otto Vasquez-Lowe",
+      "emails": [
+        "otto.vasquez-lowe@harbourline.example",
+        "otto.vasquez-lowe@postbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-11), work address from 2026-03-24; same client Mossgiel Barristers Chambers",
+      "merged_ids": [
+        "p_otto-vasquez-lowe-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_otto-vasquez-lowe",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Paloma Brannigan",
+      "emails": [
+        "paloma.brannigan@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_paloma-brannigan",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Paloma Larkspur",
+      "emails": [
+        "paloma.larkspur@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_paloma-larkspur",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Paloma Montague",
+      "emails": [],
+      "exported": false,
+      "kind": "worker",
+      "org": null,
+      "person_id": "p_paloma-montague",
+      "teams_ids": [
+        "9f03bc5a-9158-4222-a033-0f877b7fec4b"
+      ]
+    },
+    {
+      "display_name": "Pavel Thorne",
+      "emails": [
+        "pavel.thorne@harbourline.example"
+      ],
+      "export_folder": "pavel",
+      "exported": true,
+      "job_title": "Talent Partner",
+      "kind": "staff",
+      "org": "o_harbourline",
+      "person_id": "p_pavel-thorne",
+      "teams_ids": [
+        "6513270e-a6a3-40c5-a128-892fd23f0824"
+      ]
+    },
+    {
+      "display_name": "Pilar Lowther",
+      "emails": [
+        "pilar.lowther@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_pilar-lowther",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Pilar Sutherland",
+      "emails": [
+        "pilars79@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_pilar-sutherland",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Quinn Danforth",
+      "emails": [
+        "quinn.danforth@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_quinn-danforth",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Quinn Ellingham",
+      "emails": [
+        "quinn.ellingham@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_quinn-ellingham",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Quinn Quillfeather",
+      "emails": [
+        "quinn.quillfeather@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_quinn-quillfeather",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Rania Abernethy",
+      "emails": [
+        "rania.abernethy@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_rania-abernethy",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Ravi Larkspur",
+      "emails": [
+        "ravi.larkspur@harbourline.example"
+      ],
+      "export_folder": "ravi",
+      "exported": true,
+      "job_title": "HR Coordinator",
+      "kind": "staff",
+      "org": "o_harbourline",
+      "person_id": "p_ravi-larkspur",
+      "teams_ids": [
+        "6b4cb242-24ed-48a6-a1e2-4ef892276658"
+      ]
+    },
+    {
+      "display_name": "Sanne Yilmaz",
+      "emails": [
+        "sanne.yilmaz@harbourline.example",
+        "syilmaz@inbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-18), work address from 2026-03-23; same client Greythorne Legal Group; NOTE work address already sent 2 non-onboarding mail(s) before onboarding (first: 2026-03-03 'Payslip – Sanne')",
+      "merged_ids": [
+        "p_sanne-yilmaz-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_sanne-yilmaz",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Saoirse Larkspur",
+      "emails": [
+        "slarkspur@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_saoirse-larkspur",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Saoirse Vasquez-Lowe",
+      "emails": [
+        "saoirse.vasquez-lowe@kestrellaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_kestrel",
+      "person_id": "p_saoirse-vasquez-lowe",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Selin Ekwueme",
+      "emails": [
+        "sekwueme@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_selin-ekwueme",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Soren Jaramillo",
+      "emails": [
+        "soren.jaramillo@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_soren-jaramillo",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Soren Underhill",
+      "emails": [
+        "soren.underhill@harbourline.example",
+        "sorenu80@inbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-09), work address from 2026-03-11; same client Dunstan Wray & Co",
+      "merged_ids": [
+        "p_soren-underhill-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_soren-underhill",
+      "teams_ids": [
+        "ce7a49fb-7ac8-470d-a7ee-5d0a46516bca"
+      ]
+    },
+    {
+      "display_name": "SwiftParcel Couriers",
+      "emails": [
+        "notifications@swiftparcel.example"
+      ],
+      "exported": false,
+      "kind": "vendor",
+      "org": "o_swiftparcel",
+      "person_id": "p_swiftparcel-couriers",
+      "teams_ids": []
+    },
+    {
+      "display_name": "TechDirect Supplies",
+      "emails": [
+        "orders@techdirect.example"
+      ],
+      "exported": false,
+      "kind": "vendor",
+      "org": "o_techdirect",
+      "person_id": "p_techdirect-supplies",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Teodor Ellingham",
+      "emails": [
+        "teodor.ellingham@harbourline.example"
+      ],
+      "export_folder": null,
+      "exported": false,
+      "job_title": "Account Manager",
+      "kind": "staff",
+      "org": "o_harbourline",
+      "person_id": "p_teodor-ellingham",
+      "teams_ids": [
+        "c6f87718-506b-4773-a95e-7403ec66a787"
+      ]
+    },
+    {
+      "display_name": "Teodor Redgrave",
+      "emails": [
+        "teodorr95@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_teodor-redgrave",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Thiago Bellweather",
+      "emails": [
+        "thiago.bellweather@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_thiago-bellweather",
+      "teams_ids": [
+        "e6cd10f1-bd6a-44a3-a40d-10a25f49f0fc"
+      ]
+    },
+    {
+      "display_name": "Thiago Corriveau",
+      "emails": [
+        "thiagoc49@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_thiago-corriveau",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Tobias Northcott",
+      "emails": [
+        "tobias.northcott@harbourline.example"
+      ],
+      "export_folder": null,
+      "exported": false,
+      "job_title": "IT Support",
+      "kind": "it",
+      "org": "o_harbourline",
+      "person_id": "p_tobias-northcott",
+      "teams_ids": [
+        "6bf46c69-0a09-4f64-aab1-c3ba13deef86"
+      ]
+    },
+    {
+      "display_name": "Tobias Prescott",
+      "emails": [
+        "tprescott@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_tobias-prescott",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Tobias Stanhope",
+      "emails": [
+        "tobias.stanhope@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_tobias-stanhope",
+      "teams_ids": [
+        "82b33599-04c9-4df7-a70a-2ee0c6c91b92"
+      ]
+    },
+    {
+      "display_name": "Tobias Trelawney",
+      "emails": [
+        "tobias.trelawney@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_tobias-trelawney",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Tobias Zamora",
+      "emails": [
+        "tobias.zamora@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_tobias-zamora",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Ugo Valcourt",
+      "emails": [
+        "ugo.valcourt@bramwelllaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_bramwell",
+      "person_id": "p_ugo-valcourt",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Valeria Dunmore",
+      "emails": [
+        "valeria.dunmore@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_valeria-dunmore",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Valeria Jovanovic",
+      "emails": [
+        "valeria.jovanovic@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_valeria-jovanovic",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Vesna Iwasaki",
+      "emails": [
+        "viwasaki@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_vesna-iwasaki",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Vesna Kowalczyk",
+      "emails": [
+        "vkowalczyk@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_vesna-kowalczyk",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Vesna Lowther",
+      "emails": [
+        "vesna.lowther@juniperlaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_juniper",
+      "person_id": "p_vesna-lowther",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Vesna Montague",
+      "emails": [
+        "vesna.montague@harbourline.example"
+      ],
+      "export_folder": null,
+      "exported": false,
+      "job_title": "Account Manager",
+      "kind": "staff",
+      "org": "o_harbourline",
+      "person_id": "p_vesna-montague",
+      "teams_ids": [
+        "3f98e277-cb5c-42e0-ab2f-3e7dc7a2ea20"
+      ]
+    },
+    {
+      "display_name": "Vida Faraday",
+      "emails": [
+        "vida.faraday@harbourline.example",
+        "vida.faraday@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "merge_reason": "personal address used first in onboarding (2026-03-04), work address from 2026-03-11; same client Ingram Stokes Lawyers",
+      "merged_ids": [
+        "p_vida-faraday-personal"
+      ],
+      "org": "o_harbourline",
+      "person_id": "p_vida-faraday",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Vida Sandoval",
+      "emails": [
+        "vida.sandoval@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_vida-sandoval",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Vida Tavernier",
+      "emails": [
+        "vida.tavernier@northgatelaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_northgate",
+      "person_id": "p_vida-tavernier",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Viktor Hargreaves",
+      "emails": [
+        "viktor.hargreaves@corbettlaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_corbett",
+      "person_id": "p_viktor-hargreaves",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Viktor Holloway",
+      "emails": [
+        "viktorh23@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_viktor-holloway",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Viktor Umberfield",
+      "emails": [
+        "viktor.umberfield@larchmontlaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_larchmont",
+      "person_id": "p_viktor-umberfield",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Wanjiru Castellano",
+      "emails": [
+        "wanjiru.castellano@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_wanjiru-castellano",
+      "possible_same_person": [
+        {
+          "person_id": "p_wanjiru-castellano-personal",
+          "reason": "work address has no onboarding events; client not known on both sides"
+        }
+      ],
+      "teams_ids": []
+    },
+    {
+      "display_name": "Wanjiru Castellano",
+      "emails": [
+        "wanjiru.castellano@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "org": null,
+      "person_id": "p_wanjiru-castellano-personal",
+      "possible_same_person": [
+        {
+          "person_id": "p_wanjiru-castellano",
+          "reason": "work address has no onboarding events; client not known on both sides"
+        }
+      ],
+      "teams_ids": []
+    },
+    {
+      "display_name": "Wanjiru Rasmussen",
+      "emails": [
+        "wanjiru.rasmussen@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_wanjiru-rasmussen",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Wen Faraday",
+      "emails": [
+        "wen.faraday@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_wen-faraday",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Wilhelmina Ingleby",
+      "emails": [
+        "wilhelmina.ingleby@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_wilhelmina-ingleby",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Wiremu Holloway",
+      "emails": [
+        "wholloway@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_wiremu-holloway",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Wiremu Oyelaran",
+      "emails": [
+        "wiremu.oyelaran@elmsworthlaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_elmsworth",
+      "person_id": "p_wiremu-oyelaran",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Ximena Brannigan",
+      "emails": [
+        "xbrannigan@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_ximena-brannigan",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Yannick Cavendish",
+      "emails": [
+        "yannickc45@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_yannick-cavendish",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Yannick Xiong",
+      "emails": [
+        "yannick.xiong@harbourline.example"
+      ],
+      "export_folder": "yannick",
+      "exported": true,
+      "job_title": "Head of People",
+      "kind": "staff",
+      "org": "o_harbourline",
+      "person_id": "p_yannick-xiong",
+      "teams_ids": [
+        "1a61dbe2-94e3-4923-aa38-5f55301850c5"
+      ]
+    },
+    {
+      "display_name": "Yannick Zielinski",
+      "emails": [
+        "yannick.zielinski@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_yannick-zielinski",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Yara Hargreaves",
+      "emails": [
+        "yara.hargreaves@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_yara-hargreaves",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Ysolde Thorne",
+      "emails": [
+        "ysolde.thorne@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_ysolde-thorne",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Yusuf Ekwueme",
+      "emails": [
+        "yusuf.ekwueme@mailbox.example"
+      ],
+      "exported": false,
+      "kind": "new_starter",
+      "org": null,
+      "person_id": "p_yusuf-ekwueme",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Yusuf Ilunga",
+      "emails": [
+        "yusuf.ilunga@greythornelaw.example"
+      ],
+      "exported": false,
+      "kind": "client",
+      "org": "o_greythorne",
+      "person_id": "p_yusuf-ilunga",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Zara Nieuwenhuis",
+      "emails": [],
+      "exported": false,
+      "kind": "worker",
+      "org": null,
+      "person_id": "p_zara-nieuwenhuis",
+      "teams_ids": [
+        "fa6672cd-15fa-4efa-a791-4a22047b2c10"
+      ]
+    },
+    {
+      "display_name": "Zeynep Oakhurst",
+      "emails": [
+        "zeynepo78@postbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_zeynep-oakhurst",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Zubair Quillfeather",
+      "emails": [
+        "zubair.quillfeather@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_zubair-quillfeather",
+      "teams_ids": []
+    }
+  ],
+  "step": "2_people"
+}
