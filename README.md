@@ -117,30 +117,31 @@ Guardrails: AI stays optional (the pipeline runs without it), every answer cites
 
 ```
 pipeline/       pipeline.py (steps 0–6), rules.py (rule table), tests/
-out/            committed pipeline outputs (+ feedback.jsonl at runtime, git-ignored)
+out/            committed pipeline outputs, samples/ (first 5 records of each), feedback.jsonl at runtime (git-ignored)
 backend/app/    FastAPI: main.py, config.py, store.py, db.py, routers/, services/, schemas/
 backend/tests/  endpoint tests, feedback round trip, API snapshots
 frontend/       React + Vite + TypeScript + Tailwind; scripts/screenshots.mjs
-docs/           architecture.md, schemas.md, demo-script.md, screenshots/
+docs/           README.md (index), architecture.md, schemas.md, demo-script.md, screenshots/
+scripts/        gen_schemas.py (writes docs/schemas.md), make_samples.py (writes out/samples/)
 Makefile  Dockerfile  docker-compose.yml
 ```
 
-| file | contents |
-|---|---|
-| [`0_profile.json`](out/0_profile.json) | Records per person and source, time formats, duplicates, coverage (6 of 12 staff) |
-| [`1_events.jsonl`](out/1_events.jsonl) | Non-screen events in one shape, with a `raw_ref` to the export |
-| [`2_events_clean.jsonl`](out/2_events_clean.jsonl) | Labelled events: category, activity, resolved people, extracted fields |
-| [`2_people.json`](out/2_people.json) | People and organisations, merges and "possible same person" pairs |
-| [`2_screen_summary.json`](out/2_screen_summary.json) | Context, noise and out-of-scope screen sessions, summarised by window title |
-| [`3_cases.json`](out/3_cases.json) | Cases with steps, confidence, status, window badges |
-| [`4_processes.json`](out/4_processes.json) | Main path, steps, variants, directly-follows graph, open questions |
-| [`5_flags.json`](out/5_flags.json) | Rule hits with evidence event ids |
-| [`6_insights.json`](out/6_insights.json) | Patterns and case flags |
-| [`pipeline_report.json`](out/pipeline_report.json) | Counts per stage and per activity |
+| file | contents | sample |
+|---|---|---|
+| [`0_profile.json`](out/0_profile.json) | Records per person and source, time formats, duplicates, coverage (6 of 12 staff) | [sample](out/samples/0_profile.sample.json) |
+| [`1_events.jsonl`](out/1_events.jsonl) | Non-screen events in one shape, with a `raw_ref` to the export | [sample](out/samples/1_events.sample.json) |
+| [`2_events_clean.jsonl`](out/2_events_clean.jsonl) | Labelled events: category, activity, resolved people, extracted fields | [sample](out/samples/2_events_clean.sample.json) |
+| [`2_people.json`](out/2_people.json) | People and organisations, merges and "possible same person" pairs | [sample](out/samples/2_people.sample.json) |
+| [`2_screen_summary.json`](out/2_screen_summary.json) | Context, noise and out-of-scope screen sessions, summarised by window title | [sample](out/samples/2_screen_summary.sample.json) |
+| [`3_cases.json`](out/3_cases.json) | Cases with steps, confidence, status, window badges | [sample](out/samples/3_cases.sample.json) |
+| [`4_processes.json`](out/4_processes.json) | Main path, steps, variants, directly-follows graph, open questions | [sample](out/samples/4_processes.sample.json) |
+| [`5_flags.json`](out/5_flags.json) | Rule hits with evidence event ids | [sample](out/samples/5_flags.sample.json) |
+| [`6_insights.json`](out/6_insights.json) | Patterns and case flags | [sample](out/samples/6_insights.sample.json) |
+| [`pipeline_report.json`](out/pipeline_report.json) | Counts per stage and per activity | [sample](out/samples/pipeline_report.sample.json) |
 
 API: every endpoint and response shape is at `/docs` (OpenAPI) when the app runs.
 
-Walkthrough for the interview: [docs/demo-script.md](docs/demo-script.md).
+Walkthrough for the interview: [docs/demo-script.md](docs/demo-script.md). All documentation, mapped to the brief's deliverables: [docs/README.md](docs/README.md).
 
 ## Data
 

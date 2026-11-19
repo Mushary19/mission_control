@@ -1,0 +1,202 @@
+{
+  "_sample": "first 5 of 1660 records in out/2_events_clean.jsonl (one JSON object per line there)",
+  "records": [
+    {
+      "actor_id": "p_mateus-vasquez-lowe",
+      "category": "out_of_scope",
+      "event_id": "calendar:040000008200E00074C5B7101A82E00803FA818330F1C0AFC69FB8C63533271839CE00A6",
+      "fields": {
+        "rule_id": "oos_cal_recruit"
+      },
+      "mailbox": "mateus",
+      "meta": {
+        "end_local": "2026-03-02T09:06:00+05:30",
+        "from_address": "mateus.vasquez-lowe@harbourline.example",
+        "is_all_day": false,
+        "to_ids": [
+          "p_cyrus-rasmussen"
+        ]
+      },
+      "noise_reason": "recruitment (seen, not modelled)",
+      "raw_ref": {
+        "file": "data/mateus/outlook/calendar.jsonl",
+        "line": 1
+      },
+      "recipients": [
+        "p_cyrus-rasmussen"
+      ],
+      "seen_in": [
+        "mateus"
+      ],
+      "source": "calendar",
+      "text": "Quick intro call about the Legal Assistant role.",
+      "time_local": "2026-03-02T08:36:00+05:30",
+      "time_utc": "2026-03-02T03:06:00Z",
+      "title": "Screening call – Cyrus Rasmussen (Legal Assistant)"
+    },
+    {
+      "activity": "leave_requested",
+      "actor_id": "p_bram-montague",
+      "category": "process",
+      "event_id": "mail:0RXnT6Gvf26ODFqMyqxkEMnf@harbourline.example",
+      "fields": {
+        "dates": {
+          "end": "2026-03-30",
+          "raw": "Mon 30 Mar",
+          "start": "2026-03-30"
+        },
+        "leave_type": "sick",
+        "owner_staff_id": "p_hana-pemberton",
+        "rule_id": "leave_requested_mail"
+      },
+      "mailbox": "hana",
+      "meta": {
+        "from_address": "bram.montague@harbourline.example",
+        "to_ids": [
+          "p_hana-pemberton"
+        ]
+      },
+      "process": "leave",
+      "raw_ref": {
+        "file": "data/hana/outlook/messages.jsonl",
+        "line": 1
+      },
+      "recipients": [
+        "p_hana-pemberton"
+      ],
+      "resolution": {
+        "candidates": [
+          "p_bram-montague"
+        ],
+        "confidence": "high",
+        "method": "email",
+        "reason": "Sent by the person (their address)"
+      },
+      "seen_in": [
+        "hana"
+      ],
+      "source": "mail",
+      "subject_person_id": "p_bram-montague",
+      "text": "Hi Hana,\n\nI'd like to request sick leave for Mon 30 Mar.\n\nThanks,\nBram",
+      "thread_key": "mail:Gg7qax5SdtJRpLEkBZ-avGc-1eJNoWoGT63-y8vY_4gW",
+      "time_local": "2026-03-02T08:58:56+05:30",
+      "time_utc": "2026-03-02T03:28:56Z",
+      "title": "Leave request – Mon 30 Mar"
+    },
+    {
+      "actor_id": "p_hiretrack",
+      "category": "noise",
+      "event_id": "mail:T0dl23jz6FIlgvybFPxDU21L@hiretrack.example",
+      "fields": {
+        "rule_id": "noise_newsletter"
+      },
+      "mailbox": "mateus",
+      "meta": {
+        "from_address": "no-reply@hiretrack.example",
+        "to_ids": [
+          "p_mateus-vasquez-lowe"
+        ]
+      },
+      "noise_reason": "newsletter",
+      "raw_ref": {
+        "file": "data/mateus/outlook/messages.jsonl",
+        "line": 1
+      },
+      "recipients": [
+        "p_mateus-vasquez-lowe"
+      ],
+      "seen_in": [
+        "mateus"
+      ],
+      "source": "mail",
+      "text": "Webinar: retaining remote talent.\n\nRead more at the link.\n\nHireTrack",
+      "thread_key": "mail:SgHShQY-AG54_ZZoWxLj8wp-FYptmETG625-UDkhrlMa",
+      "time_local": "2026-03-02T09:00:00+05:30",
+      "time_utc": "2026-03-02T03:30:00Z",
+      "title": "Webinar: retaining remote talent"
+    },
+    {
+      "actor_id": "p_hr-brew-weekly",
+      "category": "noise",
+      "event_id": "mail:AsjRBNpxWFikH991LcuyLveT@hrbrew.example",
+      "fields": {
+        "rule_id": "noise_newsletter"
+      },
+      "mailbox": "mateus",
+      "meta": {
+        "from_address": "digest@hrbrew.example",
+        "to_ids": [
+          "p_mateus-vasquez-lowe"
+        ]
+      },
+      "noise_reason": "newsletter",
+      "raw_ref": {
+        "file": "data/mateus/outlook/messages.jsonl",
+        "line": 2
+      },
+      "recipients": [
+        "p_mateus-vasquez-lowe"
+      ],
+      "seen_in": [
+        "mateus"
+      ],
+      "source": "mail",
+      "text": "Your weekly hiring digest.\n\nRead more at the link.\n\nHR Brew Weekly",
+      "thread_key": "mail:m2ns1h1igNrjhTF1c5Ylk6F6tWnxd5PkFAG2Xu9LGyaO",
+      "time_local": "2026-03-02T09:02:00+05:30",
+      "time_utc": "2026-03-02T03:32:00Z",
+      "title": "Your weekly hiring digest"
+    },
+    {
+      "activity": "client_approved",
+      "actor_id": "p_kavya-quintero",
+      "category": "process",
+      "event_id": "mail:IGkyCcUfmIknQXCsPin1aAnc@bramwelllaw.example",
+      "fields": {
+        "client": "o_bramwell",
+        "dates": {
+          "end": "2026-03-07",
+          "raw": "Fri 6 Mar – Sat 7 Mar",
+          "start": "2026-03-06"
+        },
+        "name_raw_subject": "Yara",
+        "owner_staff_id": "p_hana-pemberton",
+        "rule_id": "leave_client_approved"
+      },
+      "mailbox": "hana",
+      "meta": {
+        "from_address": "kavya.quintero@bramwelllaw.example",
+        "to_ids": [
+          "p_hana-pemberton"
+        ]
+      },
+      "process": "leave",
+      "raw_ref": {
+        "file": "data/hana/outlook/messages.jsonl",
+        "line": 2
+      },
+      "recipients": [
+        "p_hana-pemberton"
+      ],
+      "resolution": {
+        "candidates": [
+          "p_yara-hargreaves"
+        ],
+        "confidence": "medium",
+        "method": "first_name_unique",
+        "raw_name": "Yara",
+        "reason": "Only non-staff person named 'Yara' is Yara Hargreaves"
+      },
+      "seen_in": [
+        "hana"
+      ],
+      "source": "mail",
+      "subject_person_id": "p_yara-hargreaves",
+      "text": "Hello Hana,\n\nApproved, thanks.\n\nBest,\nKavya",
+      "thread_key": "mail:fsjrHkPmcLJkJhBNKQkt65K1BYONkxtdRx1BdWAnHtQ6",
+      "time_local": "2026-03-02T09:03:10+05:30",
+      "time_utc": "2026-03-02T03:33:10Z",
+      "title": "RE: Leave request – Yara – Fri 6 Mar – Sat 7 Mar"
+    }
+  ]
+}

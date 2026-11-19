@@ -1,0 +1,82 @@
+{
+  "_sample": "out/2_screen_summary.json, lists of records and large mappings cut to 5 entries; full sizes (largest): reason_by_title (keys) (238), rows (1971)",
+  "columns": [
+    "mailbox",
+    "day",
+    "category",
+    "title",
+    "sessions",
+    "frames",
+    "minutes"
+  ],
+  "note": "Screen sessions that are context, noise or out of scope, summarised per mailbox, title and day. Full frames: data/<mailbox>/screens/screen_log.jsonl",
+  "reason_by_title": {
+    "Activity | Microsoft Teams": "generic: Teams activity",
+    "Arjun Sutherland - Candidates - HireTrack": "recruitment (HireTrack)",
+    "Bastian Delacroix - Candidates - HireTrack": "recruitment (HireTrack)",
+    "Birthday hampers | Hamperly Gifts": "birthday gifts",
+    "Bram Trelawney - Candidates - HireTrack": "recruitment (HireTrack)"
+  },
+  "rows": [
+    [
+      "hana",
+      "2026-03-02",
+      "context",
+      "Activity | Microsoft Teams",
+      2,
+      2,
+      0.0
+    ],
+    [
+      "hana",
+      "2026-03-03",
+      "context",
+      "Activity | Microsoft Teams",
+      4,
+      4,
+      0.0
+    ],
+    [
+      "hana",
+      "2026-03-04",
+      "context",
+      "Activity | Microsoft Teams",
+      3,
+      3,
+      0.0
+    ],
+    [
+      "hana",
+      "2026-03-05",
+      "context",
+      "Activity | Microsoft Teams",
+      6,
+      7,
+      5.3
+    ],
+    [
+      "hana",
+      "2026-03-06",
+      "context",
+      "Activity | Microsoft Teams",
+      5,
+      5,
+      0.0
+    ]
+  ],
+  "step": "2_screen_summary",
+  "totals": {
+    "context": {
+      "frames": 4665,
+      "sessions": 3669
+    },
+    "noise": {
+      "frames": 2810,
+      "sessions": 2654
+    },
+    "out_of_scope": {
+      "frames": 1936,
+      "sessions": 1506
+    }
+  }
+}

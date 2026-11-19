@@ -1,0 +1,665 @@
+{
+  "_sample": "out/3_cases.json, lists of records and large mappings cut to 5 entries; full sizes (largest): cases (70), cases[].steps (6), person_last_days (12)",
+  "cases": [
+    {
+      "case_id": "leave:amara-jaramillo:2026-03-23_2026-03-23",
+      "client": "o_dunstan",
+      "end": "2026-03-20T15:54:39+05:30",
+      "ends_after_window": false,
+      "flags": [],
+      "handoff": false,
+      "key": {
+        "dates": {
+          "end": "2026-03-23",
+          "raw": "Mon 23 Mar",
+          "start": "2026-03-23"
+        },
+        "leave_type": "sick"
+      },
+      "last_activity": "2026-03-20T15:54:39+05:30",
+      "out_of_order": [],
+      "owner_staff_id": "p_hana-pemberton",
+      "process": "leave",
+      "staff_involved": [
+        "p_hana-pemberton"
+      ],
+      "start": "2026-03-17T10:50:33+05:30",
+      "started_before_window": false,
+      "status": "complete",
+      "steps": [
+        {
+          "activity": "leave_requested",
+          "actor_id": "p_amara-jaramillo",
+          "actor_name": "Amara Jaramillo",
+          "confidence": "high",
+          "event_id": "mail:Rl2k4RMKxiWdybd2UWETKyjR@harbourline.example",
+          "label": "Leave requested",
+          "likely": false,
+          "link": "dates",
+          "link_reason": "Same person and dates (Mon 23 Mar)",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 107
+          },
+          "source": "mail",
+          "time_local": "2026-03-17T10:50:33+05:30",
+          "time_utc": "2026-03-17T05:20:33Z"
+        },
+        {
+          "activity": "client_check_sent",
+          "actor_id": "p_hana-pemberton",
+          "actor_name": "Hana Pemberton",
+          "confidence": "high",
+          "event_id": "mail:c0DhSjiL4OJHSWWoU8DkUvA0@harbourline.example",
+          "label": "Client asked",
+          "likely": false,
+          "link": "dates",
+          "link_reason": "Same person and dates (Mon 23 Mar)",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 113
+          },
+          "source": "mail",
+          "time_local": "2026-03-18T09:39:25+05:30",
+          "time_utc": "2026-03-18T04:09:25Z"
+        },
+        {
+          "activity": "client_approved",
+          "actor_id": "p_jasper-dunmore",
+          "actor_name": "Jasper Dunmore",
+          "confidence": "high",
+          "event_id": "mail:ZXfsOQlJlvqRxLBQMTDyWLRD@dunstanlaw.example",
+          "label": "Client approved",
+          "likely": false,
+          "link": "thread",
+          "link_reason": "Same mail thread",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 132
+          },
+          "source": "mail",
+          "time_local": "2026-03-20T10:40:18+05:30",
+          "time_utc": "2026-03-20T05:10:18Z"
+        },
+        {
+          "activity": "worker_approved",
+          "actor_id": "p_hana-pemberton",
+          "actor_name": "Hana Pemberton",
+          "confidence": "high",
+          "event_id": "mail:hlM0zs3dmp1s8lgTer8O7Tto@harbourline.example",
+          "label": "Worker told: approved",
+          "likely": false,
+          "link": "thread",
+          "link_reason": "Same mail thread",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 135
+          },
+          "source": "mail",
+          "time_local": "2026-03-20T15:54:39+05:30",
+          "time_utc": "2026-03-20T10:24:39Z"
+        }
+      ],
+      "subject_name": "Amara Jaramillo",
+      "subject_person_id": "p_amara-jaramillo",
+      "summary": "Amara Jaramillo: sick leave Mon 23 Mar at Dunstan Wray & Co. Handled by Hana Pemberton. 4 steps, complete.",
+      "window_notes": []
+    },
+    {
+      "case_id": "leave:amara-jaramillo:2026-04-03_2026-04-04",
+      "client": "o_dunstan",
+      "end": "2026-03-25T10:56:37+05:30",
+      "ends_after_window": false,
+      "flags": [],
+      "handoff": false,
+      "key": {
+        "dates": {
+          "end": "2026-04-04",
+          "raw": "Fri 3 Apr – Sat 4 Apr",
+          "start": "2026-04-03"
+        },
+        "leave_type": "annual"
+      },
+      "last_activity": "2026-03-25T10:56:37+05:30",
+      "out_of_order": [],
+      "owner_staff_id": "p_lerato-faraday",
+      "process": "leave",
+      "staff_involved": [
+        "p_lerato-faraday"
+      ],
+      "start": "2026-03-23T10:35:22+05:30",
+      "started_before_window": false,
+      "status": "declined",
+      "steps": [
+        {
+          "activity": "leave_requested",
+          "actor_id": "p_amara-jaramillo",
+          "actor_name": "Amara Jaramillo",
+          "confidence": "high",
+          "event_id": "mail:n2v6p9lXCbHG7Fu6A7guZJCE@harbourline.example",
+          "label": "Leave requested",
+          "likely": false,
+          "link": "dates",
+          "link_reason": "Same person and dates (Fri 3 Apr – Sat 4 Apr)",
+          "raw_ref": {
+            "file": "data/lerato/outlook/messages.jsonl",
+            "line": 132
+          },
+          "source": "mail",
+          "time_local": "2026-03-23T10:35:22+05:30",
+          "time_utc": "2026-03-23T05:05:22Z"
+        },
+        {
+          "activity": "client_check_sent",
+          "actor_id": "p_lerato-faraday",
+          "actor_name": "Lerato Faraday",
+          "confidence": "high",
+          "event_id": "mail:jouwYogxtlBTUGp463vxYOi6@harbourline.example",
+          "label": "Client asked",
+          "likely": false,
+          "link": "dates",
+          "link_reason": "Same person and dates (Fri 3 Apr – Sat 4 Apr)",
+          "raw_ref": {
+            "file": "data/lerato/outlook/messages.jsonl",
+            "line": 135
+          },
+          "source": "mail",
+          "time_local": "2026-03-23T14:09:01+05:30",
+          "time_utc": "2026-03-23T08:39:01Z"
+        },
+        {
+          "activity": "client_declined",
+          "actor_id": "p_jasper-dunmore",
+          "actor_name": "Jasper Dunmore",
+          "confidence": "high",
+          "event_id": "mail:eyRefpK1pMBsyAjJpdCXgte7@dunstanlaw.example",
+          "label": "Client declined",
+          "likely": false,
+          "link": "thread",
+          "link_reason": "Same mail thread",
+          "raw_ref": {
+            "file": "data/lerato/outlook/messages.jsonl",
+            "line": 148
+          },
+          "source": "mail",
+          "time_local": "2026-03-25T09:26:00+05:30",
+          "time_utc": "2026-03-25T03:56:00Z"
+        },
+        {
+          "activity": "worker_asked_other_dates",
+          "actor_id": "p_lerato-faraday",
+          "actor_name": "Lerato Faraday",
+          "confidence": "high",
+          "event_id": "mail:EcfM8K9YUQsFRYjRxNIdY6f1@harbourline.example",
+          "label": "Worker asked for other dates",
+          "likely": false,
+          "link": "thread",
+          "link_reason": "Same mail thread",
+          "raw_ref": {
+            "file": "data/lerato/outlook/messages.jsonl",
+            "line": 149
+          },
+          "source": "mail",
+          "time_local": "2026-03-25T10:56:37+05:30",
+          "time_utc": "2026-03-25T05:26:37Z"
+        }
+      ],
+      "subject_name": "Amara Jaramillo",
+      "subject_person_id": "p_amara-jaramillo",
+      "summary": "Amara Jaramillo: annual leave Fri 3 Apr – Sat 4 Apr at Dunstan Wray & Co. Handled by Lerato Faraday. 4 steps, declined.",
+      "window_notes": []
+    },
+    {
+      "case_id": "leave:bianca-jaramillo:2026-04-03_2026-04-05",
+      "client": "o_corbett",
+      "end": "2026-03-24T09:30:20+05:30",
+      "ends_after_window": false,
+      "flags": [],
+      "handoff": false,
+      "key": {
+        "dates": {
+          "end": "2026-04-05",
+          "raw": "Fri 3 Apr – Sun 5 Apr",
+          "start": "2026-04-03"
+        },
+        "leave_type": "personal"
+      },
+      "last_activity": "2026-03-24T09:30:20+05:30",
+      "out_of_order": [],
+      "owner_staff_id": "p_lerato-faraday",
+      "process": "leave",
+      "staff_involved": [
+        "p_lerato-faraday"
+      ],
+      "start": "2026-03-23T09:30:11+05:30",
+      "started_before_window": false,
+      "status": "complete",
+      "steps": [
+        {
+          "activity": "leave_requested",
+          "actor_id": "p_bianca-jaramillo",
+          "actor_name": "Bianca Jaramillo",
+          "confidence": "high",
+          "event_id": "mail:3zCV0sjbTxn0uxBV6r7kkDUp@harbourline.example",
+          "label": "Leave requested",
+          "likely": false,
+          "link": "dates",
+          "link_reason": "Same person and dates (Fri 3 Apr – Sun 5 Apr)",
+          "raw_ref": {
+            "file": "data/lerato/outlook/messages.jsonl",
+            "line": 128
+          },
+          "source": "mail",
+          "time_local": "2026-03-23T09:30:11+05:30",
+          "time_utc": "2026-03-23T04:00:11Z"
+        },
+        {
+          "activity": "peoplehub_opened",
+          "actor_id": "p_lerato-faraday",
+          "actor_name": "Lerato Faraday",
+          "confidence": "low",
+          "event_id": "screen:lerato:1279",
+          "label": "PeopleHub opened",
+          "likely": true,
+          "link": "time",
+          "link_reason": "No dates in the record; nearest open leave case of the same person",
+          "raw_ref": {
+            "file": "data/lerato/screens/screen_log.jsonl",
+            "line": 1279
+          },
+          "session": {
+            "end_local": "2026-03-23T10:44:17.298150+05:30",
+            "end_utc": "2026-03-23T05:14:17.298150Z",
+            "frame_count": 1,
+            "minutes": 0.0,
+            "start_local": "2026-03-23T10:44:17.298150+05:30",
+            "start_utc": "2026-03-23T05:14:17.298150Z"
+          },
+          "source": "screen",
+          "time_local": "2026-03-23T10:44:17.298150+05:30",
+          "time_utc": "2026-03-23T05:14:17.298150Z"
+        },
+        {
+          "activity": "client_check_sent",
+          "actor_id": "p_lerato-faraday",
+          "actor_name": "Lerato Faraday",
+          "confidence": "high",
+          "event_id": "mail:RVyQPdkc5T7absg4jXg12vus@harbourline.example",
+          "label": "Client asked",
+          "likely": false,
+          "link": "dates",
+          "link_reason": "Same person and dates (Fri 3 Apr – Sun 5 Apr)",
+          "raw_ref": {
+            "file": "data/lerato/outlook/messages.jsonl",
+            "line": 133
+          },
+          "source": "mail",
+          "time_local": "2026-03-23T10:52:47+05:30",
+          "time_utc": "2026-03-23T05:22:47Z"
+        },
+        {
+          "activity": "client_approved",
+          "actor_id": "p_viktor-hargreaves",
+          "actor_name": "Viktor Hargreaves",
+          "confidence": "high",
+          "event_id": "mail:PqwqLeMChpeEMBiMb8ch5nDj@corbettlaw.example",
+          "label": "Client approved",
+          "likely": false,
+          "link": "thread",
+          "link_reason": "Same mail thread",
+          "raw_ref": {
+            "file": "data/lerato/outlook/messages.jsonl",
+            "line": 137
+          },
+          "source": "mail",
+          "time_local": "2026-03-23T15:50:21+05:30",
+          "time_utc": "2026-03-23T10:20:21Z"
+        },
+        {
+          "activity": "worker_approved",
+          "actor_id": "p_lerato-faraday",
+          "actor_name": "Lerato Faraday",
+          "confidence": "high",
+          "event_id": "mail:cpsWPrDPFRXNy1aQg1WTuS0I@harbourline.example",
+          "label": "Worker told: approved",
+          "likely": false,
+          "link": "thread",
+          "link_reason": "Same mail thread",
+          "raw_ref": {
+            "file": "data/lerato/outlook/messages.jsonl",
+            "line": 140
+          },
+          "source": "mail",
+          "time_local": "2026-03-24T09:01:14+05:30",
+          "time_utc": "2026-03-24T03:31:14Z"
+        }
+      ],
+      "subject_name": "Bianca Jaramillo",
+      "subject_person_id": "p_bianca-jaramillo",
+      "summary": "Bianca Jaramillo: personal day Fri 3 Apr – Sun 5 Apr at Corbett. Handled by Lerato Faraday. 6 steps, complete.",
+      "window_notes": []
+    },
+    {
+      "case_id": "leave:bram-montague:2026-03-30_2026-03-30",
+      "client": "o_hollis",
+      "end": "2026-03-03T14:35:09+05:30",
+      "ends_after_window": false,
+      "flags": [
+        "activity_after_last_day:leave:bram-montague:2026-03-30_2026-03-30"
+      ],
+      "handoff": false,
+      "key": {
+        "dates": {
+          "end": "2026-03-30",
+          "raw": "Mon 30 Mar",
+          "start": "2026-03-30"
+        },
+        "leave_type": "sick"
+      },
+      "last_activity": "2026-03-03T14:35:09+05:30",
+      "out_of_order": [],
+      "owner_staff_id": "p_hana-pemberton",
+      "process": "leave",
+      "staff_involved": [
+        "p_hana-pemberton"
+      ],
+      "start": "2026-03-02T08:58:56+05:30",
+      "started_before_window": false,
+      "status": "complete",
+      "steps": [
+        {
+          "activity": "leave_requested",
+          "actor_id": "p_bram-montague",
+          "actor_name": "Bram Montague",
+          "confidence": "high",
+          "event_id": "mail:0RXnT6Gvf26ODFqMyqxkEMnf@harbourline.example",
+          "label": "Leave requested",
+          "likely": false,
+          "link": "dates",
+          "link_reason": "Same person and dates (Mon 30 Mar)",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 1
+          },
+          "source": "mail",
+          "time_local": "2026-03-02T08:58:56+05:30",
+          "time_utc": "2026-03-02T03:28:56Z"
+        },
+        {
+          "activity": "client_check_sent",
+          "actor_id": "p_hana-pemberton",
+          "actor_name": "Hana Pemberton",
+          "confidence": "high",
+          "event_id": "mail:4cLltXkMNnvjt11G7OzUaIAs@harbourline.example",
+          "label": "Client asked",
+          "likely": false,
+          "link": "dates",
+          "link_reason": "Same person and dates (Mon 30 Mar)",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 7
+          },
+          "source": "mail",
+          "time_local": "2026-03-02T15:53:56+05:30",
+          "time_utc": "2026-03-02T10:23:56Z"
+        },
+        {
+          "activity": "client_approved",
+          "actor_id": "p_nadia-abernethy",
+          "actor_name": "Nadia Abernethy",
+          "confidence": "high",
+          "event_id": "mail:urLfiQH1LZyQWGVAA4L55Xdq@hollislaw.example",
+          "label": "Client approved",
+          "likely": false,
+          "link": "thread",
+          "link_reason": "Same mail thread",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 11
+          },
+          "source": "mail",
+          "time_local": "2026-03-03T08:32:11+05:30",
+          "time_utc": "2026-03-03T03:02:11Z"
+        },
+        {
+          "activity": "worker_approved",
+          "actor_id": "p_hana-pemberton",
+          "actor_name": "Hana Pemberton",
+          "confidence": "high",
+          "event_id": "mail:a7nJ9fPKveMEz2FhiBFKlat6@harbourline.example",
+          "label": "Worker told: approved",
+          "likely": false,
+          "link": "thread",
+          "link_reason": "Same mail thread",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 17
+          },
+          "source": "mail",
+          "time_local": "2026-03-03T14:35:09+05:30",
+          "time_utc": "2026-03-03T09:05:09Z"
+        }
+      ],
+      "subject_name": "Bram Montague",
+      "subject_person_id": "p_bram-montague",
+      "summary": "Bram Montague: sick leave Mon 30 Mar at Hollis Vane LLP. Handled by Hana Pemberton. 4 steps, complete.",
+      "window_notes": []
+    },
+    {
+      "case_id": "leave:callum-grunewald:2026-03-26_2026-03-26",
+      "client": "o_mossgiel",
+      "end": "2026-03-20T10:11:13+05:30",
+      "ends_after_window": false,
+      "flags": [],
+      "handoff": false,
+      "key": {
+        "dates": {
+          "end": "2026-03-26",
+          "raw": "Thu 26 Mar",
+          "start": "2026-03-26"
+        },
+        "leave_type": "annual"
+      },
+      "last_activity": "2026-03-20T10:11:13+05:30",
+      "out_of_order": [],
+      "owner_staff_id": "p_hana-pemberton",
+      "process": "leave",
+      "staff_involved": [
+        "p_hana-pemberton"
+      ],
+      "start": "2026-03-17T15:17:28+05:30",
+      "started_before_window": false,
+      "status": "complete",
+      "steps": [
+        {
+          "activity": "leave_requested",
+          "actor_id": "p_callum-grunewald",
+          "actor_name": "Callum Grünewald",
+          "confidence": "high",
+          "event_id": "mail:ypauzbh53OSFrZJBmdzR4LIs@harbourline.example",
+          "label": "Leave requested",
+          "likely": false,
+          "link": "dates",
+          "link_reason": "Same person and dates (Thu 26 Mar)",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 109
+          },
+          "source": "mail",
+          "time_local": "2026-03-17T15:17:28+05:30",
+          "time_utc": "2026-03-17T09:47:28Z"
+        },
+        {
+          "activity": "peoplehub_opened",
+          "actor_id": "p_hana-pemberton",
+          "actor_name": "Hana Pemberton",
+          "confidence": "low",
+          "event_id": "screen:hana:1053",
+          "label": "PeopleHub opened",
+          "likely": true,
+          "link": "time",
+          "link_reason": "No dates in the record; nearest open leave case of the same person",
+          "raw_ref": {
+            "file": "data/hana/screens/screen_log.jsonl",
+            "line": 1053
+          },
+          "session": {
+            "end_local": "2026-03-18T09:48:07+05:30",
+            "end_utc": "2026-03-18T04:18:07Z",
+            "frame_count": 3,
+            "minutes": 8.8,
+            "start_local": "2026-03-18T09:39:19+05:30",
+            "start_utc": "2026-03-18T04:09:19Z"
+          },
+          "source": "screen",
+          "time_local": "2026-03-18T09:39:19+05:30",
+          "time_utc": "2026-03-18T04:09:19Z"
+        },
+        {
+          "activity": "client_check_sent",
+          "actor_id": "p_hana-pemberton",
+          "actor_name": "Hana Pemberton",
+          "confidence": "medium",
+          "event_id": "mail:67YtE8BwjB4oInFjNRUVXrru@harbourline.example",
+          "label": "Client asked",
+          "likely": false,
+          "link": "dates",
+          "link_reason": "Same person and dates (Thu 26 Mar)",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 115
+          },
+          "source": "mail",
+          "time_local": "2026-03-18T09:55:57+05:30",
+          "time_utc": "2026-03-18T04:25:57Z"
+        },
+        {
+          "activity": "client_approved",
+          "actor_id": "p_chiara-yilmaz",
+          "actor_name": "Chiara Yilmaz",
+          "confidence": "high",
+          "event_id": "mail:OJ8GPMSvgCbyAiOyOhBixmy6@mossgiellaw.example",
+          "label": "Client approved",
+          "likely": false,
+          "link": "thread",
+          "link_reason": "Same mail thread",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 129
+          },
+          "source": "mail",
+          "time_local": "2026-03-20T09:16:47+05:30",
+          "time_utc": "2026-03-20T03:46:47Z"
+        },
+        {
+          "activity": "worker_approved",
+          "actor_id": "p_hana-pemberton",
+          "actor_name": "Hana Pemberton",
+          "confidence": "high",
+          "event_id": "mail:NN153D1kwbpi0yWRV4ddryLn@harbourline.example",
+          "label": "Worker told: approved",
+          "likely": false,
+          "link": "thread",
+          "link_reason": "Same mail thread",
+          "raw_ref": {
+            "file": "data/hana/outlook/messages.jsonl",
+            "line": 130
+          },
+          "source": "mail",
+          "time_local": "2026-03-20T09:51:48+05:30",
+          "time_utc": "2026-03-20T04:21:48Z"
+        }
+      ],
+      "subject_name": "Callum Grünewald",
+      "subject_person_id": "p_callum-grunewald",
+      "summary": "Callum Grünewald: annual leave Thu 26 Mar at Mossgiel Barristers Chambers. Handled by Hana Pemberton. 6 steps, complete.",
+      "window_notes": []
+    }
+  ],
+  "person_last_days": [
+    {
+      "effective_end": "2026-03-10",
+      "last_day": null,
+      "last_day_sources": [],
+      "name": "Aarav Thorne",
+      "offboarding_completed_local": "2026-03-10T08:46:59+05:30",
+      "person_id": "p_aarav-thorne"
+    },
+    {
+      "effective_end": "2026-03-24",
+      "last_day": null,
+      "last_day_sources": [],
+      "name": "Bram Montague",
+      "offboarding_completed_local": "2026-03-24T10:13:14+05:30",
+      "person_id": "p_bram-montague"
+    },
+    {
+      "effective_end": "2026-04-13",
+      "last_day": "2026-04-13",
+      "last_day_sources": [
+        {
+          "activity": "client_ended_engagement",
+          "event_id": "mail:y1GnD0Z2UhtKaSgAWIJzhV3z@greythornelaw.example",
+          "last_day": "2026-04-13"
+        },
+        {
+          "activity": "access_disable_requested",
+          "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1774407727855",
+          "last_day": "2026-04-13"
+        }
+      ],
+      "name": "Callum Montague",
+      "offboarding_completed_local": null,
+      "person_id": "p_callum-montague"
+    },
+    {
+      "effective_end": "2026-03-16",
+      "last_day": "2026-03-16",
+      "last_day_sources": [
+        {
+          "activity": "resignation_received",
+          "event_id": "mail:2fyWP57cidiGgdxs7o65fciv@harbourline.example",
+          "last_day": "2026-03-16"
+        },
+        {
+          "activity": "access_disable_requested",
+          "event_id": "teams_chat:19:6b0d549b-11e2-43d9-a173-6cad8d116ece_1e398f10-830e-46b0-a2a3-5790c1d3fcff@unq.gbl.spaces:1772515454034",
+          "last_day": "2026-03-16"
+        }
+      ],
+      "name": "Eilidh Penhaligon",
+      "offboarding_completed_local": "2026-03-20T10:46:38+05:30",
+      "person_id": "p_eilidh-penhaligon"
+    },
+    {
+      "effective_end": "2026-04-13",
+      "last_day": "2026-04-13",
+      "last_day_sources": [
+        {
+          "activity": "resignation_received",
+          "event_id": "mail:yHYHHpcpNFawgnLDw1r8sSBz@harbourline.example",
+          "last_day": "2026-04-13"
+        },
+        {
+          "activity": "access_disable_requested",
+          "event_id": "teams_chat:19:f28c105d-3926-4a17-aa09-f29d953f48f1_6bf46c69-0a09-4f64-aab1-c3ba13deef86@unq.gbl.spaces:1774322690445",
+          "last_day": "2026-04-13"
+        }
+      ],
+      "name": "Hamza Pemberton",
+      "offboarding_completed_local": null,
+      "person_id": "p_hamza-pemberton"
+    }
+  ],
+  "screen_link_stats": {
+    "courier_booked:linked": 7,
+    "courier_delivered:linked": 8,
+    "tracker_updated:linked": 8,
+    "tracker_updated:unlinked": 375,
+    "training_enrolled:linked": 7,
+    "training_enrolled:unlinked": 1
+  },
+  "statuses": "complete | in_progress | declined | cancelled (window badges: started_before_window, ends_after_window)",
+  "step": "3_cases",
+  "unlinked_process_events": []
+}

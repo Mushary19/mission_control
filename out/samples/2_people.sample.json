@@ -1,0 +1,151 @@
+{
+  "_sample": "out/2_people.json, lists of records and large mappings cut to 5 entries; full sizes (largest): identity_merges (16), orgs (22), people (164)",
+  "coverage": "Data from 6 of 12 staff.",
+  "identity_merges": [
+    {
+      "ids": [
+        "p_bram-danforth",
+        "p_bram-danforth-personal"
+      ],
+      "merged": true,
+      "name": "Bram Danforth",
+      "reason": "personal address used first in onboarding (2026-03-23), work address from 2026-03-26; same client Greythorne Legal Group; NOTE work address already sent 2 non-onboarding mail(s) before onboarding (first: 2026-03-06 'Timesheet query – Bram')"
+    },
+    {
+      "ids": [
+        "p_chiara-ekwueme",
+        "p_chiara-ekwueme-personal"
+      ],
+      "merged": true,
+      "name": "Chiara Ekwueme",
+      "reason": "personal address used first in onboarding (2026-03-06), work address from 2026-03-10; same client Fennimore Quist Law"
+    },
+    {
+      "ids": [
+        "p_farah-corriveau",
+        "p_farah-corriveau-personal"
+      ],
+      "merged": true,
+      "name": "Farah Corriveau",
+      "reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-18; same client Hollis Vane LLP"
+    },
+    {
+      "ids": [
+        "p_gulnara-brannigan",
+        "p_gulnara-brannigan-personal"
+      ],
+      "merged": true,
+      "name": "Gulnara Brannigan",
+      "reason": "personal address used first in onboarding (2026-03-02), work address from 2026-03-04; same client Northgate Fell Legal"
+    },
+    {
+      "ids": [
+        "p_jun-hargreaves",
+        "p_jun-hargreaves-personal"
+      ],
+      "merged": false,
+      "name": "Jun Hargreaves",
+      "reason": "work address has no onboarding events; client not known on both sides"
+    }
+  ],
+  "orgs": [
+    {
+      "domains": [
+        "ashdownlaw.example"
+      ],
+      "kind": "client",
+      "name": "Ashdown & Mercer LLP",
+      "org_id": "o_ashdown"
+    },
+    {
+      "domains": [
+        "bramwelllaw.example"
+      ],
+      "kind": "client",
+      "name": "Bramwell",
+      "org_id": "o_bramwell"
+    },
+    {
+      "domains": [
+        "corbettlaw.example"
+      ],
+      "kind": "client",
+      "name": "Corbett",
+      "org_id": "o_corbett"
+    },
+    {
+      "domains": [
+        "dunstanlaw.example"
+      ],
+      "kind": "client",
+      "name": "Dunstan Wray & Co",
+      "org_id": "o_dunstan"
+    },
+    {
+      "domains": [
+        "elmsworthlaw.example"
+      ],
+      "kind": "client",
+      "name": "Elmsworth",
+      "org_id": "o_elmsworth"
+    }
+  ],
+  "people": [
+    {
+      "display_name": "Aarav Merriweather",
+      "emails": [
+        "aarav.merriweather@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_aarav-merriweather",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Aarav Thorne",
+      "emails": [
+        "aarav.thorne@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_aarav-thorne",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Amara Jaramillo",
+      "emails": [
+        "amara.jaramillo@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_amara-jaramillo",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Anouk Kettering",
+      "emails": [
+        "anouk.kettering@harbourline.example"
+      ],
+      "exported": false,
+      "kind": "worker",
+      "org": "o_harbourline",
+      "person_id": "p_anouk-kettering",
+      "teams_ids": []
+    },
+    {
+      "display_name": "Arjun Sutherland",
+      "emails": [
+        "arjun.sutherland@inbox.example"
+      ],
+      "exported": false,
+      "kind": "candidate",
+      "org": null,
+      "person_id": "p_arjun-sutherland",
+      "teams_ids": []
+    }
+  ],
+  "step": "2_people"
+}

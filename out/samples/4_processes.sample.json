@@ -1,0 +1,949 @@
+{
+  "_sample": "out/4_processes.json, lists of records and large mappings cut to 5 entries; full sizes (largest): processes[].dfg (23), processes[].steps (20), processes[].variants (13)",
+  "processes": [
+    {
+      "case_count": 41,
+      "dfg": [
+        {
+          "count": 28,
+          "from": "client_approved",
+          "to": "worker_approved"
+        },
+        {
+          "count": 25,
+          "from": "client_check_sent",
+          "to": "client_approved"
+        },
+        {
+          "count": 21,
+          "from": "leave_requested",
+          "to": "peoplehub_opened"
+        },
+        {
+          "count": 18,
+          "from": "leave_requested",
+          "to": "client_check_sent"
+        },
+        {
+          "count": 17,
+          "from": "peoplehub_opened",
+          "to": "client_check_sent"
+        }
+      ],
+      "full_trace_cases": 29,
+      "insight_ids": [
+        "ins:leave:sick_two_ways",
+        "flag:activity_after_last_day:leave:bram-montague:2026-03-30_2026-03-30",
+        "flag:activity_after_last_day:leave:ines-marchetti:2026-03-31_2026-03-31",
+        "flag:activity_after_last_day:leave:jasper-haverford:2026-04-01_2026-04-01",
+        "flag:activity_after_last_day:leave:pilar-lowther:2026-04-13_2026-04-17",
+        "flag:cancel_no_followup:leave:hamza-vasquez-lowe:2026-03-23_2026-03-23",
+        "flag:cancel_no_followup:leave:paloma-montague:2026-03-19_2026-03-19"
+      ],
+      "main_path": {
+        "activities": [
+          "leave_requested",
+          "client_check_sent",
+          "client_approved",
+          "worker_approved"
+        ],
+        "cases_following_exactly": 25,
+        "labels": [
+          "Leave requested",
+          "Client asked",
+          "Client approved",
+          "Worker told: approved"
+        ],
+        "method": "most common variant among the 29 complete cases that start inside the window (25 of 29)",
+        "tied_alternatives": []
+      },
+      "open_questions": [
+        {
+          "evidence": {
+            "cases_with_tracker_step": 8,
+            "leave_cases": 41
+          },
+          "id": "leave-q1",
+          "process": "leave",
+          "question": "Do you update the Leave tracker after each request, or in batches?",
+          "why": "The tracker was open within 30 min of a PeopleHub or approval step in only 8 of 41 leave cases; it is open for long stretches at other times."
+        },
+        {
+          "evidence": {
+            "asked": 7,
+            "notified": 5
+          },
+          "id": "leave-q2",
+          "process": "leave",
+          "question": "Is sick leave a notice to the client, or a request the client must approve?",
+          "why": "Of 12 sick-leave cases, 7 asked the client and 5 only told the client."
+        },
+        {
+          "evidence": {
+            "before": 17,
+            "both": 17
+          },
+          "id": "leave-q3",
+          "process": "leave",
+          "question": "Do you check the person in PeopleHub before you ask the client, every time?",
+          "why": "PeopleHub was seen open before the client check in 17 of 17 cases where both appear, but PeopleHub shows up in only 21 of 41 leave cases."
+        },
+        {
+          "evidence": {
+            "declined": 6
+          },
+          "id": "leave-q4",
+          "process": "leave",
+          "question": "When a client declines, who follows up: do you wait for the worker to send new dates?",
+          "why": "6 cases were declined and the worker asked for other dates; a new request for the same person appears afterwards in 2 of them."
+        },
+        {
+          "evidence": {
+            "cancel_no_followup": 2
+          },
+          "id": "leave-q5",
+          "process": "leave",
+          "question": "When a worker cancels leave, do you tell the client and update PeopleHub and the tracker?",
+          "why": "2 cancel request(s) have no later action in the data."
+        }
+      ],
+      "path_confidence": {
+        "level": "high",
+        "reason": "Rests on 29 complete case(s) that start inside the window; 25 of 29 complete in-window cases follow it exactly.",
+        "rule": "high: >= 10 complete in-window cases and the main path is followed exactly by >= 50% of them; medium: >= 4 such cases and a repeating main variant; low: otherwise"
+      },
+      "process": "leave",
+      "process_flags": [
+        "sick_leave_two_ways:leave"
+      ],
+      "status_counts": {
+        "cancelled": 2,
+        "complete": 30,
+        "declined": 6,
+        "in_progress": 3
+      },
+      "steps": [
+        {
+          "activity": "leave_requested",
+          "case_count": 40,
+          "confidence_mix": {
+            "high": 40
+          },
+          "label": "Leave requested",
+          "median_from_case_start_h": 0.0,
+          "median_to_next_h": 4.0,
+          "next_on_main_path": "client_check_sent",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 97.6
+        },
+        {
+          "activity": "client_check_sent",
+          "case_count": 35,
+          "confidence_mix": {
+            "high": 29,
+            "medium": 6
+          },
+          "label": "Client asked",
+          "median_from_case_start_h": 4.0,
+          "median_to_next_h": 23.0,
+          "next_on_main_path": "client_approved",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 85.4
+        },
+        {
+          "activity": "client_approved",
+          "case_count": 28,
+          "confidence_mix": {
+            "high": 27,
+            "medium": 1
+          },
+          "label": "Client approved",
+          "median_from_case_start_h": 26.7,
+          "median_to_next_h": 2.7,
+          "next_on_main_path": "worker_approved",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 68.3
+        },
+        {
+          "activity": "worker_approved",
+          "case_count": 32,
+          "confidence_mix": {
+            "high": 32
+          },
+          "label": "Worker told: approved",
+          "median_from_case_start_h": 29.2,
+          "median_to_next_h": null,
+          "next_on_main_path": null,
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 78.0
+        },
+        {
+          "activity": "peoplehub_opened",
+          "case_count": 21,
+          "confidence_mix": {
+            "low": 23
+          },
+          "label": "PeopleHub opened",
+          "median_from_case_start_h": 3.8,
+          "median_to_next_h": null,
+          "next_on_main_path": null,
+          "on_main_path": false,
+          "optional": false,
+          "screen_only": true,
+          "support_pct": 51.2
+        }
+      ],
+      "variants": [
+        {
+          "case_ids": [
+            "leave:amara-jaramillo:2026-03-23_2026-03-23",
+            "leave:bianca-jaramillo:2026-04-03_2026-04-05",
+            "leave:bram-montague:2026-03-30_2026-03-30",
+            "leave:callum-grunewald:2026-03-26_2026-03-26",
+            "leave:callum-montague:2026-03-10_2026-03-14",
+            "leave:dario-zielinski:2026-03-16_2026-03-17",
+            "leave:farah-zielinski:2026-03-16_2026-03-16",
+            "leave:greta-brannigan:2026-03-13_2026-03-17",
+            "leave:hamza-galloway:2026-03-23_2026-03-23",
+            "leave:hamza-pemberton:2026-03-11_2026-03-15",
+            "leave:hamza-pemberton:2026-03-23_2026-03-23",
+            "leave:hamza-pemberton:2026-03-24_2026-03-28",
+            "leave:hamza-pemberton:2026-04-03_2026-04-03",
+            "leave:hana-prescott:2026-03-31_2026-03-31",
+            "leave:hugo-danforth:2026-03-31_2026-03-31",
+            "leave:ines-marchetti:2026-03-31_2026-03-31",
+            "leave:jasper-haverford:2026-04-01_2026-04-01",
+            "leave:jovana-penhaligon:2026-03-31_2026-04-01",
+            "leave:kiri-jovanovic:2026-03-16_2026-03-16",
+            "leave:orla-quillfeather:2026-03-23_2026-03-24",
+            "leave:orla-quillfeather:2026-03-27_2026-03-27",
+            "leave:quinn-quillfeather:2026-03-31_2026-04-02",
+            "leave:thiago-bellweather:2026-03-30_2026-03-30",
+            "leave:tobias-trelawney:2026-03-27_2026-03-28",
+            "leave:valeria-dunmore:2026-04-06_2026-04-08"
+          ],
+          "count": 25,
+          "path": [
+            "leave_requested",
+            "client_check_sent",
+            "client_approved",
+            "worker_approved"
+          ],
+          "statuses": {
+            "complete": 25
+          }
+        },
+        {
+          "case_ids": [
+            "leave:amara-jaramillo:2026-04-03_2026-04-04",
+            "leave:farah-zielinski:2026-03-18_2026-03-20",
+            "leave:farah-zielinski:2026-04-16_2026-04-20",
+            "leave:jovana-penhaligon:2026-04-01_2026-04-02",
+            "leave:rania-abernethy:2026-04-13_2026-04-15",
+            "leave:wen-faraday:2026-03-18_2026-03-20"
+          ],
+          "count": 6,
+          "path": [
+            "leave_requested",
+            "client_check_sent",
+            "client_declined",
+            "worker_asked_other_dates"
+          ],
+          "statuses": {
+            "declined": 6
+          }
+        },
+        {
+          "case_ids": [
+            "leave:ilse-oakhurst:2026-03-20_2026-03-24",
+            "leave:lionel-penhaligon:2026-04-20_2026-04-21",
+            "leave:pilar-lowther:2026-04-13_2026-04-17",
+            "leave:quinn-danforth:2026-03-31_2026-03-31"
+          ],
+          "count": 4,
+          "path": [
+            "leave_requested",
+            "client_notified_sick",
+            "worker_approved"
+          ],
+          "statuses": {
+            "complete": 4
+          }
+        },
+        {
+          "case_ids": [
+            "leave:callum-lindqvist:2026-04-17_2026-04-17",
+            "leave:leif-redgrave:2026-03-30_2026-04-03"
+          ],
+          "count": 2,
+          "path": [
+            "leave_requested",
+            "client_check_sent"
+          ],
+          "statuses": {
+            "in_progress": 2
+          }
+        },
+        {
+          "case_ids": [
+            "leave:hamza-vasquez-lowe:2026-03-23_2026-03-23",
+            "leave:paloma-montague:2026-03-19_2026-03-19"
+          ],
+          "count": 2,
+          "path": [
+            "leave_requested",
+            "client_check_sent",
+            "client_approved",
+            "worker_approved",
+            "cancel_requested"
+          ],
+          "statuses": {
+            "cancelled": 2
+          }
+        }
+      ],
+      "window_badges": {
+        "ends_after_window": 0,
+        "started_before_window": 1
+      }
+    },
+    {
+      "case_count": 12,
+      "dfg": [
+        {
+          "count": 9,
+          "from": "offboarding_acknowledged",
+          "to": "access_disable_requested"
+        },
+        {
+          "count": 8,
+          "from": "laptop_return_arranged",
+          "to": "courier_delivered"
+        },
+        {
+          "count": 7,
+          "from": "courier_booked",
+          "to": "laptop_return_arranged"
+        },
+        {
+          "count": 6,
+          "from": "courier_delivered",
+          "to": "laptop_received"
+        },
+        {
+          "count": 6,
+          "from": "laptop_received",
+          "to": "offboarding_completed"
+        }
+      ],
+      "full_trace_cases": 4,
+      "insight_ids": [
+        "flag:activity_after_last_day:offboarding:paloma-larkspur"
+      ],
+      "main_path": {
+        "activities": [
+          "client_ended_engagement",
+          "offboarding_acknowledged",
+          "access_disable_requested",
+          "laptop_return_arranged",
+          "courier_delivered",
+          "laptop_received",
+          "offboarding_completed"
+        ],
+        "cases_following_exactly": 2,
+        "labels": [
+          "Client ended engagement",
+          "Offboarding acknowledged",
+          "Access removal requested",
+          "Laptop return arranged",
+          "Courier delivered",
+          "Laptop received",
+          "Offboarding completed"
+        ],
+        "method": "most common variant among the 4 complete cases that start inside the window (2 of 4); tied with 1 other variant(s)",
+        "tied_alternatives": [
+          {
+            "count": 2,
+            "path": [
+              "resignation_received",
+              "offboarding_acknowledged",
+              "access_disable_requested",
+              "laptop_return_arranged",
+              "courier_delivered",
+              "laptop_received",
+              "offboarding_completed"
+            ]
+          }
+        ]
+      },
+      "open_questions": [
+        {
+          "evidence": {
+            "no_trigger": 3
+          },
+          "id": "offboarding-q1",
+          "process": "offboarding",
+          "question": "Where does a resignation or end-of-engagement notice arrive first: with you, or with the Account Manager?",
+          "why": "3 of 12 offboarding cases have no trigger in the data; Account Manager mailboxes were not exported."
+        },
+        {
+          "evidence": {
+            "days_before_last_day": [
+              8,
+              10,
+              13,
+              13,
+              14,
+              19,
+              19,
+              20,
+              23
+            ]
+          },
+          "id": "offboarding-q2",
+          "process": "offboarding",
+          "question": "How far ahead of the last day do you ask IT to disable access?",
+          "why": "Requests went out between 8 and 23 days before the last day (median 14)."
+        },
+        {
+          "evidence": {
+            "after_laptop_back": 6,
+            "completed": 7
+          },
+          "id": "offboarding-q3",
+          "process": "offboarding",
+          "question": "Do you send 'Offboarding complete' only after IT confirms the laptop is back and wiped?",
+          "why": "In 6 of 7 completed cases IT's 'laptop back' message came first; the others have no such message in the data."
+        },
+        {
+          "evidence": {
+            "activity_after_last_day": 5
+          },
+          "id": "offboarding-q4",
+          "process": "offboarding",
+          "question": "Should anything else stop once someone leaves (leave approvals, replacement laptops)?",
+          "why": "5 flag(s) show leave or laptop activity on or after a person's last day."
+        }
+      ],
+      "path_confidence": {
+        "level": "medium",
+        "reason": "Rests on 4 complete case(s) that start inside the window; 2 of 4 complete in-window cases follow it exactly.",
+        "rule": "high: >= 10 complete in-window cases and the main path is followed exactly by >= 50% of them; medium: >= 4 such cases and a repeating main variant; low: otherwise"
+      },
+      "process": "offboarding",
+      "process_flags": [],
+      "status_counts": {
+        "complete": 7,
+        "in_progress": 5
+      },
+      "steps": [
+        {
+          "activity": "client_ended_engagement",
+          "case_count": 4,
+          "confidence_mix": {
+            "high": 4
+          },
+          "label": "Client ended engagement",
+          "median_from_case_start_h": 0.0,
+          "median_to_next_h": 3.8,
+          "next_on_main_path": "offboarding_acknowledged",
+          "on_main_path": true,
+          "optional": true,
+          "screen_only": false,
+          "support_pct": 33.3
+        },
+        {
+          "activity": "offboarding_acknowledged",
+          "case_count": 9,
+          "confidence_mix": {
+            "high": 9
+          },
+          "label": "Offboarding acknowledged",
+          "median_from_case_start_h": 5.8,
+          "median_to_next_h": 21.4,
+          "next_on_main_path": "access_disable_requested",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 75.0
+        },
+        {
+          "activity": "access_disable_requested",
+          "case_count": 9,
+          "confidence_mix": {
+            "high": 4,
+            "medium": 5
+          },
+          "label": "Access removal requested",
+          "median_from_case_start_h": 24.8,
+          "median_to_next_h": 311.8,
+          "next_on_main_path": "laptop_return_arranged",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 75.0
+        },
+        {
+          "activity": "laptop_return_arranged",
+          "case_count": 8,
+          "confidence_mix": {
+            "high": 8
+          },
+          "label": "Laptop return arranged",
+          "median_from_case_start_h": 236.8,
+          "median_to_next_h": 70.8,
+          "next_on_main_path": "courier_delivered",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 66.7
+        },
+        {
+          "activity": "courier_delivered",
+          "case_count": 8,
+          "confidence_mix": {
+            "low": 8
+          },
+          "label": "Courier delivered",
+          "median_from_case_start_h": 307.5,
+          "median_to_next_h": 0.1,
+          "next_on_main_path": "laptop_received",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 66.7
+        }
+      ],
+      "variants": [
+        {
+          "case_ids": [
+            "offboarding:hamza-pemberton",
+            "offboarding:odile-jaramillo",
+            "offboarding:thiago-bellweather"
+          ],
+          "count": 3,
+          "path": [
+            "resignation_received",
+            "offboarding_acknowledged",
+            "access_disable_requested"
+          ],
+          "statuses": {
+            "in_progress": 3
+          }
+        },
+        {
+          "case_ids": [
+            "offboarding:pilar-lowther",
+            "offboarding:quinn-ellingham"
+          ],
+          "count": 2,
+          "path": [
+            "client_ended_engagement",
+            "offboarding_acknowledged",
+            "access_disable_requested",
+            "laptop_return_arranged",
+            "courier_delivered",
+            "laptop_received",
+            "offboarding_completed"
+          ],
+          "statuses": {
+            "complete": 2
+          }
+        },
+        {
+          "case_ids": [
+            "offboarding:bram-montague",
+            "offboarding:ines-marchetti"
+          ],
+          "count": 2,
+          "path": [
+            "laptop_return_arranged",
+            "courier_delivered",
+            "laptop_received",
+            "offboarding_completed"
+          ],
+          "statuses": {
+            "complete": 2
+          }
+        },
+        {
+          "case_ids": [
+            "offboarding:eilidh-penhaligon",
+            "offboarding:jasper-haverford"
+          ],
+          "count": 2,
+          "path": [
+            "resignation_received",
+            "offboarding_acknowledged",
+            "access_disable_requested",
+            "laptop_return_arranged",
+            "courier_delivered",
+            "laptop_received",
+            "offboarding_completed"
+          ],
+          "statuses": {
+            "complete": 2
+          }
+        },
+        {
+          "case_ids": [
+            "offboarding:callum-montague"
+          ],
+          "count": 1,
+          "path": [
+            "client_ended_engagement",
+            "offboarding_acknowledged",
+            "access_disable_requested"
+          ],
+          "statuses": {
+            "in_progress": 1
+          }
+        }
+      ],
+      "window_badges": {
+        "ends_after_window": 4,
+        "started_before_window": 3
+      }
+    },
+    {
+      "case_count": 17,
+      "dfg": [
+        {
+          "count": 12,
+          "from": "it_requested",
+          "to": "it_ready"
+        },
+        {
+          "count": 12,
+          "from": "welcome_sent",
+          "to": "it_requested"
+        },
+        {
+          "count": 9,
+          "from": "day_one_checkin",
+          "to": "day_one_reply"
+        },
+        {
+          "count": 9,
+          "from": "induction_meeting",
+          "to": "induction_completed"
+        },
+        {
+          "count": 9,
+          "from": "laptop_requested",
+          "to": "laptop_quote"
+        }
+      ],
+      "full_trace_cases": 3,
+      "insight_ids": [
+        "ins:onboarding:day_one_dms",
+        "ins:onboarding:laptop_late"
+      ],
+      "main_path": {
+        "activities": [
+          "contract_sent",
+          "induction_meeting",
+          "induction_completed",
+          "welcome_sent",
+          "it_requested",
+          "it_ready",
+          "kickoff_meeting",
+          "day_one_checkin",
+          "day_one_reply",
+          "onboarded_confirmed",
+          "laptop_requested",
+          "laptop_quote"
+        ],
+        "cases_following_exactly": 1,
+        "labels": [
+          "Contract sent",
+          "Induction meeting",
+          "Induction completed",
+          "Welcome sent",
+          "IT setup requested",
+          "IT ready",
+          "Client kick-off",
+          "Day-one check-in",
+          "Day-one reply",
+          "Onboarded confirmed",
+          "Laptop requested",
+          "Laptop quote"
+        ],
+        "method": "no variant repeats among the 3 complete in-window cases; consensus path: activities in >= 50% of all 17 cases, ordered by how often each comes before the others",
+        "tied_alternatives": []
+      },
+      "open_questions": [
+        {
+          "evidence": {
+            "after_first_day": 3,
+            "cases": 11
+          },
+          "id": "onboarding-q1",
+          "process": "onboarding",
+          "question": "Is the client kick-off before or after the starter's first day?",
+          "why": "The kick-off was after the first day in 3 of 11 cases with both dates."
+        },
+        {
+          "evidence": {
+            "onboarded_before_laptop": 9
+          },
+          "id": "onboarding-q2",
+          "process": "onboarding",
+          "question": "Should a starter be confirmed 'onboarded' before the laptop has arrived?",
+          "why": "9 onboarded starter(s) had no laptop yet, or got it later."
+        },
+        {
+          "evidence": {
+            "laptop_requested_late": 9
+          },
+          "id": "onboarding-q3",
+          "process": "onboarding",
+          "question": "When should the laptop request go to Procurement?",
+          "why": "9 request(s) were posted after their own needed-by date."
+        },
+        {
+          "evidence": {
+            "dms_issue": 4,
+            "replies": 9
+          },
+          "id": "onboarding-q4",
+          "process": "onboarding",
+          "question": "Who owns client system access (for example the client DMS), and who chases it after day one?",
+          "why": "4 of 9 starters who answered the day-one check-in were still waiting on DMS access."
+        },
+        {
+          "evidence": {
+            "handoffs": 8
+          },
+          "id": "onboarding-q5",
+          "process": "onboarding",
+          "question": "How is an onboarding handed over between Hana and Lerato?",
+          "why": "8 of 17 onboarding cases moved between the two of you mid-way."
+        }
+      ],
+      "path_confidence": {
+        "level": "low",
+        "reason": "Rests on 3 complete case(s) that start inside the window; only 3 complete in-window cases and none repeat; the path is a consensus order.",
+        "rule": "high: >= 10 complete in-window cases and the main path is followed exactly by >= 50% of them; medium: >= 4 such cases and a repeating main variant; low: otherwise"
+      },
+      "process": "onboarding",
+      "process_flags": [],
+      "status_counts": {
+        "complete": 9,
+        "in_progress": 8
+      },
+      "steps": [
+        {
+          "activity": "contract_sent",
+          "case_count": 10,
+          "confidence_mix": {
+            "high": 10
+          },
+          "label": "Contract sent",
+          "median_from_case_start_h": 0.0,
+          "median_to_next_h": 191.0,
+          "next_on_main_path": "induction_meeting",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 58.8
+        },
+        {
+          "activity": "induction_meeting",
+          "case_count": 9,
+          "confidence_mix": {
+            "medium": 9
+          },
+          "label": "Induction meeting",
+          "median_from_case_start_h": 168.5,
+          "median_to_next_h": 1.1,
+          "next_on_main_path": "induction_completed",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 52.9
+        },
+        {
+          "activity": "induction_completed",
+          "case_count": 9,
+          "confidence_mix": {
+            "high": 4,
+            "medium": 5
+          },
+          "label": "Induction completed",
+          "median_from_case_start_h": 169.6,
+          "median_to_next_h": 23.2,
+          "next_on_main_path": "welcome_sent",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 52.9
+        },
+        {
+          "activity": "welcome_sent",
+          "case_count": 12,
+          "confidence_mix": {
+            "high": 12
+          },
+          "label": "Welcome sent",
+          "median_from_case_start_h": 71.0,
+          "median_to_next_h": 2.6,
+          "next_on_main_path": "it_requested",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 70.6
+        },
+        {
+          "activity": "it_requested",
+          "case_count": 12,
+          "confidence_mix": {
+            "high": 5,
+            "medium": 7
+          },
+          "label": "IT setup requested",
+          "median_from_case_start_h": 74.3,
+          "median_to_next_h": 21.2,
+          "next_on_main_path": "it_ready",
+          "on_main_path": true,
+          "optional": false,
+          "screen_only": false,
+          "support_pct": 70.6
+        }
+      ],
+      "variants": [
+        {
+          "case_ids": [
+            "onboarding:jun-hargreaves-personal",
+            "onboarding:noor-yardley-personal",
+            "onboarding:wanjiru-castellano-personal"
+          ],
+          "count": 3,
+          "path": [
+            "contract_sent"
+          ],
+          "statuses": {
+            "in_progress": 3
+          }
+        },
+        {
+          "case_ids": [
+            "onboarding:farah-wolstenholme",
+            "onboarding:yusuf-ekwueme"
+          ],
+          "count": 2,
+          "path": [
+            "contract_sent",
+            "contract_signed",
+            "training_enrolled",
+            "induction_meeting",
+            "induction_completed"
+          ],
+          "statuses": {
+            "in_progress": 2
+          }
+        },
+        {
+          "case_ids": [
+            "onboarding:chiara-ekwueme",
+            "onboarding:gulnara-brannigan"
+          ],
+          "count": 2,
+          "path": [
+            "welcome_sent",
+            "it_requested",
+            "it_ready",
+            "kickoff_meeting",
+            "day_one_checkin",
+            "day_one_reply",
+            "onboarded_confirmed",
+            "laptop_requested",
+            "laptop_quote",
+            "laptop_approved",
+            "laptop_ordered",
+            "laptop_shipped",
+            "laptop_delivered"
+          ],
+          "statuses": {
+            "complete": 2
+          }
+        },
+        {
+          "case_ids": [
+            "onboarding:nuno-montague"
+          ],
+          "count": 1,
+          "path": [
+            "contract_sent",
+            "contract_reminder",
+            "contract_signed",
+            "training_enrolled",
+            "induction_meeting",
+            "induction_completed",
+            "welcome_sent",
+            "it_requested",
+            "it_ready",
+            "day_one_checkin",
+            "day_one_reply",
+            "kickoff_meeting",
+            "onboarded_confirmed",
+            "laptop_requested",
+            "laptop_quote",
+            "laptop_approved",
+            "laptop_ordered"
+          ],
+          "statuses": {
+            "complete": 1
+          }
+        },
+        {
+          "case_ids": [
+            "onboarding:farah-corriveau"
+          ],
+          "count": 1,
+          "path": [
+            "contract_sent",
+            "contract_reminder",
+            "contract_signed",
+            "training_enrolled",
+            "induction_meeting",
+            "induction_completed",
+            "welcome_sent",
+            "it_requested",
+            "it_ready",
+            "kickoff_meeting",
+            "day_one_checkin",
+            "day_one_reply",
+            "onboarded_confirmed",
+            "laptop_requested",
+            "laptop_quote",
+            "laptop_approved",
+            "laptop_ordered"
+          ],
+          "statuses": {
+            "complete": 1
+          }
+        }
+      ],
+      "window_badges": {
+        "ends_after_window": 3,
+        "started_before_window": 7
+      }
+    }
+  ],
+  "seen_not_modelled": [
+    "recruitment (HireTrack, Recruitment tracker)",
+    "laptop replacements",
+    "birthday gifts",
+    "payslip / timesheet / invoice queries"
+  ],
+  "step": "4_processes"
+}
