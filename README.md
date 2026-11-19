@@ -13,6 +13,8 @@ It covers **leave, offboarding and onboarding** at Harbourline Talent, using mai
 
 ## Quick start
 
+**To see original records in the Proof panel, copy the data/ folder from the challenge zip into the repo root.**
+
 Needs Python 3.10+ and Node 20+, or only Docker. Then open http://localhost:8000.
 
 | option | command | notes |
@@ -103,7 +105,13 @@ Guardrails: AI stays optional (the pipeline runs without it), every answer cites
 * A screen log shows what was open, not what was done.
 * Onboarding's main path has **low** confidence: only 3 complete in-window cases (offboarding 4: medium; leave 29: high).
 * No login: "Reviewing as" is a picker. Feedback does not change the model yet.
-* The hosted demo (Render free plan) loses feedback on redeploy and has no raw export, so Proof is disabled there.
+
+## What I'd do next
+
+* **LLM fallback for messy text**, measured against a staff-confirmed accuracy test before it is switched on.
+* **HR system as the identity source**, so people resolve against real employee and worker records.
+* **Feedback that updates the rules automatically**: confirmed and rejected steps feed back into labelling and case linking.
+* **Ingest the other 6 staff** (Account Managers, IT, Finance) to close the missing triggers and confirmations.
 
 ## Repo map
 
@@ -114,7 +122,7 @@ backend/app/    FastAPI: main.py, config.py, store.py, db.py, routers/, services
 backend/tests/  endpoint tests, feedback round trip, API snapshots
 frontend/       React + Vite + TypeScript + Tailwind; scripts/screenshots.mjs
 docs/           architecture.md, schemas.md, demo-script.md, screenshots/
-Makefile  Dockerfile  docker-compose.yml  render.yaml
+Makefile  Dockerfile  docker-compose.yml
 ```
 
 | file | contents |
