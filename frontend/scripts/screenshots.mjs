@@ -70,6 +70,10 @@ const go = async (path, name) => { await page.goto(BASE + path); await shot(name
 const screens = async () => {
   await go("/", "01-overview");
   await go("/processes/leave", "02-process-leave");
+  if (dir === OUT) { // README: just the process map card
+    await page.getByText("Process map", { exact: true }).locator("xpath=ancestor::div[contains(@class,'rounded-lg')][1]").screenshot({ path: `${OUT}16-process-map.png` });
+    console.log("saved 16-process-map");
+  }
   await go("/processes/offboarding", "03-process-offboarding");
   await go("/processes/onboarding", "04-process-onboarding");
   await page.getByRole("button", { name: /Laptop requested/ }).first().click();
@@ -115,6 +119,8 @@ await check("Open the laptop step proof", async () => {
   await laptopStep.locator("pre").first().waitFor();
 });
 await shot("14-demo-proof", false);
+await laptopStep.screenshot({ path: `${OUT}17-case-proof.png` }); // README: one step with its raw record
+console.log("saved 17-case-proof");
 await check("Confirm the laptop step -> toast Saved", async () => {
   await laptopStep.getByRole("button", { name: "Confirm" }).first().click();
   await page.getByText("Saved").waitFor({ timeout: 5000 });

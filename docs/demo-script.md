@@ -1,4 +1,4 @@
-# Demo script (5 minutes)
+# Interview walkthrough (5 minutes)
 
 Setup: `make start` (or `make dev`), browser at full width, "Reviewing as: Hana Pemberton". Start on a clean `backend/feedback.db` so the counts begin at zero.
 
